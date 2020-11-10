@@ -1782,7 +1782,7 @@ Internet-Draft                     VRF                     November 2020
               Existence", draft-vcelak-nsec5-08 (work in progress),
               December 2018.
 
-   [MRV99]    Michali, S., Rabin, M., and S. Vadhan, "Verifiable Random
+   [MRV99]    Micali, S., Rabin, M., and S. Vadhan, "Verifiable Random
               Functions", in FOCS, 1999,
               <https://dash.harvard.edu/handle/1/5028196>.
 

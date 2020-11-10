@@ -1703,7 +1703,7 @@
         <reference anchor="MRV99" target = "https://dash.harvard.edu/handle/1/5028196">
             <front>
                 <title>Verifiable Random Functions</title>
-                <author initials="S." surname="Michali"><organization /></author>
+                <author initials="S." surname="Micali"><organization /></author>
                 <author initials="M." surname="Rabin"><organization /></author>
                 <author initials="S." surname="Vadhan"><organization /></author>
                 <date year="1999" />
