@@ -408,7 +408,7 @@
 <link href="#rfc.section.7.2" rel="Chapter" title="7.2 Selective vs Full Pseudorandomness">
 <link href="#rfc.section.7.3" rel="Chapter" title="7.3 Proper pseudorandom nonce for ECVRF">
 <link href="#rfc.section.7.4" rel="Chapter" title="7.4 Side-channel attacks">
-<link href="#rfc.section.7.5" rel="Chapter" title="7.5 Proofs Provide No Secrecy for VRF Input">
+<link href="#rfc.section.7.5" rel="Chapter" title="7.5 Proofs provide no secrecy for the VRF input">
 <link href="#rfc.section.7.6" rel="Chapter" title="7.6 Prehashing">
 <link href="#rfc.section.7.7" rel="Chapter" title="7.7 Hash function domain separation and future-proofing">
 <link href="#rfc.section.8" rel="Chapter" title="8 Change Log">
@@ -430,8 +430,8 @@
   <meta name="dct.creator" content="Goldberg, S., Reyzin, L., Papadopoulos, D., and J. Vcelak" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-cfrg-vrf-08" />
   <meta name="dct.issued" scheme="ISO8601" content="2020-09" />
-  <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Eliptic Curves (EC).  " />
-  <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Eliptic Curves (EC).  " />
+  <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  " />
+  <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  " />
 
 </head>
 
@@ -485,7 +485,7 @@
   <span class="filename">draft-irtf-cfrg-vrf-08</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Eliptic Curves (EC).  </p>
+<p>A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  </p>
 <h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
@@ -568,7 +568,7 @@
 </li>
 <li>7.4.   <a href="#rfc.section.7.4">Side-channel attacks</a>
 </li>
-<li>7.5.   <a href="#rfc.section.7.5">Proofs Provide No Secrecy for VRF Input</a>
+<li>7.5.   <a href="#rfc.section.7.5">Proofs provide no secrecy for the VRF input</a>
 </li>
 <li>7.6.   <a href="#rfc.section.7.6">Prehashing</a>
 </li>
@@ -640,19 +640,19 @@
 
 <ul class="empty"><li>beta = VRF_hash(SK, alpha) </li></ul>
 
-<p> The VRF_hash algorithm is deterministic, in the sense that it always produces the same output beta given a pair of inputs (SK, alpha).  The prover also uses the private key SK to construct a proof pi that beta is the correct hash output </p>
+<p> The VRF_hash algorithm is deterministic, in the sense that it always produces the same output beta given the same pair of inputs (SK, alpha).  The prover also uses the private key SK to construct a proof pi that beta is the correct hash output </p>
 
 <ul class="empty"><li>pi = VRF_prove(SK, alpha)</li></ul>
 
-<p> The VRFs defined in this document allow anyone to deterministically obtain the VRF hash output beta directly from the proof value pi as </p>
+<p> The VRFs defined in this document allow anyone to deterministically obtain the VRF hash output beta directly from the proof value pi by using the function VRF_proof_to_hash: </p>
 
 <ul class="empty"><li>beta = VRF_proof_to_hash(pi)</li></ul>
 
-<p> Notice that this means that </p>
+<p> Thus, for VRFs defined in this document, VRF_hash is defined as </p>
 
-<ul class="empty"><li>VRF_hash(SK, alpha) = VRF_proof_to_hash(VRF_prove(SK, alpha))</li></ul>
+<ul class="empty"><li>VRF_hash(SK, alpha) = VRF_proof_to_hash(VRF_prove(SK, alpha)),</li></ul>
 
-<p> and thus this document will specify VRF_prove and VRF_proof_to_hash rather than VRF_hash.  </p>
+<p> and therefore this document will specify VRF_prove and VRF_proof_to_hash rather than VRF_hash.  </p>
 <p id="rfc.section.2.p.3">The proof pi allows a Verifier holding the public key PK to verify that beta is the correct VRF hash of input alpha under key PK. Thus, the VRF also comes with an algorithm </p>
 
 <ul class="empty"><li>VRF_verify(PK, alpha, pi)</li></ul>
@@ -666,7 +666,7 @@
 <a href="#rfc.section.3.1">3.1.</a> Full Uniqueness or Trusted Uniqueness</h1>
 <p id="rfc.section.3.1.p.1">Uniqueness means that, for any fixed public VRF key and for any input alpha, there is a unique VRF output beta that can be proved to be valid.  Uniqueness must hold even for an adversarial Prover that knows the VRF private key SK.  </p>
 <p id="rfc.section.3.1.p.2">More precisely, "full uniqueness" states that a computationally-bounded adversary cannot choose a VRF public key PK, a VRF input alpha, and two proofs pi1 and pi2 such that VRF_verify(PK, alpha, pi1) outputs (VALID, beta1), VRF_verify(PK, alpha, pi2) outputs (VALID, beta2), and beta1 is not equal to beta2.  </p>
-<p id="rfc.section.3.1.p.3">A slightly weaker security property called "trusted uniqueness" sufficies for many applications.  Trusted uniqueness is the same as full uniqueness, but it must hold only if the VRF keys PK and SK were generated in a trustworthy manner. In other words, uniqueness might not hold if keys were generated in an invalid manner or with bad randomness.  </p>
+<p id="rfc.section.3.1.p.3">A slightly weaker security property called "trusted uniqueness" suffices for many applications.  Trusted uniqueness is the same as full uniqueness, but it must hold only if the VRF keys PK and SK were generated in a trustworthy manner. In other words, uniqueness might not hold if keys were generated in an invalid manner or with bad randomness.  </p>
 <h1 id="rfc.section.3.2">
 <a href="#rfc.section.3.2">3.2.</a> Full Collison Resistance or Trusted Collision Resistance</h1>
 <p id="rfc.section.3.2.p.1">Like any cryprographic hash function, VRFs need to be collision resistant.  Collison resistance must hold even for an adversarial Prover that knows the VRF private key SK.  </p>
@@ -680,13 +680,13 @@
 <p id="rfc.section.3.3.p.3">With "full pseudorandomness", the adversary is allowed to choose the "target" VRF input  alpha at any time, even after it observes VRF outputs beta' and proofs pi' on a variety of chosen inputs alpha'.  </p>
 <p id="rfc.section.3.3.p.4">"Selective pseudorandomness" is a weaker security property which suffices in many applications. Here, the adversary must choose the target VRF input alpha independently of the public VRF key PK, and before it  observes VRF outputs beta' and proofs pi' on inputs alpha' of its choice.  </p>
 <p id="rfc.section.3.3.p.5">It is important to remember that the VRF output beta does not look random to the Prover, or to any other party that knows the private VRF key SK!  Such a party can easily distinguish beta from a random value by comparing beta to the result of VRF_hash(SK, alpha).  </p>
-<p id="rfc.section.3.3.p.6">Also, the VRF output beta does not look random to any party that knows valid VRF proof pi corresponding to the VRF input alpha, even if this party does not know the private VRF key SK.  Such a party can easily distinguish beta from a random value by checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).  </p>
+<p id="rfc.section.3.3.p.6">Also, the VRF output beta does not look random to any party that knows the valid VRF proof pi corresponding to the VRF input alpha, even if this party does not know the private VRF key SK.  Such a party can easily distinguish beta from a random value by checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).  </p>
 <p id="rfc.section.3.3.p.7">Also, the VRF output beta may not look random if VRF key generation was not done in a trustworthy fashion. (For example, if VRF keys were generated with bad randomness.) </p>
 <h1 id="rfc.section.3.4">
 <a href="#rfc.section.3.4">3.4.</a> A random-oracle-like unpredictability property</h1>
-<p id="rfc.section.3.4.p.1">Pseudorandomness, as defined in <a href="#pseudodef" class="xref">Section 3.3</a>, does not hold if the VRF keys were generated adversarially. For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone.  </p>
+<p id="rfc.section.3.4.p.1">As explained in <a href="#pseudodef" class="xref">Section 3.3</a>, pseudorandomness is guaranteed only if the VRF keys were generated in a trustworthy fashion.  For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone and are therefore not pseudorandom.  </p>
 <p id="rfc.section.3.4.p.2">There is, however, a different type of unpredictability that is desirable in certain VRF applications (such as <a href="#GHMVZ17" class="xref">[GHMVZ17]</a> and <a href="#DGKR18" class="xref">[DGKR18]</a>). This property is similar to the unpredictability achieved by an (ordinary, unkeyed) cryptographic hash function: if the input has enough entropy (i.e., cannot be predicted), then the correct output is indistinguishable from uniform.  </p>
-<p id="rfc.section.3.4.p.3">A formal definition of this property appears in Section 3.2 of <a href="#DGKR18" class="xref">[DGKR18]</a>.  The VRF schemes presented in this specification are believed to satisfy this property if the public key was generated in a trustworthy manner. Additionally, the ECVRF is believed to also satisify this property even if the public key was not generated in a trustworthy manner, as long as the public key satisfies the key validation procedure in <a href="#keycheck" class="xref">Section 5.6</a>.</p>
+<p id="rfc.section.3.4.p.3">A formal definition of this property appears in Section 3.2 of <a href="#DGKR18" class="xref">[DGKR18]</a>.  The VRF schemes presented in this specification are believed to satisfy this property if the public key was generated in a trustworthy manner. Additionally, the ECVRF is believed to also satisfy this property even if the public key was not generated in a trustworthy manner, as long as the public key satisfies the key validation procedure in <a href="#keycheck" class="xref">Section 5.6</a>.</p>
 <h1 id="rfc.section.4">
 <a href="#rfc.section.4">4.</a> <a href="#fdh" id="fdh">RSA Full Domain Hash VRF (RSA-FDH-VRF)</a>
 </h1>
@@ -714,10 +714,10 @@
 <p id="rfc.section.4.p.7">Primitives used: </p>
 
 <ul class="empty">
-<li>I2OSP - Conversion of a nonnegative integer to an octet string as defined in Section 4.1 of <a href="#RFC8017" class="xref">[RFC8017]</a> </li>
-<li>OS2IP - Conversion of an octet string to a nonnegative integer as defined in Section 4.2 of <a href="#RFC8017" class="xref">[RFC8017]</a> </li>
-<li>RSASP1 - RSA signature primitive as defined in Section 5.2.1 of <a href="#RFC8017" class="xref">[RFC8017]</a> </li>
-<li>RSAVP1 - RSA verification primitive as defined in Section 5.2.2 of <a href="#RFC8017" class="xref">[RFC8017]</a> </li>
+<li>I2OSP - Conversion of a nonnegative integer to an octet string as defined in Section 4.1 of <a href="#RFC8017" class="xref">[RFC8017]</a> (given an integer and a length in octets, produces a big-endian representation of the integer, zero-padded to the desired length) </li>
+<li>OS2IP - Conversion of an octet string to a nonnegative integer as defined in Section 4.2 of <a href="#RFC8017" class="xref">[RFC8017]</a> (given a big-endian encoding of an intenger, produces the integer) </li>
+<li>RSASP1 - RSA signature primitive as defined in Section 5.2.1 of <a href="#RFC8017" class="xref">[RFC8017]</a> (given a secret key and an input, raises the input to the secret RSA exponent modulo n) </li>
+<li>RSAVP1 - RSA verification primitive as defined in Section 5.2.2 of <a href="#RFC8017" class="xref">[RFC8017]</a> (given a public key and an input, raises the input to the public RSA exponent modulo n) </li>
 <li>MGF1 - Mask Generation Function based on the hash function Hash as defined in Section B.2.1 of <a href="#RFC8017" class="xref">[RFC8017]</a> </li>
 <li>|| - octet string concatenation </li>
 </ul>
@@ -846,7 +846,7 @@
 <p id="rfc.section.5.p.5">Type conversions (specified in <a href="#suites" class="xref">Section 5.5</a>): </p>
 
 <ul class="empty">
-<li>int_to_string(a, len) - conversion of nonnegative integer a to to octet string of length len</li>
+<li>int_to_string(a, len) - conversion of nonnegative integer a to octet string of length len</li>
 <li>string_to_int(a_string) - conversion of an octet string a_string to a nonnegative integer</li>
 <li>point_to_string - conversion of EC point to an ptLen-octet string</li>
 <li>string_to_point - conversion of an ptLen-octet string to EC point.  string_to_point returns INVALID if the octet string does not convert to a valid EC point.</li>
@@ -1003,7 +1003,7 @@
 <li>one_string = 0x01 = int_to_string(1, 1), a single octet with value 1 </li>
 <li>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </li>
 <li>H = "INVALID"</li>
-<li>While H is "INVALID" or H is EC point at infinity: <ol style="list-style-type: upper-alpha">
+<li>While H is "INVALID" or H is identity element of the elliptic curve group: <ol style="list-style-type: upper-alpha">
 <li>ctr_string = int_to_string(ctr, 1)</li>
 <li>hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)</li>
 <li>H = arbitrary_string_to_point(hash_string)</li>
@@ -1187,8 +1187,8 @@
 <li>The EC group G is the NIST P-256 elliptic curve, with curve parameters as specified in <a href="#FIPS-186-4" class="xref">[FIPS-186-4]</a> (Section D.1.2.3) and <a href="#RFC5114" class="xref">[RFC5114]</a>  (Section 2.6). For this group, 2n = qLen =  32 and cofactor = 1.  </li>
 <li>The key pair generation primitive is specified in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a> (q, B, SK, and PK in this document correspond to in n, G, d, and Q in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a>).  In this ciphersuite, the secret scalar x is equal to the private key SK.  </li>
 <li>The ECVRF_nonce_generation function is as specified in <a href="#nonceP256" class="xref">Section 5.4.2.1</a>.</li>
-<li>The int_to_string function is the I2OSP function specified in Section 4.1 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big endian representation.)</li>
-<li>The string_to_int function is the OS2IP function specified in Section 4.2 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big endian representation.)</li>
+<li>The int_to_string function is the I2OSP function specified in Section 4.1 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big-endian representation.)</li>
+<li>The string_to_int function is the OS2IP function specified in Section 4.2 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big-endian representation.)</li>
 <li>The point_to_string function converts an EC point to an octet string according to the encoding specified in Section 2.3.3 of <a href="#SECG1" class="xref">[SECG1]</a> with point compression on.  This implies ptLen = 2n + 1 = 33.  (Note that certain software implementations do not introduce a separate elliptic curve point type and instead directly treat the EC point as an octet string per above encoding. When using such an implementation, the point_to_string function can be treated as the identity function.) </li>
 <li>The string_to_point function converts an octet string to an EC point according to the encoding specified in Section 2.3.4 of <a href="#SECG1" class="xref">[SECG1]</a>. This function MUST output INVALID if the octet string does not decode to an EC point.  </li>
 <li>The hash function Hash is SHA-256 as specified in <a href="#RFC6234" class="xref">[RFC6234]</a>, with hLen = 32.  </li>
@@ -1212,7 +1212,7 @@
 <li>The private key and generation of the secret scalar and the public key are specified in Section 5.1.5 of <a href="#RFC8032" class="xref">[RFC8032]</a>
 </li>
 <li>The ECVRF_nonce_generation function is as specified in <a href="#nonce25519" class="xref">Section 5.4.2.2</a>.</li>
-<li>The int_to_string function as specified in the first paragraph of Section 5.1.2 of <a href="#RFC8032" class="xref">[RFC8032]</a>. (This is little endian representation.)</li>
+<li>The int_to_string function as specified in the first paragraph of Section 5.1.2 of <a href="#RFC8032" class="xref">[RFC8032]</a>. (This is little-endian representation.)</li>
 <li>The string_to_int function interprets the string as an integer in little-endian representation.</li>
 <li>The point_to_string function converts an EC point to an octect string according to the encoding specified in Section 5.1.2 of <a href="#RFC8032" class="xref">[RFC8032]</a>.  This implies ptLen = 2n = 32.  (Note that certain software implementations do not introduce a separate elliptic curve point type and instead directly treat the EC point as an octet string per above encoding. When using such and implementation, the point_to_string function can be treated as the identity function.) </li>
 <li>The string_to_point function converts an octet string to an EC point according to the encoding specified in Section 5.1.3 of <a href="#RFC8032" class="xref">[RFC8032]</a>.  This function MUST output INVALID if the octet string does not decode to an EC point.  </li>
@@ -1256,12 +1256,12 @@
 <ol>
 <li>Y = string_to_point(PK_string)</li>
 <li>If Y is "INVALID", output "INVALID" and stop</li>
-<li>If cofactor*Y is the EC point at infinty, output "INVALID" and stop</li>
+<li>If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop</li>
 <li>Output Y</li>
 </ol>
 
 <p> </p>
-<p id="rfc.section.5.6.1.p.5">Note that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices to output "INVALID" if Y is the point at infinity. Moreover, when cofactor&gt;1, it is not necessary to verify that Y is in the subgroup G; Step 3 suffices. Therefore, if the cofactor is small, the total number of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve: </p>
+<p id="rfc.section.5.6.1.p.5">Note that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, when cofactor&gt;1, it is not necessary to verify that Y is in the subgroup G; Step 3 suffices. Therefore, if the cofactor is small, the total number of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve: </p>
 <p></p>
 
 <ol>
@@ -1287,13 +1287,13 @@
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#imp" id="imp">Implementation Status</a>
 </h1>
-<p id="rfc.section.6.p.1">A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/reyzin/ecvrf">https://github.com/reyzin/ecvrf</a><span>&gt;</span>. This implementation is neither secure nor especially effecient, but can be used to generate test vectors.  </p>
+<p id="rfc.section.6.p.1">A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/reyzin/ecvrf">https://github.com/reyzin/ecvrf</a><span>&gt;</span>. This implementation is neither secure nor especially efficient, but can be used to generate test vectors.  </p>
 <p id="rfc.section.6.p.2">A Python implementation of a previous version of ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/integritychain/draft-irtf-cfrg-vrf-05">https://github.com/integritychain/draft-irtf-cfrg-vrf-05</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.3">A C implementation of a previous version of ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03">https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.4">A Rust implemention of a previous version of ECVRF-P256-SHA256-TAI, as well as variants for the sect163k1 and secp256k1 curves, is available at <span>&lt;</span><a href="https://crates.io/crates/vrf">https://crates.io/crates/vrf</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.5">A C implemention of a variant of this VRF for the secp256k1 curve is available at <span>&lt;</span><a href="https://github.com/aergoio/secp256k1-vrf">https://github.com/aergoio/secp256k1-vrf</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.6">An implementation of an earlier, slightly different, version of RSA-FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was first developed as a part of the NSEC5 project <a href="#I-D.vcelak-nsec5" class="xref">[I-D.vcelak-nsec5]</a> and is available at <span>&lt;</span><a href="http://github.com/fcelda/nsec5-crypto">http://github.com/fcelda/nsec5-crypto</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.7">The Key Transparency project at Google uses a VRF implemention that is similar to the ECVRF-P256-SHA256-TAI, with a few minor changes including the use of SHA-512 instead of SHA-256. Its implementation is available at <span>&lt;</span><a href="https://github.com/google/keytransparency/blob/master/core/vrf/vrf.go">https://github.com/google/keytransparency/blob/master/core/vrf/vrf.go</a><span>&gt;</span> </p>
+<p id="rfc.section.6.p.7">The Key Transparency project at Google uses a VRF implemention that is similar to the ECVRF-P256-SHA256-TAI, with a few minor changes including the use of SHA-512 instead of SHA-256. Its implementation is available at <span>&lt;</span><a href="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/vrf.go">https://github.com/google/keytransparency/blob/master/core/crypto/vrf/vrf.go</a><span>&gt;</span> </p>
 <p id="rfc.section.6.p.8">An implementation by Yahoo! similar to the ECVRF is available at <span>&lt;</span><a href="https://github.com/r2ishiguro/vrf">https://github.com/r2ishiguro/vrf</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.9">An implementation similar to ECVRF is available as part of the CONIKS implementation in Golang at <span>&lt;</span><a href="https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf">https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf</a><span>&gt;</span>.  </p>
 <p id="rfc.section.6.p.10">Open Whisper Systems also uses a VRF very similar to ECVRF-EDWARDS25519-SHA512-ELL2, called VXEdDSA, and specified here <span>&lt;</span><a href="https://whispersystems.org/docs/specifications/xeddsa/">https://whispersystems.org/docs/specifications/xeddsa/</a><span>&gt;</span> and here <span>&lt;</span><a href="https://moderncrypto.org/mail-archive/curves/2017/000925.html">https://moderncrypto.org/mail-archive/curves/2017/000925.html</a><span>&gt;</span>.  Implementations in C and Java are available at <span>&lt;</span><a href="https://github.com/signalapp/curve25519-java">https://github.com/signalapp/curve25519-java</a><span>&gt;</span> and <span>&lt;</span><a href="https://github.com/wavesplatform/curve25519-java">https://github.com/wavesplatform/curve25519-java</a><span>&gt;</span>.  </p>
@@ -1307,31 +1307,31 @@
 <a href="#rfc.section.7.1.1">7.1.1.</a> Uniqueness and collision resistance with untrusted keys</h1>
 <p id="rfc.section.7.1.1.p.1">The ECVRF as specified in <a href="#ecvrfprove" class="xref">Section 5.1</a>-<a href="#suites" class="xref">Section 5.5</a> statisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  If the Verifier trusts the VRF keys are generated correctly, it MAY use the public key Y as is.  </p>
 <p id="rfc.section.7.1.1.p.2">However, if the ECVRF uses keys that could be generated adversarially, then the the Verfier MUST first perform the validation procedure ECVRF_validate_key(PK) (specified in <a href="#keycheck" class="xref">Section 5.6</a>)  upon receipt of the public key PK as an octet string.  If the validation procedure outputs "INVALID", then the public key MUST not be used.  Otherwise, the procedure will output a valid public key Y, and the ECVRF with public key Y satisfies the "full uniqueness" and "full collision resistance" properties.  </p>
-<p id="rfc.section.7.1.1.p.3">The RSA-FDH-VRF statisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  These properties may not hold if the keys are generated adversarially (e.g., if RSA is not permutation). Meanwhile, the "full uniqueness" and "full collision resistance" are properties that hold  even if VRF keys are generated by an adversary.  The RSA-FDH-VRF defined in this document does not have these properties.  However, if adversarial key generation is a concern, the RSA-FDH-VRF may be modifed to have these properties by adding additional cryptographic checks that its public key has the right form.  These modifications are left for future specification.  </p>
+<p id="rfc.section.7.1.1.p.3">The RSA-FDH-VRF statisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  These properties may not hold if the keys are generated adversarially (e.g., if the RSA function specified in the public key is not bijective). Meanwhile, the "full uniqueness" and "full collision resistance" are properties that hold  even if VRF keys are generated by an adversary.  The RSA-FDH-VRF defined in this document does not have these properties.  However, if adversarial key generation is a concern, the RSA-FDH-VRF may be modifed to have these properties by adding additional cryptographic checks that its public key has the right form.  These modifications are left for future specification.  </p>
 <h1 id="rfc.section.7.1.2">
 <a href="#rfc.section.7.1.2">7.1.2.</a> Pseudorandomness with untrusted keys</h1>
 <p id="rfc.section.7.1.2.p.1">Without good randomness, the "pseudorandomness" properties of the VRF may not hold. Note that it is not possible to guarantee pseudorandomness in the face of adversarially generated VRF keys.  This is because an adversary can always use bad randomness to generate the VRF keys, and thus, the VRF output may not be pseudorandom.  </p>
 <h1 id="rfc.section.7.2">
 <a href="#rfc.section.7.2">7.2.</a> Selective vs Full Pseudorandomness</h1>
-<p><a href="#PWHVNRG17" class="xref">[PWHVNRG17]</a> presents cryptographic reductions to an underlying hard problem (e.g. Decisional Diffie Hellman for the ECVRF, or the standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specificied in this document possess full pseudorandomness as well as selective pseudorandomness.  However, the cryptographic reductions are tighter for selective pseudorandomness than for full pseudorandomness.  This means the the VRFs have quantitavely stronger security guarentees for selective pseudorandomness.  </p>
+<p><a href="#PWHVNRG17" class="xref">[PWHVNRG17]</a> presents cryptographic reductions to an underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specificied in this document possess full pseudorandomness as well as selective pseudorandomness.  However, the cryptographic reductions are tighter for selective pseudorandomness than for full pseudorandomness.  This means that the VRFs have quantitavely stronger security guarantees for selective pseudorandomness.  </p>
 <p id="rfc.section.7.2.p.2">Applications that are concerned about tightness of cryptographic reductions therefore have two options.  </p>
 
 <ul>
 <li>They may choose to ensure that selective pseudorandomness is sufficient for the application. That is, that pseudorandomness of outputs matters only for inputs that are chosen independently of the VRF key.  </li>
-<li>If full pseudorandomness is required for the application, the application may increase security parameters to make up for the loose security reduction.  For RSA-FDH-VRF, this means increasing the RSA key length. For ECVRF, this means increasing the cryptographic strength of the EC group G. For both RSA-FDH-VRF and ECVRF the cryptographic strength of the hash function Hash may also potentially need to be increased.  </li>
+<li>If full pseudorandomness is required for the application, the application may increase security parameters to make up for the loose security reduction.  For RSA-FDH-VRF, this means increasing the RSA key length. For ECVRF, this means increasing the cryptographic strength of the EC group G. For both RSA-FDH-VRF and ECVRF, the cryptographic strength of the hash function Hash may also potentially need to be increased.  </li>
 </ul>
 
 <p> </p>
 <h1 id="rfc.section.7.3">
 <a href="#rfc.section.7.3">7.3.</a> Proper pseudorandom nonce for ECVRF</h1>
-<p id="rfc.section.7.3.p.1">The security of the ECVRF defined in this document relies on the fact that nonce k used in the ECVRF_prove algorithm is chosen uniformly and pseudorandomly modulo q, and is unknown to the advesrary.  Otherwise, an adversary may be able to recover the private VRF key x (and thus break pseudorandomness of the VRF) after observing several valid VRF proofs pi. The nonce generation methods specified in the ECVRF ciphersuites of <a href="#suites" class="xref">Section 5.5</a> are designed with this requirement in mind.  </p>
+<p id="rfc.section.7.3.p.1">The security of the ECVRF defined in this document relies on the fact that the nonce k used in the ECVRF_prove algorithm is chosen uniformly and pseudorandomly modulo q, and is unknown to the advesrary.  Otherwise, an adversary may be able to recover the private VRF key x (and thus break pseudorandomness of the VRF) after observing several valid VRF proofs pi. The nonce generation methods specified in the ECVRF ciphersuites of <a href="#suites" class="xref">Section 5.5</a> are designed with this requirement in mind.  </p>
 <h1 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> Side-channel attacks</h1>
-<p id="rfc.section.7.4.p.1">Side channel attacks on cryptographic primatives are an important issue.  Here we discuss only one such side channel:  timing attacks that can be used to leak information about the VRF input alpha.  Implementers should take care to avoid side-channel attacks that leak information about the VRF private key SK (and the nonce k used in the ECVRF).</p>
+<p id="rfc.section.7.4.p.1">Side channel attacks on cryptographic primitives are an important issue.  Here we discuss only one such side channel:  timing attacks that can be used to leak information about the VRF input alpha.  Implementers should take care to avoid side-channel attacks that leak information about the VRF private key SK (and the nonce k used in the ECVRF).</p>
 <p id="rfc.section.7.4.p.2">The ECVRF_hash_to_curve_try_and_increment algorithm defined in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a> SHOULD NOT be used in applications where the VRF input alpha is secret and is hashed by the VRF on-the-fly.  This is because the algorithm's running time depends on the VRF input alpha, and thus creates a timing channel that can be used to learn information about alpha.  That said, for most inputs the amount of information obtained from such a timing attack is likely to be small (1 bit, on average), since the algorithm is expected to find a valid curve point after only two attempts.  However, there might be inputs which cause the algorithm to make many attempts before it finds a valid curve point; for such inputs, the information leaked in a timing attack will be more than 1 bit.  </p>
 <p id="rfc.section.7.4.p.3">ECVRF-P256-SHA256-SSWU and ECVRF-EDWARDS25519-SHA512-ELL2 can be made to run in time independent of alpha, following recommendations in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a>.  </p>
 <h1 id="rfc.section.7.5">
-<a href="#rfc.section.7.5">7.5.</a> Proofs Provide No Secrecy for VRF Input</h1>
+<a href="#rfc.section.7.5">7.5.</a> Proofs provide no secrecy for the VRF input</h1>
 <p id="rfc.section.7.5.p.1">The VRF proof pi is not designed to provide secrecy and, in general, may reveal the VRF input alpha.  Anyone who knows PK and pi is able to perform an offline dictionary attack to search for alpha, by verifying guesses for alpha using VRF_verify.  This is in contrast to the VRF hash output beta which, without the proof, is pseudorandom and thus is designed to reveal no information about alpha.  </p>
 <h1 id="rfc.section.7.6">
 <a href="#rfc.section.7.6">7.6.</a> <a href="#prehash" id="prehash">Prehashing</a>
@@ -1343,8 +1343,8 @@
 <p id="rfc.section.7.7.p.2">This is also the case for the ECVRF ciphersuites defined in this document, because: </p>
 
 <ul>
-<li>inputs to the hash function used during nonce_generation are unlikely to equal inputs used in hash_to_curve, proof_to_hash, and hash_points. This follows since nonce_generation inputs a secret to the hash function that is not used by honest parties as input to any other hash function, and is not available to the adversary</li>
-<li>the second octets of the inputs to the hash function used in proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment are all different</li>
+<li>inputs to the hash function used during nonce_generation are unlikely to equal inputs used in hash_to_curve, proof_to_hash, and hash_points. This follows since nonce_generation inputs a secret to the hash function that is not used by honest parties as input to any other hash function, and is not available to the adversary.</li>
+<li>the second octets of the inputs to the hash function used in proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment are all different.</li>
 <li>the last octet of the input to the hash function used in proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment is always zero, and therefore different from the last octet of the input to the hash function used in ECVRF_hash_to_curve_h2c_suite, which is set equal to the nonzero length of the domain separation tag by <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a>.</li>
 </ul>
 
@@ -1365,7 +1365,7 @@
 <li>05 - Renamed ed25519 into the more commonly used edwards25519. Corrected ECVRF_nonce_generation_RFC6979 (thanks to Gorka Irazoqui Apecechea and Mario Cao Cueto for finding the problem) and corresponding test vectors for the P256 suites. Added a reference to the Rust implementation.</li>
 <li>06 - Made some variable names more descriptive. Added a few implementation references.</li>
 <li>07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</li>
-<li>08 - Changed Reyzin's affiliation.</li>
+<li>08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation.</li>
 </ul>
 
 <p> </p>
