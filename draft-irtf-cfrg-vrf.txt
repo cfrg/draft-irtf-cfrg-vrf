@@ -5,12 +5,12 @@
 CFRG                                                         S. Goldberg
 Internet-Draft                                         Boston University
 Intended status: Standards Track                               L. Reyzin
-Expires: May 13, 2021                     Boston University and Algorand
+Expires: May 14, 2021                     Boston University and Algorand
                                                          D. Papadopoulos
-                           Hong Kong University of Science and Techology
+                          Hong Kong University of Science and Technology
                                                                J. Vcelak
                                                                      NS1
-                                                        November 9, 2020
+                                                       November 10, 2020
 
 
                    Verifiable Random Functions (VRFs)
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 13, 2021.
+   This Internet-Draft will expire on May 14, 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 1]
+Goldberg, et al.          Expires May 14, 2021                  [Page 1]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -80,14 +80,14 @@ Table of Contents
      3.4.  A random-oracle-like unpredictability property  . . . . .   6
    4.  RSA Full Domain Hash VRF (RSA-FDH-VRF)  . . . . . . . . . . .   7
      4.1.  RSA-FDH-VRF Proving . . . . . . . . . . . . . . . . . . .   8
-     4.2.  RSA-FDH-VRF Proof To Hash . . . . . . . . . . . . . . . .   9
+     4.2.  RSA-FDH-VRF Proof to Hash . . . . . . . . . . . . . . . .   9
      4.3.  RSA-FDH-VRF Verifying . . . . . . . . . . . . . . . . . .   9
    5.  Elliptic Curve VRF (ECVRF)  . . . . . . . . . . . . . . . . .  10
      5.1.  ECVRF Proving . . . . . . . . . . . . . . . . . . . . . .  12
-     5.2.  ECVRF Proof To Hash . . . . . . . . . . . . . . . . . . .  13
+     5.2.  ECVRF Proof to Hash . . . . . . . . . . . . . . . . . . .  13
      5.3.  ECVRF Verifying . . . . . . . . . . . . . . . . . . . . .  14
      5.4.  ECVRF Auxiliary Functions . . . . . . . . . . . . . . . .  14
-       5.4.1.  ECVRF Hash To Curve . . . . . . . . . . . . . . . . .  14
+       5.4.1.  ECVRF Hash to Curve . . . . . . . . . . . . . . . . .  14
        5.4.2.  ECVRF Nonce Generation  . . . . . . . . . . . . . . .  17
        5.4.3.  ECVRF Hash Points . . . . . . . . . . . . . . . . . .  18
        5.4.4.  ECVRF Decode Proof  . . . . . . . . . . . . . . . . .  19
@@ -105,11 +105,11 @@ Table of Contents
      7.4.  Side-channel attacks  . . . . . . . . . . . . . . . . . .  27
      7.5.  Proofs provide no secrecy for the VRF input . . . . . . .  28
      7.6.  Prehashing  . . . . . . . . . . . . . . . . . . . . . . .  28
-     7.7.  Hash function domain separation and future-proofing . . .  28
+     7.7.  Hash function domain separation and futureproofing  . . .  28
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 2]
+Goldberg, et al.          Expires May 14, 2021                  [Page 2]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -142,9 +142,9 @@ Internet-Draft                     VRF                     November 2020
    on the input data.  Due to the nature of the VRF, only the Prover can
    answer queries about whether or not some data is stored in the data
    structure.  Anyone who knows the public VRF key can verify that the
-   Prover has answered the queries correctly.  However no offline
+   Prover has answered the queries correctly.  However, no offline
    inferences (i.e. inferences without querying the Prover) can be made
-   about the data stored in the data strucuture.
+   about the data stored in the data structure.
 
 1.2.  Requirements
 
@@ -165,7 +165,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 3]
+Goldberg, et al.          Expires May 14, 2021                  [Page 3]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -221,7 +221,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 4]
+Goldberg, et al.          Expires May 14, 2021                  [Page 4]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -252,7 +252,7 @@ Internet-Draft                     VRF                     November 2020
 
 3.2.  Full Collison Resistance or Trusted Collision Resistance
 
-   Like any cryprographic hash function, VRFs need to be collision
+   Like any cryptographic hash function, VRFs need to be collision
    resistant.  Collison resistance must hold even for an adversarial
    Prover that knows the VRF private key SK.
 
@@ -277,7 +277,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 5]
+Goldberg, et al.          Expires May 14, 2021                  [Page 5]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -333,7 +333,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 6]
+Goldberg, et al.          Expires May 14, 2021                  [Page 6]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -389,7 +389,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 7]
+Goldberg, et al.          Expires May 14, 2021                  [Page 7]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -399,7 +399,7 @@ Internet-Draft                     VRF                     November 2020
 
       OS2IP - Conversion of an octet string to a nonnegative integer as
       defined in Section 4.2 of [RFC8017] (given a big-endian encoding
-      of an intenger, produces the integer)
+      of an integer, produces the integer)
 
       RSASP1 - RSA signature primitive as defined in Section 5.2.1 of
       [RFC8017] (given a secret key and an input, raises the input to
@@ -445,12 +445,12 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 8]
+Goldberg, et al.          Expires May 14, 2021                  [Page 8]
 
 Internet-Draft                     VRF                     November 2020
 
 
-4.2.  RSA-FDH-VRF Proof To Hash
+4.2.  RSA-FDH-VRF Proof to Hash
 
    RSAFDHVRF_proof_to_hash(pi_string)
 
@@ -501,7 +501,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                  [Page 9]
+Goldberg, et al.          Expires May 14, 2021                  [Page 9]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -557,7 +557,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 10]
+Goldberg, et al.          Expires May 14, 2021                 [Page 10]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -613,7 +613,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 11]
+Goldberg, et al.          Expires May 14, 2021                 [Page 11]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -669,7 +669,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 12]
+Goldberg, et al.          Expires May 14, 2021                 [Page 12]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -679,7 +679,7 @@ Internet-Draft                     VRF                     November 2020
 
    9.  Output pi_string
 
-5.2.  ECVRF Proof To Hash
+5.2.  ECVRF Proof to Hash
 
    ECVRF_proof_to_hash(pi_string)
 
@@ -725,7 +725,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 13]
+Goldberg, et al.          Expires May 14, 2021                 [Page 13]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -769,11 +769,11 @@ Internet-Draft                     VRF                     November 2020
 
 5.4.  ECVRF Auxiliary Functions
 
-5.4.1.  ECVRF Hash To Curve
+5.4.1.  ECVRF Hash to Curve
 
    The ECVRF_hash_to_curve algorithm takes in the VRF input alpha and
    converts it to H, an EC point in G.  This algorithm is the only place
-   the VRF input alpha is used for proving and verfying.  See
+   the VRF input alpha is used for proving and verifying.  See
    Section 7.6 for further discussion.
 
 
@@ -781,7 +781,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 14]
+Goldberg, et al.          Expires May 14, 2021                 [Page 14]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -837,14 +837,14 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 15]
+Goldberg, et al.          Expires May 14, 2021                 [Page 15]
 
 Internet-Draft                     VRF                     November 2020
 
 
    5.  H = "INVALID"
 
-   6.  While H is "INVALID" or H is identity element of the elliptic
+   6.  While H is "INVALID" or H is the identity element of the elliptic
        curve group:
 
        A.  ctr_string = int_to_string(ctr, 1)
@@ -893,7 +893,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 16]
+Goldberg, et al.          Expires May 14, 2021                 [Page 16]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -923,7 +923,7 @@ Internet-Draft                     VRF                     November 2020
    choice of a particular algorithm from the options specified in this
    section is made in Section 5.5.
 
-5.4.2.1.  ECVRF Nonce Generation From RFC 6979
+5.4.2.1.  ECVRF Nonce Generation from RFC 6979
 
    ECVRF_nonce_generation_RFC6979(SK, h_string)
 
@@ -949,7 +949,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 17]
+Goldberg, et al.          Expires May 14, 2021                 [Page 17]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -963,7 +963,7 @@ Internet-Draft                     VRF                     November 2020
 
       All the other values and primitives as defined in [RFC6979]
 
-5.4.2.2.  ECVRF Nonce Generation From RFC 8032
+5.4.2.2.  ECVRF Nonce Generation from RFC 8032
 
    The following is from Steps 2-3 of Section 5.1.6 in [RFC8032].
 
@@ -1005,7 +1005,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 18]
+Goldberg, et al.          Expires May 14, 2021                 [Page 18]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1053,7 +1053,7 @@ Internet-Draft                     VRF                     November 2020
 
    Steps:
 
-   1.  let gamma_string = pi_string[0]...p_string[ptLen-1]
+   1.  let gamma_string = pi_string[0]...pi_string[ptLen-1]
 
    2.  let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]
 
@@ -1061,7 +1061,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 19]
+Goldberg, et al.          Expires May 14, 2021                 [Page 19]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1089,8 +1089,8 @@ Internet-Draft                     VRF                     November 2020
       cofactor = 1.
 
    o  The key pair generation primitive is specified in Section 3.2.1 of
-      [SECG1] (q, B, SK, and PK in this document correspond to in n, G,
-      d, and Q in Section 3.2.1 of [SECG1]).  In this ciphersuite, the
+      [SECG1] (q, B, SK, and PK in this document correspond to n, G, d,
+      and Q in Section 3.2.1 of [SECG1]).  In this ciphersuite, the
       secret scalar x is equal to the private key SK.
 
    o  The ECVRF_nonce_generation function is as specified in
@@ -1117,7 +1117,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 20]
+Goldberg, et al.          Expires May 14, 2021                 [Page 20]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1168,12 +1168,12 @@ Internet-Draft                     VRF                     November 2020
    o  The string_to_int function interprets the string as an integer in
       little-endian representation.
 
-   o  The point_to_string function converts an EC point to an octect
+   o  The point_to_string function converts an EC point to an octet
       string according to the encoding specified in Section 5.1.2 of
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 21]
+Goldberg, et al.          Expires May 14, 2021                 [Page 21]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1229,7 +1229,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 22]
+Goldberg, et al.          Expires May 14, 2021                 [Page 22]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1285,7 +1285,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 23]
+Goldberg, et al.          Expires May 14, 2021                 [Page 23]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1341,7 +1341,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 24]
+Goldberg, et al.          Expires May 14, 2021                 [Page 24]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1351,19 +1351,19 @@ Internet-Draft                     VRF                     November 2020
    <https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-
    03/src/libsodium/crypto_vrf/ietfdraft03>.
 
-   A Rust implemention of a previous version of ECVRF-P256-SHA256-TAI,
+   A Rust implementation of a previous version of ECVRF-P256-SHA256-TAI,
    as well as variants for the sect163k1 and secp256k1 curves, is
    available at <https://crates.io/crates/vrf>.
 
-   A C implemention of a variant of this VRF for the secp256k1 curve is
-   available at <https://github.com/aergoio/secp256k1-vrf>.
+   A C implementation of a variant of this VRF for the secp256k1 curve
+   is available at <https://github.com/aergoio/secp256k1-vrf>.
 
    An implementation of an earlier, slightly different, version of RSA-
    FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was first developed as a
    part of the NSEC5 project [I-D.vcelak-nsec5] and is available at
    <http://github.com/fcelda/nsec5-crypto>.
 
-   The Key Transparency project at Google uses a VRF implemention that
+   The Key Transparency project at Google uses a VRF implementation that
    is similar to the ECVRF-P256-SHA256-TAI, with a few minor changes
    including the use of SHA-512 instead of SHA-256.  Its implementation
    is available at
@@ -1397,21 +1397,21 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 25]
+Goldberg, et al.          Expires May 14, 2021                 [Page 25]
 
 Internet-Draft                     VRF                     November 2020
 
 
 7.1.1.  Uniqueness and collision resistance with untrusted keys
 
-   The ECVRF as specified in Section 5.1-Section 5.5 statisfies the
+   The ECVRF as specified in Section 5.1-Section 5.5 satisfies the
    "trusted uniqueness" and "trusted collision resistance" properties as
    long as the VRF keys are generated correctly, with good randomness.
    If the Verifier trusts the VRF keys are generated correctly, it MAY
    use the public key Y as is.
 
    However, if the ECVRF uses keys that could be generated
-   adversarially, then the the Verfier MUST first perform the validation
+   adversarially, then the Verifier MUST first perform the validation
    procedure ECVRF_validate_key(PK) (specified in Section 5.6) upon
    receipt of the public key PK as an octet string.  If the validation
    procedure outputs "INVALID", then the public key MUST not be used.
@@ -1419,7 +1419,7 @@ Internet-Draft                     VRF                     November 2020
    ECVRF with public key Y satisfies the "full uniqueness" and "full
    collision resistance" properties.
 
-   The RSA-FDH-VRF statisfies the "trusted uniqueness" and "trusted
+   The RSA-FDH-VRF satisfies the "trusted uniqueness" and "trusted
    collision resistance" properties as long as the VRF keys are
    generated correctly, with good randomness.  These properties may not
    hold if the keys are generated adversarially (e.g., if the RSA
@@ -1428,7 +1428,7 @@ Internet-Draft                     VRF                     November 2020
    that hold even if VRF keys are generated by an adversary.  The RSA-
    FDH-VRF defined in this document does not have these properties.
    However, if adversarial key generation is a concern, the RSA-FDH-VRF
-   may be modifed to have these properties by adding additional
+   may be modified to have these properties by adding additional
    cryptographic checks that its public key has the right form.  These
    modifications are left for future specification.
 
@@ -1446,19 +1446,19 @@ Internet-Draft                     VRF                     November 2020
    [PWHVNRG17] presents cryptographic reductions to an underlying hard
    problem (e.g.  Decisional Diffie-Hellman for the ECVRF, or the
    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs
-   specificied in this document possess full pseudorandomness as well as
+   specified in this document possess full pseudorandomness as well as
    selective pseudorandomness.  However, the cryptographic reductions
    are tighter for selective pseudorandomness than for full
 
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 26]
+Goldberg, et al.          Expires May 14, 2021                 [Page 26]
 
 Internet-Draft                     VRF                     November 2020
 
 
-   pseudorandomness.  This means that the VRFs have quantitavely
+   pseudorandomness.  This means that the VRFs have quantitively
    stronger security guarantees for selective pseudorandomness.
 
    Applications that are concerned about tightness of cryptographic
@@ -1482,7 +1482,7 @@ Internet-Draft                     VRF                     November 2020
    The security of the ECVRF defined in this document relies on the fact
    that the nonce k used in the ECVRF_prove algorithm is chosen
    uniformly and pseudorandomly modulo q, and is unknown to the
-   advesrary.  Otherwise, an adversary may be able to recover the
+   adversary.  Otherwise, an adversary may be able to recover the
    private VRF key x (and thus break pseudorandomness of the VRF) after
    observing several valid VRF proofs pi.  The nonce generation methods
    specified in the ECVRF ciphersuites of Section 5.5 are designed with
@@ -1509,7 +1509,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 27]
+Goldberg, et al.          Expires May 14, 2021                 [Page 27]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1547,7 +1547,7 @@ Internet-Draft                     VRF                     November 2020
    the generator B) and the public key are included indirectly into
    subsequent hashes.
 
-7.7.  Hash function domain separation and future-proofing
+7.7.  Hash function domain separation and futureproofing
 
    Hashing is used for different purposes in the two VRFs (namely, in
    the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in
@@ -1565,7 +1565,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 28]
+Goldberg, et al.          Expires May 14, 2021                 [Page 28]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1593,7 +1593,7 @@ Internet-Draft                     VRF                     November 2020
 
    For the RSA VRF, if future designs need to specify variants of the
    design in this document, such variants should use different first
-   octets in inputs to MGF1 and to the hash funciton used in
+   octets in inputs to MGF1 and to the hash function used in
    proof_to_hash, in order to avoid the possibility that an adversary
    can obtain a VRF output under one variant, and then claim it was
    obtained under another variant
@@ -1621,7 +1621,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 29]
+Goldberg, et al.          Expires May 14, 2021                 [Page 29]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1631,15 +1631,15 @@ Internet-Draft                     VRF                     November 2020
       ED25519-SHA256 suite_string to ECVRF-ED25519-SHA512.  (This change
       made because Ed25519 in [RFC8032] signatures use SHA512 and not
       SHA256.)  Made ECVRF nonce generation a separate component, so
-      that nonces are determinsitic.  In ECVRF proving, changed + to -
+      that nonces are deterministic.  In ECVRF proving, changed + to -
       (and made corresponding verification changes) in order to be
       consistent with EdDSA and ECDSA.  Highlighted that
       ECVRF_hash_to_curve acts like a prehash.  Added "suites" variable
-      to ECVRF for future-proofing.  Ensured domain separation for hash
+      to ECVRF for futureproofing.  Ensured domain separation for hash
       functions by modifying hash_points and added discussion about
       domain separation.  Updated todos in the "additional
-      pseudorandomness property" section.  Added an discussion of
-      secrecy into security considerations.  Removed B and PK=Y from
+      pseudorandomness property" section.  Added a discussion of secrecy
+      into security considerations.  Removed B and PK=Y from
       ECVRF_hash_points because they are already present via H, which is
       computed via hash_to_curve using the suite_string (which
       identifies B) and Y.
@@ -1652,7 +1652,7 @@ Internet-Draft                     VRF                     November 2020
       generation as a section; changed counter in try-and-increment from
       four bytes to one, to avoid endian issues; renamed try-and-
       increment ciphersuites to -TAI; added qLen as a separate
-      paremeter; changed output length to hLen for ECVRF, to match
+      parameter; changed output length to hLen for ECVRF, to match
       RSAVRF; made Verify return beta so unverified proofs don't end up
       in proof_to_hash; added test vectors.
 
@@ -1677,7 +1677,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 30]
+Goldberg, et al.          Expires May 14, 2021                 [Page 30]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1733,7 +1733,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 31]
+Goldberg, et al.          Expires May 14, 2021                 [Page 31]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1789,7 +1789,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 32]
+Goldberg, et al.          Expires May 14, 2021                 [Page 32]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1845,14 +1845,14 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 33]
+Goldberg, et al.          Expires May 14, 2021                 [Page 33]
 
 Internet-Draft                     VRF                     November 2020
 
 
 Appendix A.  Test Vectors for the ECVRFs
 
-   The test vectors in this section were genereated using the reference
+   The test vectors in this section were generated using the reference
    implementation at <https://github.com/reyzin/ecvrf>.
 
 A.1.  ECVRF-P256-SHA256-TAI
@@ -1865,7 +1865,7 @@ A.1.  ECVRF-P256-SHA256-TAI
    PK =
    0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6
    alpha = 73616d706c65 (ASCII "sample")
-   try_and_increment succeded on ctr = 1
+   try_and_increment succeeded on ctr = 1
    H =
    0272a877532e9ac193aff4401234266f59900a4a9e3fc3cfc6a4b7e467a15d06d4
    k = 0d90591273453d2dc67312d39914e3a93e194ab47a58cd598886897076986f77
@@ -1884,7 +1884,7 @@ A.1.  ECVRF-P256-SHA256-TAI
    PK =
    0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6
    alpha = 74657374 (ASCII "test")
-   try_and_increment succeded on ctr = 3
+   try_and_increment succeeded on ctr = 3
    H =
    02173119b4fff5e6f8afed4868a29fe8920f1b54c2cf89cc7b301d0d473de6b974
    k = 5852353a868bdce26938cde1826723e58bf8cb06dd2fed475213ea6f3b12e961
@@ -1901,7 +1901,7 @@ A.1.  ECVRF-P256-SHA256-TAI
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 34]
+Goldberg, et al.          Expires May 14, 2021                 [Page 34]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -1917,7 +1917,7 @@ Internet-Draft                     VRF                     November 2020
    070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035
    (ASCII "Example using ECDSA key from Appendix L.4.2 of
    ANSI.X9-62-2005")
-   try_and_increment succeded on ctr = 1
+   try_and_increment succeeded on ctr = 1
    H =
    0258055c26c4b01d01c00fb57567955f7d39cd6f6e85fd37c58f696cc6b7aa761d
    k = 5689e2e08e1110b4dda293ac21667eac6db5de4a46a519c73d533f69be2f4da3
@@ -1957,7 +1957,7 @@ A.2.  ECVRF-P256-SHA256-SSWU
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 35]
+Goldberg, et al.          Expires May 14, 2021                 [Page 35]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -2013,7 +2013,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 36]
+Goldberg, et al.          Expires May 14, 2021                 [Page 36]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -2043,7 +2043,7 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
    PK = d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a
    alpha = (the empty string)
    x = 307c83864f2833cb427a2ef1c00a013cfdff2768d980c0a3a520f006904de94f
-   try_and_increment succeded on ctr = 0
+   try_and_increment succeeded on ctr = 0
    H = 91bbed02a99461df1ad4c6564a5f5d829d0b90cfc7903e7a5797bd658abf3318
    k = 7100f3d9eadb6dc4743b029736ff283f5be494128df128df2817106f345b8594b
    6d6da2d6fb0b4c0257eb337675d96eab49cf39e66cc2c9547c2bf8b2a6afae4
@@ -2061,7 +2061,7 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
    PK = 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c
    alpha = 72 (1 byte)
    x = 68bd9ed75882d52815a97585caf4790a7f6c6b3b7f821c5e259a24b02e502e51
-   try_and_increment succeded on ctr = 1
+   try_and_increment succeeded on ctr = 1
    H = 5b659fc3d4e9263fd9a4ed1d022d75eaacc20df5e09f9ea937502396598dc551
    k = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c167c
    ab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce
@@ -2069,7 +2069,7 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 37]
+Goldberg, et al.          Expires May 14, 2021                 [Page 37]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -2088,7 +2088,7 @@ Internet-Draft                     VRF                     November 2020
    PK = fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025
    alpha = af82 (2 bytes)
    x = 909a8b755ed902849023a55b15c23d11ba4d7f4ec5c2f51b1325a181991ea95c
-   try_and_increment succeded on ctr = 0
+   try_and_increment succeeded on ctr = 0
    H = bf4339376f5542811de615e3313d2b36f6f53c0acfebb482159711201192576a
    k = 38b868c335ccda94a088428cbf3ec8bc7955bfaffe1f3bd2aa2c59fc31a0febc5
    9d0e1af3715773ce11b3bbdd7aba8e3505d4b9de6f7e4a96e67e0d6bb6d6c3a
@@ -2125,7 +2125,7 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 38]
+Goldberg, et al.          Expires May 14, 2021                 [Page 38]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -2181,7 +2181,7 @@ Internet-Draft                     VRF                     November 2020
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 39]
+Goldberg, et al.          Expires May 14, 2021                 [Page 39]
 
 Internet-Draft                     VRF                     November 2020
 
@@ -2217,7 +2217,7 @@ Authors' Addresses
 
 
    Dimitrios Papadopoulos
-   Hong Kong University of Science and Techology
+   Hong Kong University of Science and Technology
    Clearwater Bay
    Hong Kong
 
@@ -2237,4 +2237,4 @@ Authors' Addresses
 
 
 
-Goldberg, et al.          Expires May 13, 2021                 [Page 40]
+Goldberg, et al.          Expires May 14, 2021                 [Page 40]

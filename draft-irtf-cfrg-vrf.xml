@@ -45,7 +45,7 @@
 
 
         <author fullname="Dimitrios Papadopoulos" initials="D." surname="Papadopoulos">
-            <organization>Hong Kong University of Science and Techology</organization>
+            <organization>Hong Kong University of Science and Technology</organization>
             <address>
                 <postal>
                     <street>Clearwater Bay</street>
@@ -118,8 +118,8 @@
    Due to the nature of the VRF, only the Prover can answer queries
    about whether or not some data is stored in the data structure.  Anyone who
    knows the public VRF key can verify that the Prover has answered the queries
-   correctly. However no offline inferences (i.e. inferences without querying
-   the Prover) can be made about the data stored in the data strucuture.
+   correctly. However, no offline inferences (i.e. inferences without querying
+   the Prover) can be made about the data stored in the data structure.
    </t>
 
    <!--
@@ -262,7 +262,7 @@
 
 	<section title="Full Collison Resistance or Trusted Collision Resistance">
 
-    <t>Like any cryprographic hash function, VRFs need to be
+    <t>Like any cryptographic hash function, VRFs need to be
         collision resistant.  Collison resistance must hold
     even for an adversarial Prover that knows the VRF private key SK.
     </t>
@@ -417,7 +417,7 @@
                 <t>
                     OS2IP - Conversion of an octet string to a nonnegative integer as defined in
                     Section 4.2 of <xref target="RFC8017" />
-                    (given a big-endian encoding of an intenger, produces the integer)
+                    (given a big-endian encoding of an integer, produces the integer)
                 </t>
                 <t>
                     RSASP1 - RSA signature primitive as defined in
@@ -470,7 +470,7 @@
             </t>
         </section>
         
-        <section title="RSA-FDH-VRF Proof To Hash">
+        <section title="RSA-FDH-VRF Proof to Hash">
             <t>
                 RSAFDHVRF_proof_to_hash(pi_string)
             </t>
@@ -675,7 +675,7 @@
         </section>
 
 
-        <section title="ECVRF Proof To Hash">
+        <section title="ECVRF Proof to Hash">
             <t>
                 ECVRF_proof_to_hash(pi_string)
             </t>
@@ -758,12 +758,12 @@
 
         <section title="ECVRF Auxiliary Functions">
 
-        <section title="ECVRF Hash To Curve" anchor="ecvrfH2C">
+        <section title="ECVRF Hash to Curve" anchor="ecvrfH2C">
         
             <t>The ECVRF_hash_to_curve algorithm takes in the VRF input alpha
             and converts it to H, an EC point in G.
             This algorithm is the only place the VRF input alpha is used
-            for proving and verfying. See
+            for proving and verifying. See
             <xref target="prehash" /> for further discussion.
             </t>
 
@@ -825,7 +825,7 @@
                     <t>one_string = 0x01 = int_to_string(1, 1), a single octet with value 1 </t>
                     <t>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </t>
                     <t>H = "INVALID"</t>
-                    <t>While H is "INVALID" or H is identity element of the elliptic curve group:
+                    <t>While H is "INVALID" or H is the identity element of the elliptic curve group:
                     <list style="letters">
                         <t>ctr_string = int_to_string(ctr, 1)</t>
                         <t>hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)</t>
@@ -904,7 +904,7 @@
             This section specifies a number of such algorithms, which are not compatible with each other.
             The choice of a particular algorithm from the options specified in this section is made in Section 5.5.</t>
         
-            <section title = "ECVRF Nonce Generation From RFC 6979" anchor="nonceP256">
+            <section title = "ECVRF Nonce Generation from RFC 6979" anchor="nonceP256">
                 
                 <t>
                     ECVRF_nonce_generation_RFC6979(SK, h_string)
@@ -938,7 +938,7 @@
                 </t>
             </section>
             
-            <section title = "ECVRF Nonce Generation From RFC 8032" anchor="nonce25519">
+            <section title = "ECVRF Nonce Generation from RFC 8032" anchor="nonce25519">
 
                 <t> The following is from Steps 2-3 of Section 5.1.6
                 in <xref target="RFC8032"/>.
@@ -1037,7 +1037,7 @@
             <t>
                 Steps:
                 <list style="numbers">
-                    <t>let gamma_string = pi_string[0]...p_string[ptLen-1]</t>
+                    <t>let gamma_string = pi_string[0]...pi_string[ptLen-1]</t>
                     <t>let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</t>
                     <t>let s_string =pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</t>
                     <t>Gamma = string_to_point(gamma_string)</t>
@@ -1065,7 +1065,7 @@
         </t>
         <t> The key pair generation primitive is specified in
             Section 3.2.1 of <xref target="SECG1" /> (q, B, SK, and PK in this document
-            correspond to in n, G, d, and Q in Section 3.2.1 of <xref target="SECG1" />).
+            correspond to n, G, d, and Q in Section 3.2.1 of <xref target="SECG1" />).
             In this ciphersuite, the secret scalar x is equal to the private key SK.
         </t>
         <t> The ECVRF_nonce_generation function is as specified in <xref target="nonceP256" />.</t>
@@ -1139,7 +1139,7 @@
        representation.</t>
                 
         <t> The point_to_string function converts an EC point to an 
-            octect string according to the encoding specified
+            octet string according to the encoding specified
              in Section 5.1.2 of <xref target="RFC8032" />. 
             This implies ptLen = 2n = 32.
             (Note that certain software implementations do not introduce a
@@ -1291,10 +1291,10 @@
   </t>
 
   <t>
-      A Rust implemention of a previous version of ECVRF-P256-SHA256-TAI, as well as variants for the sect163k1 and secp256k1 curves, is available at <eref target="https://crates.io/crates/vrf" />.
+      A Rust implementation of a previous version of ECVRF-P256-SHA256-TAI, as well as variants for the sect163k1 and secp256k1 curves, is available at <eref target="https://crates.io/crates/vrf" />.
   </t>
   <t>
-      A C implemention of a variant of this VRF for the secp256k1 curve is available at <eref target="https://github.com/aergoio/secp256k1-vrf" />.
+      A C implementation of a variant of this VRF for the secp256k1 curve is available at <eref target="https://github.com/aergoio/secp256k1-vrf" />.
   </t>
 
 
@@ -1310,7 +1310,7 @@
 
     <t>
     The Key Transparency project at Google
-    uses a VRF implemention that is similar to
+    uses a VRF implementation that is similar to
     the ECVRF-P256-SHA256-TAI, with a few minor changes
     including the use of SHA-512 instead of SHA-256. Its implementation
     is available at <eref target="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/vrf.go" />
@@ -1355,7 +1355,7 @@
     <section title="Uniqueness and collision resistance with untrusted keys">
         
     <t>The ECVRF as specified in <xref target="ecvrfprove"/>-<xref target="suites"/>
-    statisfies the "trusted uniqueness" and "trusted collision resistance" properties
+    satisfies the "trusted uniqueness" and "trusted collision resistance" properties
     as long as the VRF keys are generated correctly, with good randomness.
     If the Verifier trusts the VRF keys are generated correctly, it MAY use 
     the public key Y as is.
@@ -1363,7 +1363,7 @@
     
     <t>
     However, if the ECVRF uses keys that could be generated adversarially, then the
-    the Verfier MUST first perform the validation procedure ECVRF_validate_key(PK)
+     Verifier MUST first perform the validation procedure ECVRF_validate_key(PK)
     (specified in <xref target="keycheck"/>)  upon receipt of the
     public key PK as an octet string.  If the validation procedure
     outputs "INVALID", then the public key MUST not be used.  
@@ -1373,7 +1373,7 @@
     </t>
     
     
-    <t>The RSA-FDH-VRF statisfies the "trusted uniqueness" and "trusted collision resistance" properties
+    <t>The RSA-FDH-VRF satisfies the "trusted uniqueness" and "trusted collision resistance" properties
     as long as the VRF keys are generated correctly, with good randomness.
     These properties may not hold if the keys are generated adversarially  
     (e.g., if the RSA function specified in the public key is not bijective). Meanwhile,
@@ -1381,7 +1381,7 @@
     properties that hold  even if VRF keys are generated by an adversary.
     The RSA-FDH-VRF defined in this document does not have these properties.
     However, if adversarial key generation is a concern, the
-    RSA-FDH-VRF may be modifed to have these 
+    RSA-FDH-VRF may be modified to have these
     properties by adding additional cryptographic checks
     that its public key has the right form.  These modifications are left for future specification.
     </t>
@@ -1405,12 +1405,12 @@
     
     <t><xref target="PWHVNRG17"/> presents cryptographic reductions to an
     underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the
-    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specificied in this 
+    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this
     document possess full pseudorandomness
     as well as selective pseudorandomness. 
     However, the cryptographic reductions are tighter for selective
     pseudorandomness than for full pseudorandomness.  This means that
-    the VRFs have quantitavely stronger security 
+    the VRFs have quantitively stronger security
     guarantees for selective pseudorandomness.
     </t>
     
@@ -1441,7 +1441,7 @@
     <t>
     The security of the ECVRF defined in this document relies on the 
     fact that the nonce k used in the ECVRF_prove algorithm is
-    chosen uniformly and pseudorandomly modulo q, and is unknown to the advesrary.
+    chosen uniformly and pseudorandomly modulo q, and is unknown to the adversary.
     Otherwise, an adversary may be able to recover
     the private VRF key x (and thus break pseudorandomness of the VRF)
     after observing several valid VRF proofs pi. The nonce generation methods
@@ -1510,7 +1510,7 @@
 </section>
  
  
- <section title="Hash function domain separation and future-proofing">
+ <section title="Hash function domain separation and futureproofing">
      <t>
          Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, hash_points, and proof_to_hash). The
          theoretical analysis assumes each of these functions is a separate random oracle.
@@ -1540,7 +1540,7 @@
          </list>
     </t>
      
-     <t>For the RSA VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash funciton used in proof_to_hash, in order to avoid the possibility
+     <t>For the RSA VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
          another variant
      </t>
@@ -1600,18 +1600,18 @@
                 ECVRF-ED25519-SHA256 suite_string to ECVRF-ED25519-SHA512. (This change
                 made because Ed25519 in <xref target="RFC8032"/> signatures 
                 use SHA512 and not SHA256.) 
-                Made ECVRF nonce generation a separate component, so that nonces are determinsitic.
+                Made ECVRF nonce generation a separate component, so that nonces are deterministic.
                 In ECVRF proving, changed + to - (and made corresponding
                 verification changes) in order to be consistent with EdDSA and ECDSA.
                 Highlighted that ECVRF_hash_to_curve acts like a prehash.
-                Added "suites" variable to ECVRF for future-proofing.
+                Added "suites" variable to ECVRF for futureproofing.
                 Ensured domain separation for hash functions by modifying hash_points and added
                 discussion about domain separation.
                 Updated todos in the "additional pseudorandomness property" 
-                section. Added an discussion of secrecy into security considerations.
+                section. Added a discussion of secrecy into security considerations.
                 Removed B and PK=Y from ECVRF_hash_points because they are already present
                 via H, which is computed via hash_to_curve using the suite_string (which identifies B) and Y.</t>
-                <t> 03 - Changed Ed25519 conversions to little-endian, to match RFC 8032;  added simple key validation for Ed25519; added Simple SWU cipher suite; clarified Elligator and removed the extra x0 bit, to make Montgomery and Edwards Elligator the same; added domain separation for RSA VRF; improved notation throughout; added nonce generation as a section; changed counter in try-and-increment from four bytes to one, to avoid endian issues; renamed try-and-increment ciphersuites to -TAI; added qLen as a separate paremeter; changed output length to hLen for ECVRF, to match RSAVRF; made Verify return beta so unverified proofs don't end
+                <t> 03 - Changed Ed25519 conversions to little-endian, to match RFC 8032;  added simple key validation for Ed25519; added Simple SWU cipher suite; clarified Elligator and removed the extra x0 bit, to make Montgomery and Edwards Elligator the same; added domain separation for RSA VRF; improved notation throughout; added nonce generation as a section; changed counter in try-and-increment from four bytes to one, to avoid endian issues; renamed try-and-increment ciphersuites to -TAI; added qLen as a separate parameter; changed output length to hLen for ECVRF, to match RSAVRF; made Verify return beta so unverified proofs don't end
                     up in proof_to_hash; added test vectors.</t>
                 <t> 04 - Clarified handling of optional arguments x and PK in ECVRF_prove. Edited implementation status to bring it up to date.</t>
                 <t> 05 - Renamed ed25519 into the more commonly used edwards25519. Corrected ECVRF_nonce_generation_RFC6979 (thanks to
@@ -1761,14 +1761,14 @@
     
     
     <section title="Test Vectors for the ECVRFs">
-        <t>The test vectors in this section were genereated using the reference implementation at <eref target ="https://github.com/reyzin/ecvrf" />.</t>
+        <t>The test vectors in this section were generated using the reference implementation at <eref target ="https://github.com/reyzin/ecvrf" />.</t>
         <section title="ECVRF-P256-SHA256-TAI">
         <t>These two example secret keys and messages are taken from Appendix A.2.5 of <xref target="RFC6979"/>.</t>
         <t>
         SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721 <vspace />
         PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6 <vspace />
         alpha = 73616d706c65 (ASCII "sample") <vspace />
-        try_and_increment succeded on ctr = 1 <vspace />
+        try_and_increment succeeded on ctr = 1 <vspace />
         H = 0272a877532e9ac193aff4401234266f59900a4a9e3fc3cfc6a4b7e467a15d06d4 <vspace />
         k = 0d90591273453d2dc67312d39914e3a93e194ab47a58cd598886897076986f77 <vspace />
         U = k*B = 02bb6a034f67643c6183c10f8b41dc4babf88bff154b674e377d90bde009c21672 <vspace />
@@ -1779,7 +1779,7 @@
         SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721 <vspace />
         PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6 <vspace />
         alpha = 74657374 (ASCII "test") <vspace />
-        try_and_increment succeded on ctr = 3 <vspace />
+        try_and_increment succeeded on ctr = 3 <vspace />
         H = 02173119b4fff5e6f8afed4868a29fe8920f1b54c2cf89cc7b301d0d473de6b974 <vspace />
         k = 5852353a868bdce26938cde1826723e58bf8cb06dd2fed475213ea6f3b12e961 <vspace />
         U = k*B = 022779a2cafcb65414c4a04a4b4d2adf4c50395f57995e89e6de823250d91bc48e <vspace />
@@ -1791,7 +1791,7 @@
         SK = x = 2ca1411a41b17b24cc8c3b089cfd033f1920202a6c0de8abb97df1498d50d2c8 <vspace />
         PK = 03596375e6ce57e0f20294fc46bdfcfd19a39f8161b58695b3ec5b3d16427c274d <vspace />
         alpha = 4578616d706c65207573696e67204543445341206b65792066726f6d20417070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035 (ASCII "Example using ECDSA key from Appendix L.4.2 of ANSI.X9-62-2005") <vspace />
-        try_and_increment succeded on ctr = 1 <vspace />
+        try_and_increment succeeded on ctr = 1 <vspace />
         H = 0258055c26c4b01d01c00fb57567955f7d39cd6f6e85fd37c58f696cc6b7aa761d <vspace />
         k = 5689e2e08e1110b4dda293ac21667eac6db5de4a46a519c73d533f69be2f4da3 <vspace />
         U = k*B = 020f465cd0ec74d2e23af0abde4c07e866ae4e5138bded5dd1196b8843f380db84 <vspace />
@@ -1854,7 +1854,7 @@
         PK = d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a <vspace />
         alpha =  (the empty string) <vspace />
         x = 307c83864f2833cb427a2ef1c00a013cfdff2768d980c0a3a520f006904de94f <vspace />
-        try_and_increment succeded on ctr = 0 <vspace />
+        try_and_increment succeeded on ctr = 0 <vspace />
         H = 91bbed02a99461df1ad4c6564a5f5d829d0b90cfc7903e7a5797bd658abf3318 <vspace />
         k = 7100f3d9eadb6dc4743b029736ff283f5be494128df128df2817106f345b8594b6d6da2d6fb0b4c0257eb337675d96eab49cf39e66cc2c9547c2bf8b2a6afae4 <vspace />
         U = k*B = aef27c725be964c6a9bf4c45ca8e35df258c1878b838f37d9975523f09034071 <vspace />
@@ -1866,7 +1866,7 @@
         PK = 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c <vspace />
         alpha = 72 (1 byte) <vspace />
         x = 68bd9ed75882d52815a97585caf4790a7f6c6b3b7f821c5e259a24b02e502e51 <vspace />
-        try_and_increment succeded on ctr = 1 <vspace />
+        try_and_increment succeeded on ctr = 1 <vspace />
         H = 5b659fc3d4e9263fd9a4ed1d022d75eaacc20df5e09f9ea937502396598dc551 <vspace />
         k = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c167cab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce <vspace />
         U = k*B = 1dcb0a4821a2c48bf53548228b7f170962988f6d12f5439f31987ef41f034ab3 <vspace />
@@ -1878,7 +1878,7 @@
         PK = fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025 <vspace />
         alpha = af82 (2 bytes) <vspace />
         x = 909a8b755ed902849023a55b15c23d11ba4d7f4ec5c2f51b1325a181991ea95c <vspace />
-        try_and_increment succeded on ctr = 0 <vspace />
+        try_and_increment succeeded on ctr = 0 <vspace />
         H = bf4339376f5542811de615e3313d2b36f6f53c0acfebb482159711201192576a <vspace />
         k = 38b868c335ccda94a088428cbf3ec8bc7955bfaffe1f3bd2aa2c59fc31a0febc59d0e1af3715773ce11b3bbdd7aba8e3505d4b9de6f7e4a96e67e0d6bb6d6c3a <vspace />
         U = k*B = 2bae73e15a64042fcebf062abe7e432b2eca6744f3e8265bc38e009cd577ecd5 <vspace />
