@@ -1112,7 +1112,7 @@
                     <t> suite_string = 0x02 = int_to_string(2, 1), a single octet with value 2.</t>
                     <t>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite"/>
                         with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_
-                        (the suite is defined in <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.1)</t>
+                        (the suite is defined in <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.2)</t>
                 </list>
         </t>
 
@@ -1174,7 +1174,7 @@
         <t>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite"/> with
             h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_
             (the suite is defined in
-            <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.4.)
+            <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.5.)
         </t>
         </list>
         </t>
@@ -1283,24 +1283,24 @@
         test vectors.
    </t>
   <t>
-      A Python implementation of a previous version of ECVRF-EDWARDS25519-SHA512-ELL2 is available at <eref target="https://github.com/integritychain/draft-irtf-cfrg-vrf-05" />.
+      A Python implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -05 version of this draft is available at <eref target="https://github.com/integritychain/draft-irtf-cfrg-vrf-05" />.
   </t>
 
   <t>
-      A C implementation of a previous version of ECVRF-EDWARDS25519-SHA512-ELL2 is available at <eref target="https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03" />.
+      A C implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -03 version of this draft is available at <eref target="https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03" />.
   </t>
 
   <t>
-      A Rust implementation of a previous version of ECVRF-P256-SHA256-TAI, as well as variants for the sect163k1 and secp256k1 curves, is available at <eref target="https://crates.io/crates/vrf" />.
+      A Rust implementation of an older version of ECVRF-P256-SHA256-TAI from the -05 version of this draft, as well as variants for the sect163k1 and secp256k1 curves, is available at <eref target="https://crates.io/crates/vrf" />.
   </t>
   <t>
-      A C implementation of a variant of this VRF for the secp256k1 curve is available at <eref target="https://github.com/aergoio/secp256k1-vrf" />.
+      A C implementation of a variant of ECVRF-P256-SHA256-TAI from the -05 version of this draft adapted for the secp256k1 curve is available at <eref target="https://github.com/aergoio/secp256k1-vrf" />.
   </t>
 
 
 
         <t>
-            An implementation of an earlier, slightly different, version of RSA-FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was
+            An implementation of an earlier version of RSA-FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was
             first developed
             as a part of the NSEC5 project <xref target="I-D.vcelak-nsec5" /> and is available
             at <eref target="http://github.com/fcelda/nsec5-crypto" />.
@@ -1311,27 +1311,27 @@
     <t>
     The Key Transparency project at Google
     uses a VRF implementation that is similar to
-    the ECVRF-P256-SHA256-TAI, with a few minor changes
+    the ECVRF-P256-SHA256-TAI, with a few changes
     including the use of SHA-512 instead of SHA-256. Its implementation
-    is available at <eref target="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/vrf.go" />
+    is available at <eref target="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/" />
     </t>
     
     
     <t>
-    An implementation by Yahoo! similar to the ECVRF is available at
+    An implementation by Ryuji Ishiguro following an older version of ECVRF-EDWARDS25519-SHA512-TAI from the -00 version of this draft is available at
     <eref target="https://github.com/r2ishiguro/vrf"/>.
     </t>
     
     
     <t>
-    An implementation similar to ECVRF is available as part of the
+    An implementation similar to ECVRF-EDWARDS25519-SHA512-ELL2 (with some changes, including the use of SHA-3) is available as part of the
     CONIKS implementation in Golang at 
     <eref target="https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf"/>.
     </t>
     
     
     <t>
-    Open Whisper Systems also uses a VRF very similar to 
+    Open Whisper Systems also uses a VRF similar to
     ECVRF-EDWARDS25519-SHA512-ELL2, called VXEdDSA, and specified here
     <eref target="https://whispersystems.org/docs/specifications/xeddsa/" />
     and here <eref target="https://moderncrypto.org/mail-archive/curves/2017/000925.html" />.
@@ -1618,7 +1618,7 @@
                     Gorka Irazoqui Apecechea and Mario Cao Cueto for finding the problem) and corresponding test vectors for the P256 suites. Added a reference to the Rust implementation.</t>
                 <t> 06 - Made some variable names more descriptive. Added a few implementation references.</t>
                 <t> 07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</t>
-		<t> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation.</t>
+		<t> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</t>
             </list>
         </t>
     </section>
@@ -1659,7 +1659,7 @@
         <?rfc include="reference.RFC.6234.xml"?>
         <?rfc include="reference.RFC.8032.xml"?>
         <?rfc include="reference.RFC.6979.xml"?>
-        <?rfc include="reference.I-D.draft-irtf-cfrg-hash-to-curve-07.xml"?>
+        <?rfc include="reference.I-D.draft-irtf-cfrg-hash-to-curve-10.xml"?>
 
 
         <reference anchor="FIPS-186-4" target = "https://csrc.nist.gov/publications/detail/fips/186/4/final">
@@ -1685,7 +1685,7 @@
     <references title="Informative References">
 
 
-        <reference anchor="PWHVNRG17" target="https://eprint.iacr.org/2017/099.pdf">
+        <reference anchor="PWHVNRG17" target="https://eprint.iacr.org/2017/099">
             <front>
                 <title>Making NSEC5 Practical for DNSSEC</title>
                 <author initials="D." surname="Papadopoulos"><organization /></author>
