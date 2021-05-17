@@ -1,3 +1,4 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
@@ -424,14 +425,14 @@
 <link href="#rfc.authors" rel="Chapter">
 
 
-  <meta name="generator" content="xml2rfc version 2.9.8 - https://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 3.7.0 - https://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
   <meta name="dct.creator" content="Goldberg, S., Reyzin, L., Papadopoulos, D., and J. Vcelak" />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-cfrg-vrf-08" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-18" />
-  <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  " />
-  <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  " />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-cfrg-vrf-09" />
+  <meta name="dct.issued" scheme="ISO8601" content="2020-17" />
+  <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
+  <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
 
 </head>
 
@@ -453,7 +454,7 @@
 <td class="right">L. Reyzin</td>
 </tr>
 <tr>
-<td class="left">Expires: May 22, 2021</td>
+<td class="left">Expires: November 18, 2021</td>
 <td class="right">Boston University and Algorand</td>
 </tr>
 <tr>
@@ -474,7 +475,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 18, 2020</td>
+<td class="right">May 17, 2020</td>
 </tr>
 
     	
@@ -482,7 +483,7 @@
   </table>
 
   <p class="title">Verifiable Random Functions (VRFs)<br />
-  <span class="filename">draft-irtf-cfrg-vrf-08</span></p>
+  <span class="filename">draft-irtf-cfrg-vrf-09</span></p>
   
   <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
 <p>A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).  </p>
@@ -490,7 +491,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 22, 2021.</p>
+<p>This Internet-Draft will expire on November 18, 2021.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -1287,16 +1288,17 @@
 <h1 id="rfc.section.6">
 <a href="#rfc.section.6">6.</a> <a href="#imp" id="imp">Implementation Status</a>
 </h1>
-<p id="rfc.section.6.p.1">A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/reyzin/ecvrf">https://github.com/reyzin/ecvrf</a><span>&gt;</span>. This implementation is neither secure nor especially efficient, but can be used to generate test vectors.  </p>
-<p id="rfc.section.6.p.2">A Python implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -05 version of this draft is available at <span>&lt;</span><a href="https://github.com/integritychain/draft-irtf-cfrg-vrf-05">https://github.com/integritychain/draft-irtf-cfrg-vrf-05</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.3">A C implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -03 version of this draft is available at <span>&lt;</span><a href="https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03">https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.4">A Rust implementation of an older version of ECVRF-P256-SHA256-TAI from the -05 version of this draft, as well as variants for the sect163k1 and secp256k1 curves, is available at <span>&lt;</span><a href="https://crates.io/crates/vrf">https://crates.io/crates/vrf</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.5">A C implementation of a variant of ECVRF-P256-SHA256-TAI from the -05 version of this draft adapted for the secp256k1 curve is available at <span>&lt;</span><a href="https://github.com/aergoio/secp256k1-vrf">https://github.com/aergoio/secp256k1-vrf</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.6">An implementation of an earlier version of RSA-FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was first developed as a part of the NSEC5 project <a href="#I-D.vcelak-nsec5" class="xref">[I-D.vcelak-nsec5]</a> and is available at <span>&lt;</span><a href="http://github.com/fcelda/nsec5-crypto">http://github.com/fcelda/nsec5-crypto</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.7">The Key Transparency project at Google uses a VRF implementation that is similar to the ECVRF-P256-SHA256-TAI, with a few changes including the use of SHA-512 instead of SHA-256. Its implementation is available at <span>&lt;</span><a href="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/">https://github.com/google/keytransparency/blob/master/core/crypto/vrf/</a><span>&gt;</span> </p>
-<p id="rfc.section.6.p.8">An implementation by Ryuji Ishiguro following an older version of ECVRF-EDWARDS25519-SHA512-TAI from the -00 version of this draft is available at <span>&lt;</span><a href="https://github.com/r2ishiguro/vrf">https://github.com/r2ishiguro/vrf</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.9">An implementation similar to ECVRF-EDWARDS25519-SHA512-ELL2 (with some changes, including the use of SHA-3) is available as part of the CONIKS implementation in Golang at <span>&lt;</span><a href="https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf">https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf</a><span>&gt;</span>.  </p>
-<p id="rfc.section.6.p.10">Open Whisper Systems also uses a VRF similar to ECVRF-EDWARDS25519-SHA512-ELL2, called VXEdDSA, and specified here <span>&lt;</span><a href="https://whispersystems.org/docs/specifications/xeddsa/">https://whispersystems.org/docs/specifications/xeddsa/</a><span>&gt;</span> and here <span>&lt;</span><a href="https://moderncrypto.org/mail-archive/curves/2017/000925.html">https://moderncrypto.org/mail-archive/curves/2017/000925.html</a><span>&gt;</span>.  Implementations in C and Java are available at <span>&lt;</span><a href="https://github.com/signalapp/curve25519-java">https://github.com/signalapp/curve25519-java</a><span>&gt;</span> and <span>&lt;</span><a href="https://github.com/wavesplatform/curve25519-java">https://github.com/wavesplatform/curve25519-java</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.1">Note to RFC editor: Remove before publication </p>
+<p id="rfc.section.6.p.2">A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-EDWARDS25519-SHA512-ELL2 is available at <span>&lt;</span><a href="https://github.com/reyzin/ecvrf">https://github.com/reyzin/ecvrf</a><span>&gt;</span>. This implementation is neither secure nor especially efficient, but can be used to generate test vectors.  </p>
+<p id="rfc.section.6.p.3">A Python implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -05 version of this draft is available at <span>&lt;</span><a href="https://github.com/integritychain/draft-irtf-cfrg-vrf-05">https://github.com/integritychain/draft-irtf-cfrg-vrf-05</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.4">A C implementation of an older version of ECVRF-EDWARDS25519-SHA512-ELL2 from the -03 version of this draft is available at <span>&lt;</span><a href="https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03">https://github.com/algorand/libsodium/tree/draft-irtf-cfrg-vrf-03/src/libsodium/crypto_vrf/ietfdraft03</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.5">A Rust implementation of an older version of ECVRF-P256-SHA256-TAI from the -05 version of this draft, as well as variants for the sect163k1 and secp256k1 curves, is available at <span>&lt;</span><a href="https://crates.io/crates/vrf">https://crates.io/crates/vrf</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.6">A C implementation of a variant of ECVRF-P256-SHA256-TAI from the -05 version of this draft adapted for the secp256k1 curve is available at <span>&lt;</span><a href="https://github.com/aergoio/secp256k1-vrf">https://github.com/aergoio/secp256k1-vrf</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.7">An implementation of an earlier version of RSA-FDH-VRF (SHA-256) and ECVRF-P256-SHA256-TAI was first developed as a part of the NSEC5 project <a href="#I-D.vcelak-nsec5" class="xref">[I-D.vcelak-nsec5]</a> and is available at <span>&lt;</span><a href="http://github.com/fcelda/nsec5-crypto">http://github.com/fcelda/nsec5-crypto</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.8">The Key Transparency project at Google uses a VRF implementation that is similar to the ECVRF-P256-SHA256-TAI, with a few changes including the use of SHA-512 instead of SHA-256. Its implementation is available at <span>&lt;</span><a href="https://github.com/google/keytransparency/blob/master/core/crypto/vrf/">https://github.com/google/keytransparency/blob/master/core/crypto/vrf/</a><span>&gt;</span> </p>
+<p id="rfc.section.6.p.9">An implementation by Ryuji Ishiguro following an older version of ECVRF-EDWARDS25519-SHA512-TAI from the -00 version of this draft is available at <span>&lt;</span><a href="https://github.com/r2ishiguro/vrf">https://github.com/r2ishiguro/vrf</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.10">An implementation similar to ECVRF-EDWARDS25519-SHA512-ELL2 (with some changes, including the use of SHA-3) is available as part of the CONIKS implementation in Golang at <span>&lt;</span><a href="https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf">https://github.com/coniks-sys/coniks-go/tree/master/crypto/vrf</a><span>&gt;</span>.  </p>
+<p id="rfc.section.6.p.11">Open Whisper Systems also uses a VRF similar to ECVRF-EDWARDS25519-SHA512-ELL2, called VXEdDSA, and specified here <span>&lt;</span><a href="https://whispersystems.org/docs/specifications/xeddsa/">https://whispersystems.org/docs/specifications/xeddsa/</a><span>&gt;</span> and here <span>&lt;</span><a href="https://moderncrypto.org/mail-archive/curves/2017/000925.html">https://moderncrypto.org/mail-archive/curves/2017/000925.html</a><span>&gt;</span>.  Implementations in C and Java are available at <span>&lt;</span><a href="https://github.com/signalapp/curve25519-java">https://github.com/signalapp/curve25519-java</a><span>&gt;</span> and <span>&lt;</span><a href="https://github.com/wavesplatform/curve25519-java">https://github.com/wavesplatform/curve25519-java</a><span>&gt;</span>.  </p>
 <h1 id="rfc.section.7">
 <a href="#rfc.section.7">7.</a> <a href="#securitycons" id="securitycons">Security Considerations</a>
 </h1>
@@ -1366,6 +1368,7 @@
 <li>06 - Made some variable names more descriptive. Added a few implementation references.</li>
 <li>07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</li>
 <li>08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
+<li>09 - Added a note to remove the implementation page before publication.</li>
 </ul>
 
 <p> </p>
@@ -1428,8 +1431,7 @@
 <table><tbody>
 <tr>
 <td class="reference"><b id="ANSI.X9-62-2005">[ANSI.X9-62-2005]</b></td>
-<td class="top">
-<a>American National Standards Institute</a>, "<a>Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)</a>",  ANSI X9.62, 2005.</td>
+<td class="top">"<a>Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)</a>",  ANSI X9.62, 2005.</td>
 </tr>
 <tr>
 <td class="reference"><b id="DGKR18">[DGKR18]</b></td>

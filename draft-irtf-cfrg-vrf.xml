@@ -10,7 +10,7 @@
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
 
-<rfc category="std" docName="draft-irtf-cfrg-vrf-08" ipr="trust200902">
+<rfc category="std" docName="draft-irtf-cfrg-vrf-09" ipr="trust200902">
     <front>
         <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
 
@@ -1276,7 +1276,11 @@
     
     
     <section title="Implementation Status" anchor="imp">
+        <t>
+            Note to RFC editor: Remove before publication
+        </t>
 
+        
   <t>
     A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-EDWARDS25519-SHA512-ELL2
     is available at <eref target ="https://github.com/reyzin/ecvrf" />. This implementation is neither secure nor especially efficient, but can be used to generate
@@ -1618,7 +1622,8 @@
                     Gorka Irazoqui Apecechea and Mario Cao Cueto for finding the problem) and corresponding test vectors for the P256 suites. Added a reference to the Rust implementation.</t>
                 <t> 06 - Made some variable names more descriptive. Added a few implementation references.</t>
                 <t> 07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</t>
-		<t> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</t>
+		        <t> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</t>
+                <t> 09 - Added a note to remove the implementation page before publication.</t>
             </list>
         </t>
     </section>
