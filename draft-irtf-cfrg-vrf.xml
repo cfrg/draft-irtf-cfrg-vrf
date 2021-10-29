@@ -1030,7 +1030,7 @@
                     c - integer between 0 and 2^(8n)-1
                     </t>
                     <t>
-                    s - integer between 0 and 2^(8qLen)-1
+                    s - integer between 0 and q-1
                     </t>
                 </list>
             </t>
@@ -1041,9 +1041,10 @@
                     <t>let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</t>
                     <t>let s_string =pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</t>
                     <t>Gamma = string_to_point(gamma_string)</t>
-                    <t>if Gamma = "INVALID" output "INVALID" and stop.</t>
+                    <t>if Gamma = "INVALID" output "INVALID" and stop</t>
                     <t>c = string_to_int(c_string)</t>
                     <t>s = string_to_int(s_string)</t>
+                    <t>if s >= q output "INVALID" and stop</t>
                     <t>Output Gamma, c, and s</t>
                 </list>
             </t>
