@@ -1,16 +1,20 @@
+
+
+
+
 CFRG                                                         S. Goldberg
 Internet-Draft                                         Boston University
 Intended status: Standards Track                               L. Reyzin
-Expires: November 18, 2021                Boston University and Algorand
+Expires: May 12, 2022                     Boston University and Algorand
                                                          D. Papadopoulos
                           Hong Kong University of Science and Technology
                                                                J. Vcelak
                                                                      NS1
-                                                            May 17, 2021
+                                                        November 8, 2021
 
 
                    Verifiable Random Functions (VRFs)
-                         draft-irtf-cfrg-vrf-09
+                         draft-irtf-cfrg-vrf-10
 
 Abstract
 
@@ -37,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on November 18, 2021.
+   This Internet-Draft will expire on May 12, 2022.
 
 Copyright Notice
 
@@ -49,9 +53,9 @@ Copyright Notice
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 1]
+Goldberg, et al.          Expires May 12, 2022                  [Page 1]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    (https://trustee.ietf.org/license-info) in effect on the date of
@@ -105,9 +109,9 @@ Table of Contents
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 2]
+Goldberg, et al.          Expires May 12, 2022                  [Page 2]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    8.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .  30
@@ -161,9 +165,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 3]
+Goldberg, et al.          Expires May 12, 2022                  [Page 3]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    beta or beta_string:  The VRF hash output.
@@ -217,9 +221,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 4]
+Goldberg, et al.          Expires May 12, 2022                  [Page 4]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 3.  VRF Security Properties
@@ -273,9 +277,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 5]
+Goldberg, et al.          Expires May 12, 2022                  [Page 5]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    VRF hash output beta (without its corresponding VRF proof pi) on any
@@ -329,9 +333,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 6]
+Goldberg, et al.          Expires May 12, 2022                  [Page 6]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    A formal definition of this property appears in Section 3.2 of
@@ -385,9 +389,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 7]
+Goldberg, et al.          Expires May 12, 2022                  [Page 7]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
       in octets, produces a big-endian representation of the integer,
@@ -441,9 +445,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 8]
+Goldberg, et al.          Expires May 12, 2022                  [Page 8]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 4.2.  RSA-FDH-VRF Proof to Hash
@@ -497,9 +501,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021               [Page 9]
+Goldberg, et al.          Expires May 12, 2022                  [Page 9]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    2.  m = RSAVP1((n, e), s)
@@ -553,9 +557,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 10]
+Goldberg, et al.          Expires May 12, 2022                 [Page 10]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
       ptLen - length, in octets, of an EC point encoded as an octet
@@ -609,9 +613,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 11]
+Goldberg, et al.          Expires May 12, 2022                 [Page 11]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
       octet strings as outputs, without introducing a separate elliptic
@@ -665,9 +669,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 12]
+Goldberg, et al.          Expires May 12, 2022                 [Page 12]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    8.  pi_string = point_to_string(Gamma) || int_to_string(c, n) ||
@@ -721,9 +725,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 13]
+Goldberg, et al.          Expires May 12, 2022                 [Page 13]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 5.3.  ECVRF Verifying
@@ -777,9 +781,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 14]
+Goldberg, et al.          Expires May 12, 2022                 [Page 14]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    This section specifies a number of such algorithms, which are not
@@ -833,9 +837,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 15]
+Goldberg, et al.          Expires May 12, 2022                 [Page 15]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    5.  H = "INVALID"
@@ -889,9 +893,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 16]
+Goldberg, et al.          Expires May 12, 2022                 [Page 16]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    2.  string_to_hash = PK_string || alpha_string
@@ -945,9 +949,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 17]
+Goldberg, et al.          Expires May 12, 2022                 [Page 17]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
       The secret key x is set equal to the VRF secret scalar x
@@ -1001,9 +1005,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 18]
+Goldberg, et al.          Expires May 12, 2022                 [Page 18]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    Steps:
@@ -1045,7 +1049,7 @@ Internet-Draft                     VRF                          May 2021
 
       c - integer between 0 and 2^(8n)-1
 
-      s - integer between 0 and 2^(8qLen)-1
+      s - integer between 0 and q-1
 
    Steps:
 
@@ -1057,20 +1061,22 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 19]
+Goldberg, et al.          Expires May 12, 2022                 [Page 19]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    4.  Gamma = string_to_point(gamma_string)
 
-   5.  if Gamma = "INVALID" output "INVALID" and stop.
+   5.  if Gamma = "INVALID" output "INVALID" and stop
 
    6.  c = string_to_int(c_string)
 
    7.  s = string_to_int(s_string)
 
-   8.  Output Gamma, c, and s
+   8.  if s >= q output "INVALID" and stop
+
+   9.  Output Gamma, c, and s
 
 5.5.  ECVRF Ciphersuites
 
@@ -1107,17 +1113,17 @@ Internet-Draft                     VRF                          May 2021
       such an implementation, the point_to_string function can be
       treated as the identity function.)
 
+
+
+
+
+Goldberg, et al.          Expires May 12, 2022                 [Page 20]
+
+Internet-Draft                     VRF                     November 2021
+
+
    o  The string_to_point function converts an octet string to an EC
       point according to the encoding specified in Section 2.3.4 of
-
-
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 20]
-
-Internet-Draft                     VRF                          May 2021
-
-
       [SECG1].  This function MUST output INVALID if the octet string
       does not decode to an EC point.
 
@@ -1164,16 +1170,16 @@ Internet-Draft                     VRF                          May 2021
    o  The string_to_int function interprets the string as an integer in
       little-endian representation.
 
+
+
+
+Goldberg, et al.          Expires May 12, 2022                 [Page 21]
+
+Internet-Draft                     VRF                     November 2021
+
+
    o  The point_to_string function converts an EC point to an octet
       string according to the encoding specified in Section 5.1.2 of
-
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 21]
-
-Internet-Draft                     VRF                          May 2021
-
-
       [RFC8032].  This implies ptLen = 2n = 32.  (Note that certain
       software implementations do not introduce a separate elliptic
       curve point type and instead directly treat the EC point as an
@@ -1220,16 +1226,16 @@ Internet-Draft                     VRF                          May 2021
    is untrusted, the Verifier MUST obtain E and B from a trusted source,
    such as a ciphersuite specification, rather than from the prover.
 
+
+
+
+Goldberg, et al.          Expires May 12, 2022                 [Page 22]
+
+Internet-Draft                     VRF                     November 2021
+
+
    This procedure supposes that the public key provided to the Verifier
    is an octet string.  The procedure returns "INVALID" if the public
-
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 22]
-
-Internet-Draft                     VRF                          May 2021
-
-
    key in invalid.  Otherwise, it returns Y, the public key as an EC
    point.
 
@@ -1277,15 +1283,14 @@ Internet-Draft                     VRF                          May 2021
    4.   oneTwentySeven_string = 0x7F = int_to_string(127, 1)
         (a single octet with value 127)
 
-   5.   y_string[31] = y_string[31] & oneTwentySeven_string
 
 
-
-Goldberg, et al.        Expires November 18, 2021              [Page 23]
+Goldberg, et al.          Expires May 12, 2022                 [Page 23]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
+   5.   y_string[31] = y_string[31] & oneTwentySeven_string
         (this step clears the high-order bit of octet 31)
 
    6.   bad_pk[0] = int_to_string(0, 32)
@@ -1332,16 +1337,17 @@ Internet-Draft                     VRF                          May 2021
    ecvrf>.  This implementation is neither secure nor especially
    efficient, but can be used to generate test vectors.
 
+
+
+
+
+Goldberg, et al.          Expires May 12, 2022                 [Page 24]
+
+Internet-Draft                     VRF                     November 2021
+
+
    A Python implementation of an older version of ECVRF-
    EDWARDS25519-SHA512-ELL2 from the -05 version of this draft is
-
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 24]
-
-Internet-Draft                     VRF                          May 2021
-
-
    available at <https://github.com/integritychain/draft-irtf-cfrg-vrf-
    05>.
 
@@ -1391,11 +1397,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 25]
+Goldberg, et al.          Expires May 12, 2022                 [Page 25]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 7.  Security Considerations
@@ -1449,9 +1453,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 26]
+Goldberg, et al.          Expires May 12, 2022                 [Page 26]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 7.2.  Selective vs Full Pseudorandomness
@@ -1505,9 +1509,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 27]
+Goldberg, et al.          Expires May 12, 2022                 [Page 27]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    The ECVRF_hash_to_curve_try_and_increment algorithm defined in
@@ -1561,9 +1565,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 28]
+Goldberg, et al.          Expires May 12, 2022                 [Page 28]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    separate random oracle.  This analysis still holds even if the same
@@ -1617,9 +1621,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 29]
+Goldberg, et al.          Expires May 12, 2022                 [Page 29]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 8.  Change Log
@@ -1673,9 +1677,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 30]
+Goldberg, et al.          Expires May 12, 2022                 [Page 30]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
       06 - Made some variable names more descriptive.  Added a few
@@ -1691,6 +1695,9 @@ Internet-Draft                     VRF                          May 2021
 
       09 - Added a note to remove the implementation page before
       publication.
+
+      10 - Added a check in ECVRF_decode_proof to ensure that s is
+      reduced mod q.
 
 9.  Contributors
 
@@ -1726,12 +1733,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-
-
-
-Goldberg, et al.        Expires November 18, 2021              [Page 31]
+Goldberg, et al.          Expires May 12, 2022                 [Page 31]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    [RFC5114]  Lepinski, M. and S. Kent, "Additional Diffie-Hellman
@@ -1785,9 +1789,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 32]
+Goldberg, et al.          Expires May 12, 2022                 [Page 32]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    [I-D.vcelak-nsec5]
@@ -1841,9 +1845,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 33]
+Goldberg, et al.          Expires May 12, 2022                 [Page 33]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
 Appendix A.  Test Vectors for the ECVRFs
@@ -1897,9 +1901,9 @@ A.1.  ECVRF-P256-SHA256-TAI
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 34]
+Goldberg, et al.          Expires May 12, 2022                 [Page 34]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    This example secret key is taken from Appendix L.4.2 of
@@ -1953,9 +1957,9 @@ A.2.  ECVRF-P256-SHA256-SSWU
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 35]
+Goldberg, et al.          Expires May 12, 2022                 [Page 35]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    V = k*H =
@@ -2009,9 +2013,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 36]
+Goldberg, et al.          Expires May 12, 2022                 [Page 36]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    In SSWU: x1 =
@@ -2065,9 +2069,9 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 37]
+Goldberg, et al.          Expires May 12, 2022                 [Page 37]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    U = k*B =
@@ -2121,9 +2125,9 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 38]
+Goldberg, et al.          Expires May 12, 2022                 [Page 38]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    U = k*B =
@@ -2177,9 +2181,9 @@ Internet-Draft                     VRF                          May 2021
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 39]
+Goldberg, et al.          Expires May 12, 2022                 [Page 39]
 
-Internet-Draft                     VRF                          May 2021
+Internet-Draft                     VRF                     November 2021
 
 
    U = k*B =
@@ -2233,4 +2237,4 @@ Authors' Addresses
 
 
 
-Goldberg, et al.        Expires November 18, 2021              [Page 40]
+Goldberg, et al.          Expires May 12, 2022                 [Page 40]
