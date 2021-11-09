@@ -855,7 +855,7 @@
 <li>string_to_int(a_string) - conversion of an octet string a_string to a nonnegative integer</li>
 <li>point_to_string - conversion of EC point to an ptLen-octet string</li>
 <li>string_to_point - conversion of an ptLen-octet string to EC point.  string_to_point returns INVALID if the octet string does not convert to a valid EC point.</li>
-<li>Note that with certain software libraries (for big integer and elliptic curve arithmetic), the int_to_string and point_to_string conversions are not needed.  For example, in some implementations, EC point operations will take octet strings as inputs and produce octet strings as outputs, without introducing a separate elliptic curve point type.  </li>
+<li>Note that with certain software libraries (for big integer and elliptic curve arithmetic), the int_to_string and point_to_string conversions are not needed, when the libraries encode integers and EC points in the same way as required by the ciphersuites.  For example, in some implementations, EC point operations will take octet strings as inputs and produce octet strings as outputs, without introducing a separate elliptic curve point type.  </li>
 </ul>
 
 <p> </p>
@@ -1171,9 +1171,9 @@
 <p id="rfc.section.5.4.4.p.4">Steps: </p>
 
 <ol>
-<li>let gamma_string = pi_string[0]...pi_string[ptLen-1]</li>
-<li>let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</li>
-<li>let s_string =pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</li>
+<li>gamma_string = pi_string[0]...pi_string[ptLen-1]</li>
+<li>c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</li>
+<li>s_string = pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</li>
 <li>Gamma = string_to_point(gamma_string)</li>
 <li>if Gamma = "INVALID" output "INVALID" and stop</li>
 <li>c = string_to_int(c_string)</li>
@@ -1191,7 +1191,7 @@
 <ul>
 <li>suite_string = 0x01 = int_to_string(1, 1), a single octet with value 1.</li>
 <li>The EC group G is the NIST P-256 elliptic curve, with curve parameters as specified in <a href="#FIPS-186-4" class="xref">[FIPS-186-4]</a> (Section D.1.2.3) and <a href="#RFC5114" class="xref">[RFC5114]</a>  (Section 2.6). For this group, 2n = qLen =  32 and cofactor = 1.  </li>
-<li>The key pair generation primitive is specified in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a> (q, B, SK, and PK in this document correspond to n, G, d, and Q in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a>).  In this ciphersuite, the secret scalar x is equal to the private key SK.  </li>
+<li>The key pair generation primitive is specified in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a> (q, B, SK, and Y in this document correspond to n, G, d, and Q in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a>).  In this ciphersuite, the secret scalar x is equal to the private key SK.  </li>
 <li>The ECVRF_nonce_generation function is as specified in <a href="#nonceP256" class="xref">Section 5.4.2.1</a>.</li>
 <li>The int_to_string function is the I2OSP function specified in Section 4.1 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big-endian representation.)</li>
 <li>The string_to_int function is the OS2IP function specified in Section 4.2 of <a href="#RFC8017" class="xref">[RFC8017]</a>. (This is big-endian representation.)</li>
@@ -1239,7 +1239,7 @@
 <a href="#rfc.section.5.6">5.6.</a> <a href="#keycheck" id="keycheck">When the ECVRF Keys are Untrusted</a>
 </h1>
 <p id="rfc.section.5.6.p.1">The ECVRF as specified above is a VRF that satisfies the "trusted uniqueness", "trusted collision resistance", and "full pseudorandomness" properties defined in <a href="#secdef" class="xref">Section 3</a>.  In order to obtain "full uniqueness" and "full collision resistance" (which provide protection against a malicious VRF public key), the Verifier MUST perform the following additional validation procedure upon receipt of the public VRF key. The public VRF key MUST NOT be used if this procedure returns "INVALID".  </p>
-<p id="rfc.section.5.6.p.2">Note that this procedure is not sufficient if the elliptic curve E or the point B, the generator of group G, is untrusted. If the prover is untrusted, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover.  </p>
+<p id="rfc.section.5.6.p.2">Note that this procedure is not sufficient if the elliptic curve E or the point B, the generator of group G, is untrusted. If the prover is untrusted, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover.  Ciphersuites in this document specify E and B.  </p>
 <p id="rfc.section.5.6.p.3">This procedure supposes that the public key provided to the Verifier is an octet string. The procedure returns "INVALID" if the public key in invalid.  Otherwise, it returns Y, the public key as an EC point.  </p>
 <h1 id="rfc.section.5.6.1">
 <a href="#rfc.section.5.6.1">5.6.1.</a> ECVRF Validate Key</h1>
@@ -1314,7 +1314,7 @@
 <a href="#rfc.section.7.1.1">7.1.1.</a> <a href="#untrustedkeys" id="untrustedkeys">Uniqueness and collision resistance with untrusted keys</a>
 </h1>
 <p id="rfc.section.7.1.1.p.1">The ECVRF as specified in <a href="#ecvrfprove" class="xref">Section 5.1</a>-<a href="#suites" class="xref">Section 5.5</a> satisfies the "trusted uniqueness" (see <a href="#uniqueness" class="xref">Section 3.1</a>) and "trusted collision resistance" (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties as long as the VRF keys are generated correctly, with good randomness.  If the Verifier trusts the VRF keys are generated correctly, it MAY use the public key Y as is.  </p>
-<p id="rfc.section.7.1.1.p.2">However, if the ECVRF uses keys that could be generated adversarially, then the Verifier MUST first perform the validation procedure ECVRF_validate_key(PK) (specified in <a href="#keycheck" class="xref">Section 5.6</a>)  upon receipt of the public key PK as an octet string.  If the validation procedure outputs "INVALID", then the public key MUST not be used.  Otherwise, the procedure will output a valid public key Y, and the ECVRF with public key Y satisfies the "full uniqueness" and "full collision resistance" properties.  </p>
+<p id="rfc.section.7.1.1.p.2">However, if the ECVRF uses keys that could be generated adversarially, then the Verifier MUST first perform the validation procedure ECVRF_validate_key(PK_string) (specified in <a href="#keycheck" class="xref">Section 5.6</a>)  upon receipt of the public key as an octet string.  If the validation procedure outputs "INVALID", then the public key MUST not be used.  Otherwise, the procedure will output a valid public key Y, and the ECVRF with public key Y satisfies the "full uniqueness" and "full collision resistance" properties.  </p>
 <p id="rfc.section.7.1.1.p.3">The RSA-FDH-VRF satisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  These properties may not hold if the keys are generated adversarially (e.g., if the RSA function specified in the public key is not bijective). Meanwhile, the "full uniqueness" and "full collision resistance" are properties that hold  even if VRF keys are generated by an adversary.  The RSA-FDH-VRF defined in this document does not have these properties.  However, if adversarial key generation is a concern, the RSA-FDH-VRF may be modified to have these properties by adding additional cryptographic checks that its public key has the right form.  These modifications are left for future specification.  </p>
 <h1 id="rfc.section.7.1.2">
 <a href="#rfc.section.7.1.2">7.1.2.</a> Pseudorandomness with untrusted keys</h1>
@@ -1336,9 +1336,11 @@
 <p id="rfc.section.7.3.p.1">The security of the ECVRF defined in this document relies on the fact that the nonce k used in the ECVRF_prove algorithm is chosen uniformly and pseudorandomly modulo q, and is unknown to the adversary.  Otherwise, an adversary may be able to recover the private VRF key x (and thus break pseudorandomness of the VRF) after observing several valid VRF proofs pi. The nonce generation methods specified in the ECVRF ciphersuites of <a href="#suites" class="xref">Section 5.5</a> are designed with this requirement in mind.  </p>
 <h1 id="rfc.section.7.4">
 <a href="#rfc.section.7.4">7.4.</a> Side-channel attacks</h1>
-<p id="rfc.section.7.4.p.1">Side channel attacks on cryptographic primitives are an important issue.  Here we discuss only one such side channel:  timing attacks that can be used to leak information about the VRF input alpha.  Implementers should take care to avoid side-channel attacks that leak information about the VRF private key SK (and the nonce k used in the ECVRF).</p>
-<p id="rfc.section.7.4.p.2">The ECVRF_hash_to_curve_try_and_increment algorithm defined in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a> SHOULD NOT be used in applications where the VRF input alpha is secret and is hashed by the VRF on-the-fly.  This is because the algorithm's running time depends on the VRF input alpha, and thus creates a timing channel that can be used to learn information about alpha.  That said, for most inputs the amount of information obtained from such a timing attack is likely to be small (1 bit, on average), since the algorithm is expected to find a valid curve point after only two attempts.  However, there might be inputs which cause the algorithm to make many attempts before it finds a valid curve point; for such inputs, the information leaked in a timing attack will be more than 1 bit.  </p>
-<p id="rfc.section.7.4.p.3">ECVRF-P256-SHA256-SSWU and ECVRF-EDWARDS25519-SHA512-ELL2 can be made to run in time independent of alpha, following recommendations in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a>.  </p>
+<p id="rfc.section.7.4.p.1">Side channel attacks on cryptographic primitives are an important issue.  Implementers should take care to avoid side-channel attacks that leak information about the VRF private key SK (and the nonce k used in the ECVRF), which is used in VRF_prove.  In most applications, VRF_proof_to_hash and VRF_verify algorithms take only inputs that are public, and thus side channel attacks are typically not a concern for these algorithms.  </p>
+<p id="rfc.section.7.4.p.2">The VRF input alpha may be also a sensitive input to VRF_prove and may need to be protected against side channel attacks.  Below we discuss one particular class of such attacks: timing attacks that can be used to leak information about the VRF input alpha.  </p>
+<p id="rfc.section.7.4.p.3">The ECVRF_hash_to_curve_try_and_increment algorithm defined in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a> SHOULD NOT be used in applications where the VRF input alpha is secret and is hashed by the VRF on-the-fly.  This is because the algorithm's running time depends on the VRF input alpha, and thus creates a timing channel that can be used to learn information about alpha.  That said, for most inputs the amount of information obtained from such a timing attack is likely to be small (1 bit, on average), since the algorithm is expected to find a valid curve point after only two attempts.  However, there might be inputs which cause the algorithm to make many attempts before it finds a valid curve point; for such inputs, the information leaked in a timing attack will be more than 1 bit.  </p>
+<p id="rfc.section.7.4.p.4">ECVRF-P256-SHA256-SSWU and ECVRF-EDWARDS25519-SHA512-ELL2 can be made to run in time independent of alpha, following recommendations in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a>.  </p>
+<p></p>
 <h1 id="rfc.section.7.5">
 <a href="#rfc.section.7.5">7.5.</a> Proofs provide no secrecy for the VRF input</h1>
 <p id="rfc.section.7.5.p.1">The VRF proof pi is not designed to provide secrecy and, in general, may reveal the VRF input alpha.  Anyone who knows PK and pi is able to perform an offline dictionary attack to search for alpha, by verifying guesses for alpha using VRF_verify.  This is in contrast to the VRF hash output beta which, without the proof, is pseudorandom and thus is designed to reveal no information about alpha.  </p>

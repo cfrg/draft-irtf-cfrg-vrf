@@ -629,7 +629,9 @@
                 <t>
                     Note that with certain software libraries
                     (for big integer and elliptic curve arithmetic),
-                    the int_to_string and point_to_string conversions are not needed.
+                    the int_to_string and point_to_string conversions are not needed, when
+                    the libraries encode integers and EC points in the same way as required
+                    by the ciphersuites.
                     For example, in some implementations, EC point
                     operations will take octet strings as inputs and
                     produce octet strings as outputs, without introducing
@@ -1057,9 +1059,9 @@
             <t>
                 Steps:
                 <list style="numbers">
-                    <t>let gamma_string = pi_string[0]...pi_string[ptLen-1]</t>
-                    <t>let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</t>
-                    <t>let s_string =pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</t>
+                    <t>gamma_string = pi_string[0]...pi_string[ptLen-1]</t>
+                    <t>c_string = pi_string[ptLen]...pi_string[ptLen+n-1]</t>
+                    <t>s_string = pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]</t>
                     <t>Gamma = string_to_point(gamma_string)</t>
                     <t>if Gamma = "INVALID" output "INVALID" and stop</t>
                     <t>c = string_to_int(c_string)</t>
@@ -1085,7 +1087,7 @@
             2n = qLen =  32 and cofactor = 1.
         </t>
         <t> The key pair generation primitive is specified in
-            Section 3.2.1 of <xref target="SECG1" /> (q, B, SK, and PK in this document
+            Section 3.2.1 of <xref target="SECG1" /> (q, B, SK, and Y in this document
             correspond to n, G, d, and Q in Section 3.2.1 of <xref target="SECG1" />).
             In this ciphersuite, the secret scalar x is equal to the private key SK.
         </t>
@@ -1222,6 +1224,7 @@
         the Verifier MUST
         obtain E and B from a trusted source, such as a ciphersuite specification, rather
         than from the prover.
+        Ciphersuites in this document specify E and B.
         </t>
         
         <t> This procedure supposes that the public key provided to the Verifier is an octet 
@@ -1389,9 +1392,9 @@
     
     <t>
     However, if the ECVRF uses keys that could be generated adversarially, then the
-     Verifier MUST first perform the validation procedure ECVRF_validate_key(PK)
+     Verifier MUST first perform the validation procedure ECVRF_validate_key(PK_string)
     (specified in <xref target="keycheck"/>)  upon receipt of the
-    public key PK as an octet string.  If the validation procedure
+    public key as an octet string.  If the validation procedure
     outputs "INVALID", then the public key MUST not be used.  
     Otherwise, the procedure will output a valid public key Y,
     and the ECVRF with public key Y satisfies the "full uniqueness" and
@@ -1481,10 +1484,21 @@
   <section title="Side-channel attacks">
     
     <t>Side channel attacks on cryptographic primitives are an important issue.
-    Here we discuss only one such side channel:  timing attacks that can 
-    be used to leak information about the VRF input alpha.  Implementers should
-    take care to avoid side-channel attacks that leak information about 
-    the VRF private key SK (and the nonce k used in the ECVRF).</t>
+        Implementers should
+       take care to avoid side-channel attacks that leak information about
+       the VRF private key SK (and the nonce k used in the ECVRF), which is
+       used in VRF_prove.
+       In most applications, VRF_proof_to_hash and VRF_verify
+       algorithms take only inputs that are public, and thus side channel
+       attacks are typically not a concern for these algorithms.
+    </t>
+    
+    <t>
+    The VRF input alpha may be also a sensitive input to VRF_prove and may
+    need to be protected against side channel attacks.
+    Below we discuss one particular class of such attacks: timing attacks that can
+    be used to leak information about the VRF input alpha.
+    </t>
         
     <t>The ECVRF_hash_to_curve_try_and_increment algorithm defined in
     <xref target="ecvrfH2C1" /> SHOULD NOT be used in applications where
@@ -1503,6 +1517,10 @@
     
     <t>ECVRF-P256-SHA256-SSWU and ECVRF-EDWARDS25519-SHA512-ELL2 can be made to
         run in time independent of alpha, following recommendations in <xref target="I-D.irtf-cfrg-hash-to-curve"/>.
+    </t>
+    
+    <t>
+        
     </t>
     
     
