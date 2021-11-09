@@ -231,7 +231,7 @@
    </t>
    
    
-   <section title= "Full Uniqueness or Trusted Uniqueness">
+   <section title= "Full Uniqueness or Trusted Uniqueness" anchor="uniqueness">
 	
     <t> Uniqueness means that, for any fixed public
 	VRF key and for any input alpha, there is a unique VRF
@@ -251,16 +251,22 @@
     </t>
     
     <t>
-     A slightly weaker security
-     property called "trusted uniqueness" suffices for many applications.
-     Trusted uniqueness is the same as full uniqueness, but it must hold 
+     For many applications, a slightly weaker security
+     property called "trusted uniqueness" suffices.
+     Trusted uniqueness is the same as full uniqueness, but it is guaranteed to hold
      only if the VRF keys PK and SK were generated in a trustworthy 
-     manner. In other words, uniqueness might not hold if keys were
-     generated in an invalid manner or with bad randomness.
+     manner.
 	</t>
+    
+    <t>
+        As further discussed in <xref target="untrustedkeys" />,
+        some VRFs specified in this document satisfy only trusted uniqueness, while others satisfy full uniqueness.
+        VRFs in this document that satisfy only trusted uniqueness but not full uniqueness MUST NOT be used if the key generation
+        process cannot be trusted.
+    </t>
 	</section>
 
-	<section title="Full Collison Resistance or Trusted Collision Resistance">
+	<section title="Full Collison Resistance or Trusted Collision Resistance" anchor="collisionresistance">
 
     <t>Like any cryptographic hash function, VRFs need to be
         collision resistant.  Collison resistance must hold
@@ -275,10 +281,17 @@
     </t>
     
     <t>
-	    For most applications, a slightly weaker security property
+	    For many applications, a slightly weaker security property
         called "trusted collision resistance" suffices. 
         Trusted collision resistance is the same as collision resistance, 
-        but it holds only if PK and SK were generated in a trustworthy manner.
+        but it is guaranteed to hold only if the VRF keys PK and SK were generated in a trustworthy manner.
+    </t>
+
+    <t>
+        As further discussed in <xref target="untrustedkeys" />,
+        some VRFs specified in this document satisfy only trusted collision resistance, while others satisfy full collision resistance.
+        VRFs in this document that satisfy only trusted collision resistance but not full collision resistance MUST NOT be used if the key generation
+        process cannot be trusted.
     </t>
    </section>
 
@@ -315,6 +328,13 @@
          and before it  observes VRF outputs beta'
          and proofs pi' on inputs alpha' of its choice.
 	     </t>
+         
+         <t>
+             As further discussed in <xref target="prsecurity" />,
+             VRFs specified in this document satisfy both full pseudorandomness and selective pseudorandomness,
+             but their quantitative security against the selective pseudorandomness attack is stronger.
+         </t>
+
          
 	<t> 
 	   It is important to remember that the VRF output beta does not 
@@ -1357,10 +1377,11 @@
     using good randomness.
     </t>
     
-    <section title="Uniqueness and collision resistance with untrusted keys">
+    <section title="Uniqueness and collision resistance with untrusted keys" anchor="untrustedkeys">
         
     <t>The ECVRF as specified in <xref target="ecvrfprove"/>-<xref target="suites"/>
-    satisfies the "trusted uniqueness" and "trusted collision resistance" properties
+    satisfies the "trusted uniqueness" (see <xref target="uniqueness" />)
+    and "trusted collision resistance" (see <xref target="collisionresistance" />) properties
     as long as the VRF keys are generated correctly, with good randomness.
     If the Verifier trusts the VRF keys are generated correctly, it MAY use 
     the public key Y as is.
@@ -1406,13 +1427,14 @@
 
 
     
-    <section title="Selective vs Full Pseudorandomness">
+    <section title="Selective vs. Full Pseudorandomness" anchor="prsecurity">
     
     <t><xref target="PWHVNRG17"/> presents cryptographic reductions to an
     underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the
     standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this
     document possess full pseudorandomness
-    as well as selective pseudorandomness. 
+    as well as selective pseudorandomness
+    (see <xref target="pseudodef" /> for an explanation of these notions).
     However, the cryptographic reductions are tighter for selective
     pseudorandomness than for full pseudorandomness.  This means that
     the VRFs have quantitively stronger security
@@ -1625,7 +1647,7 @@
                 <t> 07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</t>
 		        <t> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</t>
                 <t> 09 - Added a note to remove the implementation page before publication.</t>
-                <t> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q.</t>
+                <t> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </t>
             </list>
         </t>
     </section>

@@ -405,7 +405,7 @@
 <link href="#rfc.section.7.1" rel="Chapter" title="7.1 Key Generation">
 <link href="#rfc.section.7.1.1" rel="Chapter" title="7.1.1 Uniqueness and collision resistance with untrusted keys">
 <link href="#rfc.section.7.1.2" rel="Chapter" title="7.1.2 Pseudorandomness with untrusted keys">
-<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Selective vs Full Pseudorandomness">
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Selective vs. Full Pseudorandomness">
 <link href="#rfc.section.7.3" rel="Chapter" title="7.3 Proper pseudorandom nonce for ECVRF">
 <link href="#rfc.section.7.4" rel="Chapter" title="7.4 Side-channel attacks">
 <link href="#rfc.section.7.5" rel="Chapter" title="7.5 Proofs provide no secrecy for the VRF input">
@@ -429,7 +429,7 @@
 
   <meta name="dct.creator" content="Goldberg, S., Reyzin, L., Papadopoulos, D., and J. Vcelak" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-cfrg-vrf-10" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-08" />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-09" />
   <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
   <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
 
@@ -453,7 +453,7 @@
 <td class="right">L. Reyzin</td>
 </tr>
 <tr>
-<td class="left">Expires: May 12, 2022</td>
+<td class="left">Expires: May 13, 2022</td>
 <td class="right">Boston University and Algorand</td>
 </tr>
 <tr>
@@ -474,7 +474,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 8, 2021</td>
+<td class="right">November 9, 2021</td>
 </tr>
 
     	
@@ -490,7 +490,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 12, 2022.</p>
+<p>This Internet-Draft will expire on May 13, 2022.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2021 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -562,7 +562,7 @@
 </li>
 <li>7.1.2.   <a href="#rfc.section.7.1.2">Pseudorandomness with untrusted keys</a>
 </li>
-</ul><li>7.2.   <a href="#rfc.section.7.2">Selective vs Full Pseudorandomness</a>
+</ul><li>7.2.   <a href="#rfc.section.7.2">Selective vs. Full Pseudorandomness</a>
 </li>
 <li>7.3.   <a href="#rfc.section.7.3">Proper pseudorandom nonce for ECVRF</a>
 </li>
@@ -663,15 +663,19 @@
 </h1>
 <p id="rfc.section.3.p.1">VRFs are designed to ensure the following security properties.  </p>
 <h1 id="rfc.section.3.1">
-<a href="#rfc.section.3.1">3.1.</a> Full Uniqueness or Trusted Uniqueness</h1>
+<a href="#rfc.section.3.1">3.1.</a> <a href="#uniqueness" id="uniqueness">Full Uniqueness or Trusted Uniqueness</a>
+</h1>
 <p id="rfc.section.3.1.p.1">Uniqueness means that, for any fixed public VRF key and for any input alpha, there is a unique VRF output beta that can be proved to be valid.  Uniqueness must hold even for an adversarial Prover that knows the VRF private key SK.  </p>
 <p id="rfc.section.3.1.p.2">More precisely, "full uniqueness" states that a computationally-bounded adversary cannot choose a VRF public key PK, a VRF input alpha, and two proofs pi1 and pi2 such that VRF_verify(PK, alpha, pi1) outputs (VALID, beta1), VRF_verify(PK, alpha, pi2) outputs (VALID, beta2), and beta1 is not equal to beta2.  </p>
-<p id="rfc.section.3.1.p.3">A slightly weaker security property called "trusted uniqueness" suffices for many applications.  Trusted uniqueness is the same as full uniqueness, but it must hold only if the VRF keys PK and SK were generated in a trustworthy manner. In other words, uniqueness might not hold if keys were generated in an invalid manner or with bad randomness.  </p>
+<p id="rfc.section.3.1.p.3">For many applications, a slightly weaker security property called "trusted uniqueness" suffices.  Trusted uniqueness is the same as full uniqueness, but it is guaranteed to hold only if the VRF keys PK and SK were generated in a trustworthy manner.  </p>
+<p id="rfc.section.3.1.p.4">As further discussed in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>, some VRFs specified in this document satisfy only trusted uniqueness, while others satisfy full uniqueness.  VRFs in this document that satisfy only trusted uniqueness but not full uniqueness MUST NOT be used if the key generation process cannot be trusted.  </p>
 <h1 id="rfc.section.3.2">
-<a href="#rfc.section.3.2">3.2.</a> Full Collison Resistance or Trusted Collision Resistance</h1>
+<a href="#rfc.section.3.2">3.2.</a> <a href="#collisionresistance" id="collisionresistance">Full Collison Resistance or Trusted Collision Resistance</a>
+</h1>
 <p id="rfc.section.3.2.p.1">Like any cryptographic hash function, VRFs need to be collision resistant.  Collison resistance must hold even for an adversarial Prover that knows the VRF private key SK.  </p>
 <p id="rfc.section.3.2.p.2">More precisely, "full collision resistance" states that it should be computationally infeasible for an adversary to find two distinct VRF inputs alpha1 and alpha2 that have the same VRF hash beta, even if that adversary knows the private VRF key SK.  </p>
-<p id="rfc.section.3.2.p.3">For most applications, a slightly weaker security property called "trusted collision resistance" suffices.  Trusted collision resistance is the same as collision resistance, but it holds only if PK and SK were generated in a trustworthy manner.  </p>
+<p id="rfc.section.3.2.p.3">For many applications, a slightly weaker security property called "trusted collision resistance" suffices.  Trusted collision resistance is the same as collision resistance, but it is guaranteed to hold only if the VRF keys PK and SK were generated in a trustworthy manner.  </p>
+<p id="rfc.section.3.2.p.4">As further discussed in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>, some VRFs specified in this document satisfy only trusted collision resistance, while others satisfy full collision resistance.  VRFs in this document that satisfy only trusted collision resistance but not full collision resistance MUST NOT be used if the key generation process cannot be trusted.  </p>
 <h1 id="rfc.section.3.3">
 <a href="#rfc.section.3.3">3.3.</a> <a href="#pseudodef" id="pseudodef">Full Pseudorandomness or Selective Pseudorandomness</a>
 </h1>
@@ -679,9 +683,10 @@
 <p id="rfc.section.3.3.p.2">More precisely, suppose the public and private VRF keys (PK, SK) were generated in a trustworthy manner.  Pseudorandomness ensures that the VRF hash output beta (without its corresponding VRF proof pi) on any adversarially-chosen "target" VRF input alpha looks indistinguishable from random for any computationally bounded adversary who does not know the private VRF key SK.  This holds even if the adversary also gets to choose other VRF inputs alpha' and observe their corresponding VRF hash outputs beta' and proofs pi'.  </p>
 <p id="rfc.section.3.3.p.3">With "full pseudorandomness", the adversary is allowed to choose the "target" VRF input  alpha at any time, even after it observes VRF outputs beta' and proofs pi' on a variety of chosen inputs alpha'.  </p>
 <p id="rfc.section.3.3.p.4">"Selective pseudorandomness" is a weaker security property which suffices in many applications. Here, the adversary must choose the target VRF input alpha independently of the public VRF key PK, and before it  observes VRF outputs beta' and proofs pi' on inputs alpha' of its choice.  </p>
-<p id="rfc.section.3.3.p.5">It is important to remember that the VRF output beta does not look random to the Prover, or to any other party that knows the private VRF key SK!  Such a party can easily distinguish beta from a random value by comparing beta to the result of VRF_hash(SK, alpha).  </p>
-<p id="rfc.section.3.3.p.6">Also, the VRF output beta does not look random to any party that knows the valid VRF proof pi corresponding to the VRF input alpha, even if this party does not know the private VRF key SK.  Such a party can easily distinguish beta from a random value by checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).  </p>
-<p id="rfc.section.3.3.p.7">Also, the VRF output beta may not look random if VRF key generation was not done in a trustworthy fashion. (For example, if VRF keys were generated with bad randomness.) </p>
+<p id="rfc.section.3.3.p.5">As further discussed in <a href="#prsecurity" class="xref">Section 7.2</a>, VRFs specified in this document satisfy both full pseudorandomness and selective pseudorandomness, but their quantitative security against the selective pseudorandomness attack is stronger.  </p>
+<p id="rfc.section.3.3.p.6">It is important to remember that the VRF output beta does not look random to the Prover, or to any other party that knows the private VRF key SK!  Such a party can easily distinguish beta from a random value by comparing beta to the result of VRF_hash(SK, alpha).  </p>
+<p id="rfc.section.3.3.p.7">Also, the VRF output beta does not look random to any party that knows the valid VRF proof pi corresponding to the VRF input alpha, even if this party does not know the private VRF key SK.  Such a party can easily distinguish beta from a random value by checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).  </p>
+<p id="rfc.section.3.3.p.8">Also, the VRF output beta may not look random if VRF key generation was not done in a trustworthy fashion. (For example, if VRF keys were generated with bad randomness.) </p>
 <h1 id="rfc.section.3.4">
 <a href="#rfc.section.3.4">3.4.</a> A random-oracle-like unpredictability property</h1>
 <p id="rfc.section.3.4.p.1">As explained in <a href="#pseudodef" class="xref">Section 3.3</a>, pseudorandomness is guaranteed only if the VRF keys were generated in a trustworthy fashion.  For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone and are therefore not pseudorandom.  </p>
@@ -1306,16 +1311,18 @@
 <a href="#rfc.section.7.1">7.1.</a> Key Generation</h1>
 <p id="rfc.section.7.1.p.1">Applications that use the VRFs defined in this document MUST ensure that that the VRF key is generated correctly, using good randomness.  </p>
 <h1 id="rfc.section.7.1.1">
-<a href="#rfc.section.7.1.1">7.1.1.</a> Uniqueness and collision resistance with untrusted keys</h1>
-<p id="rfc.section.7.1.1.p.1">The ECVRF as specified in <a href="#ecvrfprove" class="xref">Section 5.1</a>-<a href="#suites" class="xref">Section 5.5</a> satisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  If the Verifier trusts the VRF keys are generated correctly, it MAY use the public key Y as is.  </p>
+<a href="#rfc.section.7.1.1">7.1.1.</a> <a href="#untrustedkeys" id="untrustedkeys">Uniqueness and collision resistance with untrusted keys</a>
+</h1>
+<p id="rfc.section.7.1.1.p.1">The ECVRF as specified in <a href="#ecvrfprove" class="xref">Section 5.1</a>-<a href="#suites" class="xref">Section 5.5</a> satisfies the "trusted uniqueness" (see <a href="#uniqueness" class="xref">Section 3.1</a>) and "trusted collision resistance" (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties as long as the VRF keys are generated correctly, with good randomness.  If the Verifier trusts the VRF keys are generated correctly, it MAY use the public key Y as is.  </p>
 <p id="rfc.section.7.1.1.p.2">However, if the ECVRF uses keys that could be generated adversarially, then the Verifier MUST first perform the validation procedure ECVRF_validate_key(PK) (specified in <a href="#keycheck" class="xref">Section 5.6</a>)  upon receipt of the public key PK as an octet string.  If the validation procedure outputs "INVALID", then the public key MUST not be used.  Otherwise, the procedure will output a valid public key Y, and the ECVRF with public key Y satisfies the "full uniqueness" and "full collision resistance" properties.  </p>
 <p id="rfc.section.7.1.1.p.3">The RSA-FDH-VRF satisfies the "trusted uniqueness" and "trusted collision resistance" properties as long as the VRF keys are generated correctly, with good randomness.  These properties may not hold if the keys are generated adversarially (e.g., if the RSA function specified in the public key is not bijective). Meanwhile, the "full uniqueness" and "full collision resistance" are properties that hold  even if VRF keys are generated by an adversary.  The RSA-FDH-VRF defined in this document does not have these properties.  However, if adversarial key generation is a concern, the RSA-FDH-VRF may be modified to have these properties by adding additional cryptographic checks that its public key has the right form.  These modifications are left for future specification.  </p>
 <h1 id="rfc.section.7.1.2">
 <a href="#rfc.section.7.1.2">7.1.2.</a> Pseudorandomness with untrusted keys</h1>
 <p id="rfc.section.7.1.2.p.1">Without good randomness, the "pseudorandomness" properties of the VRF may not hold. Note that it is not possible to guarantee pseudorandomness in the face of adversarially generated VRF keys.  This is because an adversary can always use bad randomness to generate the VRF keys, and thus, the VRF output may not be pseudorandom.  </p>
 <h1 id="rfc.section.7.2">
-<a href="#rfc.section.7.2">7.2.</a> Selective vs Full Pseudorandomness</h1>
-<p><a href="#PWHVNRG17" class="xref">[PWHVNRG17]</a> presents cryptographic reductions to an underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this document possess full pseudorandomness as well as selective pseudorandomness.  However, the cryptographic reductions are tighter for selective pseudorandomness than for full pseudorandomness.  This means that the VRFs have quantitively stronger security guarantees for selective pseudorandomness.  </p>
+<a href="#rfc.section.7.2">7.2.</a> <a href="#prsecurity" id="prsecurity">Selective vs. Full Pseudorandomness</a>
+</h1>
+<p><a href="#PWHVNRG17" class="xref">[PWHVNRG17]</a> presents cryptographic reductions to an underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this document possess full pseudorandomness as well as selective pseudorandomness (see <a href="#pseudodef" class="xref">Section 3.3</a> for an explanation of these notions).  However, the cryptographic reductions are tighter for selective pseudorandomness than for full pseudorandomness.  This means that the VRFs have quantitively stronger security guarantees for selective pseudorandomness.  </p>
 <p id="rfc.section.7.2.p.2">Applications that are concerned about tightness of cryptographic reductions therefore have two options.  </p>
 
 <ul>
@@ -1369,7 +1376,7 @@
 <li>07 - Incorporated hash-to-curve draft by reference to replace our own Elligator2 and Simple SWU. Clarified discussion of EC parameters and functions. Added a 0 octet to all hashing to enforce domain separation from hashing done inside hash-to-curve.</li>
 <li>08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
 <li>09 - Added a note to remove the implementation page before publication.</li>
-<li>10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q.</li>
+<li>10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
 </ul>
 
 <p> </p>

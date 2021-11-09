@@ -5,12 +5,12 @@
 CFRG                                                         S. Goldberg
 Internet-Draft                                         Boston University
 Intended status: Standards Track                               L. Reyzin
-Expires: May 12, 2022                     Boston University and Algorand
+Expires: May 13, 2022                     Boston University and Algorand
                                                          D. Papadopoulos
                           Hong Kong University of Science and Technology
                                                                J. Vcelak
                                                                      NS1
-                                                        November 8, 2021
+                                                        November 9, 2021
 
 
                    Verifiable Random Functions (VRFs)
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 12, 2022.
+   This Internet-Draft will expire on May 13, 2022.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Goldberg, et al.          Expires May 12, 2022                  [Page 1]
+Goldberg, et al.          Expires May 13, 2022                  [Page 1]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -76,8 +76,8 @@ Table of Contents
    3.  VRF Security Properties . . . . . . . . . . . . . . . . . . .   5
      3.1.  Full Uniqueness or Trusted Uniqueness . . . . . . . . . .   5
      3.2.  Full Collison Resistance or Trusted Collision Resistance    5
-     3.3.  Full Pseudorandomness or Selective Pseudorandomness . . .   5
-     3.4.  A random-oracle-like unpredictability property  . . . . .   6
+     3.3.  Full Pseudorandomness or Selective Pseudorandomness . . .   6
+     3.4.  A random-oracle-like unpredictability property  . . . . .   7
    4.  RSA Full Domain Hash VRF (RSA-FDH-VRF)  . . . . . . . . . . .   7
      4.1.  RSA-FDH-VRF Proving . . . . . . . . . . . . . . . . . . .   8
      4.2.  RSA-FDH-VRF Proof to Hash . . . . . . . . . . . . . . . .   9
@@ -87,29 +87,29 @@ Table of Contents
      5.2.  ECVRF Proof to Hash . . . . . . . . . . . . . . . . . . .  13
      5.3.  ECVRF Verifying . . . . . . . . . . . . . . . . . . . . .  14
      5.4.  ECVRF Auxiliary Functions . . . . . . . . . . . . . . . .  14
-       5.4.1.  ECVRF Hash to Curve . . . . . . . . . . . . . . . . .  14
+       5.4.1.  ECVRF Hash to Curve . . . . . . . . . . . . . . . . .  15
        5.4.2.  ECVRF Nonce Generation  . . . . . . . . . . . . . . .  17
        5.4.3.  ECVRF Hash Points . . . . . . . . . . . . . . . . . .  18
        5.4.4.  ECVRF Decode Proof  . . . . . . . . . . . . . . . . .  19
      5.5.  ECVRF Ciphersuites  . . . . . . . . . . . . . . . . . . .  20
      5.6.  When the ECVRF Keys are Untrusted . . . . . . . . . . . .  22
        5.6.1.  ECVRF Validate Key  . . . . . . . . . . . . . . . . .  23
-   6.  Implementation Status . . . . . . . . . . . . . . . . . . . .  24
+   6.  Implementation Status . . . . . . . . . . . . . . . . . . . .  25
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  26
      7.1.  Key Generation  . . . . . . . . . . . . . . . . . . . . .  26
        7.1.1.  Uniqueness and collision resistance with untrusted
                keys  . . . . . . . . . . . . . . . . . . . . . . . .  26
-       7.1.2.  Pseudorandomness with untrusted keys  . . . . . . . .  26
-     7.2.  Selective vs Full Pseudorandomness  . . . . . . . . . . .  27
+       7.1.2.  Pseudorandomness with untrusted keys  . . . . . . . .  27
+     7.2.  Selective vs. Full Pseudorandomness . . . . . . . . . . .  27
      7.3.  Proper pseudorandom nonce for ECVRF . . . . . . . . . . .  27
-     7.4.  Side-channel attacks  . . . . . . . . . . . . . . . . . .  27
+     7.4.  Side-channel attacks  . . . . . . . . . . . . . . . . . .  28
      7.5.  Proofs provide no secrecy for the VRF input . . . . . . .  28
      7.6.  Prehashing  . . . . . . . . . . . . . . . . . . . . . . .  28
-     7.7.  Hash function domain separation and futureproofing  . . .  28
+     7.7.  Hash function domain separation and futureproofing  . . .  29
 
 
 
-Goldberg, et al.          Expires May 12, 2022                  [Page 2]
+Goldberg, et al.          Expires May 13, 2022                  [Page 2]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -165,7 +165,7 @@ Internet-Draft                     VRF                     November 2021
 
 
 
-Goldberg, et al.          Expires May 12, 2022                  [Page 3]
+Goldberg, et al.          Expires May 13, 2022                  [Page 3]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -221,7 +221,7 @@ Internet-Draft                     VRF                     November 2021
 
 
 
-Goldberg, et al.          Expires May 12, 2022                  [Page 4]
+Goldberg, et al.          Expires May 13, 2022                  [Page 4]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -243,12 +243,16 @@ Internet-Draft                     VRF                     November 2021
    pi1) outputs (VALID, beta1), VRF_verify(PK, alpha, pi2) outputs
    (VALID, beta2), and beta1 is not equal to beta2.
 
-   A slightly weaker security property called "trusted uniqueness"
-   suffices for many applications.  Trusted uniqueness is the same as
-   full uniqueness, but it must hold only if the VRF keys PK and SK were
-   generated in a trustworthy manner.  In other words, uniqueness might
-   not hold if keys were generated in an invalid manner or with bad
-   randomness.
+   For many applications, a slightly weaker security property called
+   "trusted uniqueness" suffices.  Trusted uniqueness is the same as
+   full uniqueness, but it is guaranteed to hold only if the VRF keys PK
+   and SK were generated in a trustworthy manner.
+
+   As further discussed in Section 7.1.1, some VRFs specified in this
+   document satisfy only trusted uniqueness, while others satisfy full
+   uniqueness.  VRFs in this document that satisfy only trusted
+   uniqueness but not full uniqueness MUST NOT be used if the key
+   generation process cannot be trusted.
 
 3.2.  Full Collison Resistance or Trusted Collision Resistance
 
@@ -261,10 +265,26 @@ Internet-Draft                     VRF                     November 2021
    inputs alpha1 and alpha2 that have the same VRF hash beta, even if
    that adversary knows the private VRF key SK.
 
-   For most applications, a slightly weaker security property called
+   For many applications, a slightly weaker security property called
    "trusted collision resistance" suffices.  Trusted collision
-   resistance is the same as collision resistance, but it holds only if
-   PK and SK were generated in a trustworthy manner.
+   resistance is the same as collision resistance, but it is guaranteed
+   to hold only if the VRF keys PK and SK were generated in a
+   trustworthy manner.
+
+   As further discussed in Section 7.1.1, some VRFs specified in this
+   document satisfy only trusted collision resistance, while others
+   satisfy full collision resistance.  VRFs in this document that
+
+
+
+Goldberg, et al.          Expires May 13, 2022                  [Page 5]
+
+Internet-Draft                     VRF                     November 2021
+
+
+   satisfy only trusted collision resistance but not full collision
+   resistance MUST NOT be used if the key generation process cannot be
+   trusted.
 
 3.3.  Full Pseudorandomness or Selective Pseudorandomness
 
@@ -274,14 +294,6 @@ Internet-Draft                     VRF                     November 2021
 
    More precisely, suppose the public and private VRF keys (PK, SK) were
    generated in a trustworthy manner.  Pseudorandomness ensures that the
-
-
-
-Goldberg, et al.          Expires May 12, 2022                  [Page 5]
-
-Internet-Draft                     VRF                     November 2021
-
-
    VRF hash output beta (without its corresponding VRF proof pi) on any
    adversarially-chosen "target" VRF input alpha looks indistinguishable
    from random for any computationally bounded adversary who does not
@@ -299,6 +311,11 @@ Internet-Draft                     VRF                     November 2021
    before it observes VRF outputs beta' and proofs pi' on inputs alpha'
    of its choice.
 
+   As further discussed in Section 7.2, VRFs specified in this document
+   satisfy both full pseudorandomness and selective pseudorandomness,
+   but their quantitative security against the selective
+   pseudorandomness attack is stronger.
+
    It is important to remember that the VRF output beta does not look
    random to the Prover, or to any other party that knows the private
    VRF key SK!  Such a party can easily distinguish beta from a random
@@ -314,6 +331,13 @@ Internet-Draft                     VRF                     November 2021
    was not done in a trustworthy fashion.  (For example, if VRF keys
    were generated with bad randomness.)
 
+
+
+Goldberg, et al.          Expires May 13, 2022                  [Page 6]
+
+Internet-Draft                     VRF                     November 2021
+
+
 3.4.  A random-oracle-like unpredictability property
 
    As explained in Section 3.3, pseudorandomness is guaranteed only if
@@ -328,15 +352,6 @@ Internet-Draft                     VRF                     November 2021
    by an (ordinary, unkeyed) cryptographic hash function: if the input
    has enough entropy (i.e., cannot be predicted), then the correct
    output is indistinguishable from uniform.
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                  [Page 6]
-
-Internet-Draft                     VRF                     November 2021
-
 
    A formal definition of this property appears in Section 3.2 of
    [DGKR18].  The VRF schemes presented in this specification are
@@ -372,6 +387,13 @@ Internet-Draft                     VRF                     November 2021
 
       K - RSA private key
 
+
+
+Goldberg, et al.          Expires May 13, 2022                  [Page 7]
+
+Internet-Draft                     VRF                     November 2021
+
+
       k - length in octets of the RSA modulus n (k must be less than
       2^32)
 
@@ -385,15 +407,6 @@ Internet-Draft                     VRF                     November 2021
 
       I2OSP - Conversion of a nonnegative integer to an octet string as
       defined in Section 4.1 of [RFC8017] (given an integer and a length
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                  [Page 7]
-
-Internet-Draft                     VRF                     November 2021
-
-
       in octets, produces a big-endian representation of the integer,
       zero-padded to the desired length)
 
@@ -430,6 +443,13 @@ Internet-Draft                     VRF                     November 2021
 
    Steps:
 
+
+
+Goldberg, et al.          Expires May 13, 2022                  [Page 8]
+
+Internet-Draft                     VRF                     November 2021
+
+
    1.  one_string = 0x01 = I2OSP(1, 1), a single octet with value 1
 
    2.  EM = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) ||
@@ -442,13 +462,6 @@ Internet-Draft                     VRF                     November 2021
    5.  pi_string = I2OSP(s, k)
 
    6.  Output pi_string
-
-
-
-Goldberg, et al.          Expires May 12, 2022                  [Page 8]
-
-Internet-Draft                     VRF                     November 2021
-
 
 4.2.  RSA-FDH-VRF Proof to Hash
 
@@ -486,6 +499,13 @@ Internet-Draft                     VRF                     November 2021
 
       alpha_string - VRF hash input, an octet string
 
+
+
+Goldberg, et al.          Expires May 13, 2022                  [Page 9]
+
+Internet-Draft                     VRF                     November 2021
+
+
       pi_string - proof to be verified, an octet string of length n
 
    Output:
@@ -497,14 +517,6 @@ Internet-Draft                     VRF                     November 2021
    Steps:
 
    1.  s = OS2IP(pi_string)
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                  [Page 9]
-
-Internet-Draft                     VRF                     November 2021
-
 
    2.  m = RSAVP1((n, e), s)
 
@@ -542,6 +554,14 @@ Internet-Draft                     VRF                     November 2021
 
       x*y - x multiplied by y
 
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 10]
+
+Internet-Draft                     VRF                     November 2021
+
+
       s || t - concatenation of octet strings s and t
 
    Fixed options (specified in Section 5.5):
@@ -552,15 +572,6 @@ Internet-Draft                     VRF                     November 2021
       nearest even integer
 
       E - elliptic curve (EC) defined over F
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 10]
-
-Internet-Draft                     VRF                     November 2021
-
 
       ptLen - length, in octets, of an EC point encoded as an octet
       string
@@ -599,6 +610,14 @@ Internet-Draft                     VRF                     November 2021
       string_to_int(a_string) - conversion of an octet string a_string
       to a nonnegative integer
 
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 11]
+
+Internet-Draft                     VRF                     November 2021
+
+
       point_to_string - conversion of EC point to an ptLen-octet string
 
       string_to_point - conversion of an ptLen-octet string to EC point.
@@ -609,15 +628,6 @@ Internet-Draft                     VRF                     November 2021
       elliptic curve arithmetic), the int_to_string and point_to_string
       conversions are not needed.  For example, in some implementations,
       EC point operations will take octet strings as inputs and produce
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 11]
-
-Internet-Draft                     VRF                     November 2021
-
-
       octet strings as outputs, without introducing a separate elliptic
       curve point type.
 
@@ -657,6 +667,13 @@ Internet-Draft                     VRF                     November 2021
 
    2.  H = ECVRF_hash_to_curve(Y, alpha_string)
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 12]
+
+Internet-Draft                     VRF                     November 2021
+
+
    3.  h_string = point_to_string(H)
 
    4.  Gamma = x*H
@@ -666,13 +683,6 @@ Internet-Draft                     VRF                     November 2021
    6.  c = ECVRF_hash_points(H, Gamma, k*B, k*H) (see Section 5.4.3)
 
    7.  s = (k + c*x) mod q
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 12]
-
-Internet-Draft                     VRF                     November 2021
-
 
    8.  pi_string = point_to_string(Gamma) || int_to_string(c, n) ||
        int_to_string(s, qLen)
@@ -713,22 +723,17 @@ Internet-Draft                     VRF                     November 2021
    5.  zero_string = 0x00 = int_to_string(0, 1), a single octet with
        value 0
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 13]
+
+Internet-Draft                     VRF                     November 2021
+
+
    6.  beta_string = Hash(suite_string || three_string ||
        point_to_string(cofactor * Gamma) || zero_string)
 
    7.  Output beta_string
-
-
-
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 13]
-
-Internet-Draft                     VRF                     November 2021
-
 
 5.3.  ECVRF Verifying
 
@@ -769,22 +774,24 @@ Internet-Draft                     VRF                     November 2021
 
 5.4.  ECVRF Auxiliary Functions
 
+
+
+
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 14]
+
+Internet-Draft                     VRF                     November 2021
+
+
 5.4.1.  ECVRF Hash to Curve
 
    The ECVRF_hash_to_curve algorithm takes in the VRF input alpha and
    converts it to H, an EC point in G.  This algorithm is the only place
    the VRF input alpha is used for proving and verifying.  See
    Section 7.6 for further discussion.
-
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 14]
-
-Internet-Draft                     VRF                     November 2021
-
 
    This section specifies a number of such algorithms, which are not
    compatible with each other.  The choice of a particular algorithm
@@ -828,19 +835,18 @@ Internet-Draft                     VRF                     November 2021
 
    2.  PK_string = point_to_string(Y)
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 15]
+
+Internet-Draft                     VRF                     November 2021
+
+
    3.  one_string = 0x01 = int_to_string(1, 1), a single octet with
        value 1
 
    4.  zero_string = 0x00 = int_to_string(0, 1), a single octet with
        value 0
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 15]
-
-Internet-Draft                     VRF                     November 2021
-
 
    5.  H = "INVALID"
 
@@ -883,20 +889,21 @@ Internet-Draft                     VRF                     November 2021
 
    Fixed option (specified in Section 5.5):
 
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 16]
+
+Internet-Draft                     VRF                     November 2021
+
+
       h2c_suite_ID_string - a hash-to-curve suite ID, encoded in ASCII
       (see discussion below)
 
    Steps
 
    1.  PK_string = point_to_string(Y)
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 16]
-
-Internet-Draft                     VRF                     November 2021
-
 
    2.  string_to_hash = PK_string || alpha_string
 
@@ -940,19 +947,19 @@ Internet-Draft                     VRF                     November 2021
    The ECVRF_nonce_generation function is as specified in [RFC6979]
    Section 3.2 where
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 17]
+
+Internet-Draft                     VRF                     November 2021
+
+
       Input m is set equal to h_string
 
       The "suitable for DSA or ECDSA" check in step h.3 is omitted
 
       The hash function H is Hash and its output length hlen is set as
       hLen*8
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 17]
-
-Internet-Draft                     VRF                     November 2021
-
 
       The secret key x is set equal to the VRF secret scalar x
 
@@ -996,19 +1003,18 @@ Internet-Draft                     VRF                     November 2021
 
    Input:
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 18]
+
+Internet-Draft                     VRF                     November 2021
+
+
       P1...PM - EC points in G
 
    Output:
 
       c - hash value, integer between 0 and 2^(8n)-1
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 18]
-
-Internet-Draft                     VRF                     November 2021
-
 
    Steps:
 
@@ -1053,18 +1059,18 @@ Internet-Draft                     VRF                     November 2021
 
    Steps:
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 19]
+
+Internet-Draft                     VRF                     November 2021
+
+
    1.  let gamma_string = pi_string[0]...pi_string[ptLen-1]
 
    2.  let c_string = pi_string[ptLen]...pi_string[ptLen+n-1]
 
    3.  let s_string =pi_string[ptLen+n]...pi_string[ptLen+n+qLen-1]
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 19]
-
-Internet-Draft                     VRF                     November 2021
-
 
    4.  Gamma = string_to_point(gamma_string)
 
@@ -1108,19 +1114,18 @@ Internet-Draft                     VRF                     November 2021
       string according to the encoding specified in Section 2.3.3 of
       [SECG1] with point compression on.  This implies ptLen = 2n + 1 =
       33.  (Note that certain software implementations do not introduce
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 20]
+
+Internet-Draft                     VRF                     November 2021
+
+
       a separate elliptic curve point type and instead directly treat
       the EC point as an octet string per above encoding.  When using
       such an implementation, the point_to_string function can be
       treated as the identity function.)
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 20]
-
-Internet-Draft                     VRF                     November 2021
-
 
    o  The string_to_point function converts an octet string to an EC
       point according to the encoding specified in Section 2.3.4 of
@@ -1163,20 +1168,22 @@ Internet-Draft                     VRF                     November 2021
    o  The ECVRF_nonce_generation function is as specified in
       Section 5.4.2.2.
 
+
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 21]
+
+Internet-Draft                     VRF                     November 2021
+
+
    o  The int_to_string function as specified in the first paragraph of
       Section 5.1.2 of [RFC8032].  (This is little-endian
       representation.)
 
    o  The string_to_int function interprets the string as an integer in
       little-endian representation.
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 21]
-
-Internet-Draft                     VRF                     November 2021
-
 
    o  The point_to_string function converts an EC point to an octet
       string according to the encoding specified in Section 5.1.2 of
@@ -1218,6 +1225,15 @@ Internet-Draft                     VRF                     November 2021
    obtain "full uniqueness" and "full collision resistance" (which
    provide protection against a malicious VRF public key), the Verifier
    MUST perform the following additional validation procedure upon
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 22]
+
+Internet-Draft                     VRF                     November 2021
+
+
    receipt of the public VRF key.  The public VRF key MUST NOT be used
    if this procedure returns "INVALID".
 
@@ -1225,14 +1241,6 @@ Internet-Draft                     VRF                     November 2021
    the point B, the generator of group G, is untrusted.  If the prover
    is untrusted, the Verifier MUST obtain E and B from a trusted source,
    such as a ciphersuite specification, rather than from the prover.
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 22]
-
-Internet-Draft                     VRF                     November 2021
-
 
    This procedure supposes that the public key provided to the Verifier
    is an octet string.  The procedure returns "INVALID" if the public
@@ -1274,6 +1282,14 @@ Internet-Draft                     VRF                     November 2021
    list of such points.  For example, the following algorithm can be
    used for the edwards25519 curve:
 
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 23]
+
+Internet-Draft                     VRF                     November 2021
+
+
    1.   Y = string_to_point(PK_string)
 
    2.   If Y is "INVALID", output "INVALID" and stop
@@ -1282,13 +1298,6 @@ Internet-Draft                     VRF                     November 2021
 
    4.   oneTwentySeven_string = 0x7F = int_to_string(127, 1)
         (a single octet with value 127)
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 23]
-
-Internet-Draft                     VRF                     November 2021
-
 
    5.   y_string[31] = y_string[31] & oneTwentySeven_string
         (this step clears the high-order bit of octet 31)
@@ -1327,6 +1336,16 @@ Internet-Draft                     VRF                     November 2021
    have been obtained by converting the points specified in [X25519] to
    Edwards coordinates.)
 
+
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 24]
+
+Internet-Draft                     VRF                     November 2021
+
+
 6.  Implementation Status
 
    Note to RFC editor: Remove before publication
@@ -1336,15 +1355,6 @@ Internet-Draft                     VRF                     November 2021
    EDWARDS25519-SHA512-ELL2 is available at <https://github.com/reyzin/
    ecvrf>.  This implementation is neither secure nor especially
    efficient, but can be used to generate test vectors.
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 24]
-
-Internet-Draft                     VRF                     November 2021
-
 
    A Python implementation of an older version of ECVRF-
    EDWARDS25519-SHA512-ELL2 from the -05 version of this draft is
@@ -1383,6 +1393,15 @@ Internet-Draft                     VRF                     November 2021
 
    An implementation similar to ECVRF-EDWARDS25519-SHA512-ELL2 (with
    some changes, including the use of SHA-3) is available as part of the
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 25]
+
+Internet-Draft                     VRF                     November 2021
+
+
    CONIKS implementation in Golang at <https://github.com/coniks-sys/
    coniks-go/tree/master/crypto/vrf>.
 
@@ -1394,14 +1413,6 @@ Internet-Draft                     VRF                     November 2021
    <https://github.com/signalapp/curve25519-java> and
    <https://github.com/wavesplatform/curve25519-java>.
 
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 25]
-
-Internet-Draft                     VRF                     November 2021
-
-
 7.  Security Considerations
 
 7.1.  Key Generation
@@ -1412,10 +1423,11 @@ Internet-Draft                     VRF                     November 2021
 7.1.1.  Uniqueness and collision resistance with untrusted keys
 
    The ECVRF as specified in Section 5.1-Section 5.5 satisfies the
-   "trusted uniqueness" and "trusted collision resistance" properties as
-   long as the VRF keys are generated correctly, with good randomness.
-   If the Verifier trusts the VRF keys are generated correctly, it MAY
-   use the public key Y as is.
+   "trusted uniqueness" (see Section 3.1) and "trusted collision
+   resistance" (see Section 3.2) properties as long as the VRF keys are
+   generated correctly, with good randomness.  If the Verifier trusts
+   the VRF keys are generated correctly, it MAY use the public key Y as
+   is.
 
    However, if the ECVRF uses keys that could be generated
    adversarially, then the Verifier MUST first perform the validation
@@ -1439,6 +1451,13 @@ Internet-Draft                     VRF                     November 2021
    cryptographic checks that its public key has the right form.  These
    modifications are left for future specification.
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 26]
+
+Internet-Draft                     VRF                     November 2021
+
+
 7.1.2.  Pseudorandomness with untrusted keys
 
    Without good randomness, the "pseudorandomness" properties of the VRF
@@ -1448,26 +1467,17 @@ Internet-Draft                     VRF                     November 2021
    generate the VRF keys, and thus, the VRF output may not be
    pseudorandom.
 
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 26]
-
-Internet-Draft                     VRF                     November 2021
-
-
-7.2.  Selective vs Full Pseudorandomness
+7.2.  Selective vs. Full Pseudorandomness
 
    [PWHVNRG17] presents cryptographic reductions to an underlying hard
    problem (e.g.  Decisional Diffie-Hellman for the ECVRF, or the
    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs
    specified in this document possess full pseudorandomness as well as
-   selective pseudorandomness.  However, the cryptographic reductions
-   are tighter for selective pseudorandomness than for full
-   pseudorandomness.  This means that the VRFs have quantitively
-   stronger security guarantees for selective pseudorandomness.
+   selective pseudorandomness (see Section 3.3 for an explanation of
+   these notions).  However, the cryptographic reductions are tighter
+   for selective pseudorandomness than for full pseudorandomness.  This
+   means that the VRFs have quantitively stronger security guarantees
+   for selective pseudorandomness.
 
    Applications that are concerned about tightness of cryptographic
    reductions therefore have two options.
@@ -1496,6 +1506,14 @@ Internet-Draft                     VRF                     November 2021
    specified in the ECVRF ciphersuites of Section 5.5 are designed with
    this requirement in mind.
 
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 27]
+
+Internet-Draft                     VRF                     November 2021
+
+
 7.4.  Side-channel attacks
 
    Side channel attacks on cryptographic primitives are an important
@@ -1504,15 +1522,6 @@ Internet-Draft                     VRF                     November 2021
    Implementers should take care to avoid side-channel attacks that leak
    information about the VRF private key SK (and the nonce k used in the
    ECVRF).
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 27]
-
-Internet-Draft                     VRF                     November 2021
-
 
    The ECVRF_hash_to_curve_try_and_increment algorithm defined in
    Section 5.4.1.1 SHOULD NOT be used in applications where the VRF
@@ -1553,6 +1562,14 @@ Internet-Draft                     VRF                     November 2021
    point H becomes the representative of alpha thereafter.  Note that
    the suite_string octet and the public key are hashed together with
    alpha in ECVRF_hash_to_curve, which ensures that the curve (including
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 28]
+
+Internet-Draft                     VRF                     November 2021
+
+
    the generator B) and the public key are included indirectly into
    subsequent hashes.
 
@@ -1562,14 +1579,6 @@ Internet-Draft                     VRF                     November 2021
    the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in
    hash_to_curve, nonce_generation, hash_points, and proof_to_hash).
    The theoretical analysis assumes each of these functions is a
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 28]
-
-Internet-Draft                     VRF                     November 2021
-
-
    separate random oracle.  This analysis still holds even if the same
    hash function is used, as long as the four queries made to the hash
    function for a given SK and alpha are overwhelmingly unlikely to
@@ -1609,6 +1618,14 @@ Internet-Draft                     VRF                     November 2021
 
    For the elliptic curve VRF, if future designs need to specify
    variants (e.g., additional ciphersuites) of the design in this
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 29]
+
+Internet-Draft                     VRF                     November 2021
+
+
    document, then, to avoid the possibility that an adversary can obtain
    a VRF output under one variant, and then claim it was obtained under
    another variant, they should specify a different suite_string
@@ -1617,14 +1634,6 @@ Internet-Draft                     VRF                     November 2021
    other hashing done by the prover depends on H, inputs all the hash
    functions used by the prover will also be different as long as
    hash_to_curve is collision resistant.
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 29]
-
-Internet-Draft                     VRF                     November 2021
-
 
 8.  Change Log
 
@@ -1665,6 +1674,14 @@ Internet-Draft                     VRF                     November 2021
       RSAVRF; made Verify return beta so unverified proofs don't end up
       in proof_to_hash; added test vectors.
 
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 30]
+
+Internet-Draft                     VRF                     November 2021
+
+
       04 - Clarified handling of optional arguments x and PK in
       ECVRF_prove.  Edited implementation status to bring it up to date.
 
@@ -1673,14 +1690,6 @@ Internet-Draft                     VRF                     November 2021
       Apecechea and Mario Cao Cueto for finding the problem) and
       corresponding test vectors for the P256 suites.  Added a reference
       to the Rust implementation.
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 30]
-
-Internet-Draft                     VRF                     November 2021
-
 
       06 - Made some variable names more descriptive.  Added a few
       implementation references.
@@ -1697,7 +1706,8 @@ Internet-Draft                     VRF                     November 2021
       publication.
 
       10 - Added a check in ECVRF_decode_proof to ensure that s is
-      reduced mod q.
+      reduced mod q.  Connected security properties (Section 3) and
+      security considerations (Section 7) with more cross-references.
 
 9.  Contributors
 
@@ -1721,6 +1731,13 @@ Internet-Draft                     VRF                     November 2021
               <https://csrc.nist.gov/publications/detail/fips/186/4/
               final>.
 
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 31]
+
+Internet-Draft                     VRF                     November 2021
+
+
    [I-D.irtf-cfrg-hash-to-curve]
               Faz-Hernandez, A., Scott, S., Sullivan, N., Wahby, R., and
               C. Wood, "Hashing to Elliptic Curves", draft-irtf-cfrg-
@@ -1730,13 +1747,6 @@ Internet-Draft                     VRF                     November 2021
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 31]
-
-Internet-Draft                     VRF                     November 2021
-
 
    [RFC5114]  Lepinski, M. and S. Kent, "Additional Diffie-Hellman
               Groups for Use with IETF Standards", RFC 5114,
@@ -1774,6 +1784,16 @@ Internet-Draft                     VRF                     November 2021
               Industry: The Elliptic Curve Digital Signature Algorithm
               (ECDSA)",  ANSI X9.62, 2005.
 
+
+
+
+
+
+Goldberg, et al.          Expires May 13, 2022                 [Page 32]
+
+Internet-Draft                     VRF                     November 2021
+
+
    [DGKR18]   David, B., Gazi, P., Kiayias, A., and A. Russell,
               "Ouroboros Praos: An adaptively-secure, semi-synchronous
               proof-of-stake protocol", in Advances in Cryptology -
@@ -1784,15 +1804,6 @@ Internet-Draft                     VRF                     November 2021
               Cryptocurrencies", in Proceedings of the 26th Symposium on
               Operating Systems Principles (SOSP), 2017,
               <https://eprint.iacr.org/2017/454>.
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 32]
-
-Internet-Draft                     VRF                     November 2021
-
 
    [I-D.vcelak-nsec5]
               Vcelak, J., Goldberg, S., Papadopoulos, D., Huque, S., and
@@ -1834,18 +1845,7 @@ Internet-Draft                     VRF                     November 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-Goldberg, et al.          Expires May 12, 2022                 [Page 33]
+Goldberg, et al.          Expires May 13, 2022                 [Page 33]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -1901,7 +1901,7 @@ A.1.  ECVRF-P256-SHA256-TAI
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 34]
+Goldberg, et al.          Expires May 13, 2022                 [Page 34]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -1957,7 +1957,7 @@ A.2.  ECVRF-P256-SHA256-SSWU
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 35]
+Goldberg, et al.          Expires May 13, 2022                 [Page 35]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -2013,7 +2013,7 @@ Internet-Draft                     VRF                     November 2021
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 36]
+Goldberg, et al.          Expires May 13, 2022                 [Page 36]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -2069,7 +2069,7 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 37]
+Goldberg, et al.          Expires May 13, 2022                 [Page 37]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -2125,7 +2125,7 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 38]
+Goldberg, et al.          Expires May 13, 2022                 [Page 38]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -2181,7 +2181,7 @@ Internet-Draft                     VRF                     November 2021
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 39]
+Goldberg, et al.          Expires May 13, 2022                 [Page 39]
 
 Internet-Draft                     VRF                     November 2021
 
@@ -2237,4 +2237,4 @@ Authors' Addresses
 
 
 
-Goldberg, et al.          Expires May 12, 2022                 [Page 40]
+Goldberg, et al.          Expires May 13, 2022                 [Page 40]
