@@ -1376,7 +1376,7 @@
     <section title="Key Generation">
 
     <t>Applications that use the VRFs defined in this
-    document MUST ensure that that the VRF key is generated correctly,
+    document MUST ensure that the VRF key is generated correctly,
     using good randomness.
     </t>
     
