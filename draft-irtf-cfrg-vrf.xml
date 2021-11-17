@@ -405,7 +405,7 @@
         </t>
 
         <t>
-            In this document, the notation from <xref target="RFC8017" /> is used.
+            In this section, the notation from <xref target="RFC8017" /> is used.
         </t>
 
         <t>
@@ -480,7 +480,7 @@
             <t>
                 Steps:
                 <list style="numbers">
-                    <t>one_string = 0x01 = I2OSP(1, 1), a single octet with value 1</t>
+                    <t>one_string = 0x01</t>
                     <t>EM = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</t>
                     <t>m = OS2IP(EM)</t>
                     <t>s = RSASP1(K, m)</t>
@@ -519,7 +519,7 @@
             <t>
                 Steps:
                 <list style="numbers">
-                    <t>two_string = 0x02 = I2OSP(2, 1), a single octet with value 2</t>
+                    <t>two_string = 0x02</t>
                     <t>beta_string = Hash(two_string || pi_string)</t>
                     <t>Output beta_string</t>
                 </list>
@@ -554,7 +554,7 @@
                     <t>s = OS2IP(pi_string)</t>
                     <t>m = RSAVP1((n, e), s)</t>
                     <t>EM = I2OSP(m, k - 1)</t>
-                    <t>one_string = 0x01 = I2OSP(1, 1), a single octet with value 1</t>
+                    <t>one_string = 0x01</t>
                     <t>EM' = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</t>
                     <t>
                         If EM and EM' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
@@ -590,6 +590,7 @@
                 <t>x^y - x raised to the power y</t>
                 <t>x*y - x multiplied by y</t>
                 <t>s || t - concatenation of octet strings s and t</t>
+                <t>0xMN (where M and N are hexadecimal digits) - a single octet with value M*16+N; equivalently, int_to_string(M*16+N, 1), where int_to_string is as defined below.</t>
             </list>
         </t>
 
@@ -728,8 +729,8 @@
                     <t>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof"/>)</t>
                     <t>If D is "INVALID", output "INVALID" and stop</t>
                     <t>(Gamma, c, s) = D</t>
-                    <t>three_string = 0x03 = int_to_string(3, 1), a single octet with value 3 </t>
-                    <t>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </t>
+                    <t>three_string = 0x03</t>
+                    <t>zero_string = 0x00</t>
                     <t>beta_string = Hash(suite_string || three_string || point_to_string(cofactor * Gamma) || zero_string)</t>
                     <t>Output beta_string</t>
                 </list>
@@ -844,8 +845,8 @@
                 <list style="numbers">
                     <t>ctr = 0</t>
                     <t>PK_string = point_to_string(Y)</t>
-                    <t>one_string = 0x01 = int_to_string(1, 1), a single octet with value 1 </t>
-                    <t>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </t>
+                    <t>one_string = 0x01</t>
+                    <t>zero_string = 0x00</t>
                     <t>H = "INVALID"</t>
                     <t>While H is "INVALID" or H is the identity element of the elliptic curve group:
                     <list style="letters">
@@ -1014,12 +1015,12 @@
             <t>
                 Steps:
                 <list style="numbers">
-                    <t>two_string = 0x02 = int_to_string(2, 1), a single octet with value 2 </t>
+                    <t>two_string = 0x02</t>
                     <t>Initialize str = suite_string || two_string </t>
                     <t>for PJ in [P1, P2, ... PM]:
                        <vspace/>str = str || point_to_string(PJ)
                     </t>
-                    <t>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </t>
+                    <t>zero_string = 0x00</t>
                     <t>str = str || zero_string</t>
                     <t>c_string = Hash(str)</t>
                     <t>truncated_c_string = c_string[0]...c_string[n-1] 
@@ -1079,7 +1080,7 @@
         <t>This document defines ECVRF-P256-SHA256-TAI as follows:
         <list style="symbols">
         <t>
-        suite_string = 0x01 = int_to_string(1, 1), a single octet with value 1.</t>
+        suite_string = 0x01</t>
         <t>
             The EC group G is the NIST P-256 elliptic curve, with curve parameters
             as specified in <xref target="FIPS-186-4"></xref> (Section D.1.2.3)
@@ -1122,9 +1123,7 @@
             The hash function Hash is SHA-256 as specified in <xref target="RFC6234"/>, with hLen = 32.
         </t>
         <t>
-            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1"/>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s)
-                  (where 0x02 is a single
-                  octet with value 2, 0x02=int_to_string(2, 1)). The input s to arbitrary_string_to_point is a 32-octet string
+            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1"/>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s). The input s to arbitrary_string_to_point is a 32-octet string
                   and the output is either an EC point or "INVALID".
         </t>
         </list>
@@ -1132,7 +1131,7 @@
         
         <t>This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:
                 <list style="symbols">
-                    <t> suite_string = 0x02 = int_to_string(2, 1), a single octet with value 2.</t>
+                    <t> suite_string = 0x02</t>
                     <t>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite"/>
                         with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_
                         (the suite is defined in <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.2)</t>
@@ -1143,7 +1142,7 @@
         <t>This document defines ECVRF-EDWARDS25519-SHA512-TAI as follows:
         <list style="symbols">
         <t>
-        suite_string = 0x03 = int_to_string(3, 1), a single octet with value 3. </t>
+        suite_string = 0x03.</t>
         <t>
             The EC group G is the edwards25519
             elliptic curve with parameters defined in Table 1 of
@@ -1151,7 +1150,7 @@
             For this group, 2n = qLen = 32 and cofactor = 8.
         </t>
         <t> The private key and generation of the secret scalar and the public 
-        key are specified in Section 5.1.5 of <xref target="RFC8032" /></t>
+        key are specified in Section 5.1.5 of <xref target="RFC8032" />.</t>
         
         <t> The ECVRF_nonce_generation function is as specified in <xref target="nonce25519" />.</t>
 
@@ -1192,12 +1191,12 @@
     
         <list style="symbols">
         <t>
-            suite_string = 0x04 = int_to_string(4, 1), a single octet with value 4.
+            suite_string = 0x04;
         </t>
         <t>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite"/> with
             h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_
             (the suite is defined in
-            <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.5.)
+            <xref target="I-D.irtf-cfrg-hash-to-curve"/> Section 8.5).
         </t>
         </list>
         </t>
@@ -1272,8 +1271,7 @@
                     <t>Y = string_to_point(PK_string)</t>
                     <t>If Y is "INVALID", output "INVALID" and stop</t>
                     <t>y_string = PK_string</t>
-                    <t>oneTwentySeven_string = 0x7F = int_to_string(127, 1)
-                        <vspace/>(a single octet with value 127)</t>
+                    <t>oneTwentySeven_string = 0x7F</t>
                     <t>y_string[31] = y_string[31] &amp; oneTwentySeven_string
                         <vspace/>(this step clears the high-order bit of octet 31)</t>
                     <t>bad_pk[0] = int_to_string(0, 32)</t>

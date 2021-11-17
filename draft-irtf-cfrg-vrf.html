@@ -429,7 +429,7 @@
 
   <meta name="dct.creator" content="Goldberg, S., Reyzin, L., Papadopoulos, D., and J. Vcelak" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-irtf-cfrg-vrf-10" />
-  <meta name="dct.issued" scheme="ISO8601" content="2021-09" />
+  <meta name="dct.issued" scheme="ISO8601" content="2021-17" />
   <meta name="dct.abstract" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
   <meta name="description" content="A Verifiable Random Function (VRF) is the public-key version of a keyed cryptographic hash. Only the holder of the private key can compute the hash, but anyone with public key can verify the correctness of the hash.  VRFs are useful for preventing enumeration of hash-based data structures.  This document specifies several VRF constructions that are secure in the cryptographic random oracle model. One  VRF uses RSA and the other VRF uses Elliptic Curves (EC).   " />
 
@@ -453,7 +453,7 @@
 <td class="right">L. Reyzin</td>
 </tr>
 <tr>
-<td class="left">Expires: May 13, 2022</td>
+<td class="left">Expires: May 21, 2022</td>
 <td class="right">Boston University and Algorand</td>
 </tr>
 <tr>
@@ -474,7 +474,7 @@
 </tr>
 <tr>
 <td class="left"></td>
-<td class="right">November 9, 2021</td>
+<td class="right">November 17, 2021</td>
 </tr>
 
     	
@@ -490,7 +490,7 @@
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on May 13, 2022.</p>
+<p>This Internet-Draft will expire on May 21, 2022.</p>
 <h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
 <p>Copyright (c) 2021 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
 <p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
@@ -698,7 +698,7 @@
 <p id="rfc.section.4.p.1">The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that satisfies the "trusted uniqueness", "trusted collision resistance", and "full pseudorandomness" properties defined in <a href="#secdef" class="xref">Section 3</a>.  Its security follows from the standard RSA assumption in the random oracle model.  Formal security proofs are in <a href="#PWHVNRG17" class="xref">[PWHVNRG17]</a>.  </p>
 <p id="rfc.section.4.p.2">The VRF computes the proof pi as a deterministic RSA signature on input alpha using the RSA Full Domain Hash Algorithm <a href="#RFC8017" class="xref">[RFC8017]</a> parametrized with the selected hash algorithm.  RSA signature verification is used to verify the correctness of the proof. The VRF hash output beta is simply obtained by hashing the proof pi with the selected hash algorithm.  </p>
 <p id="rfc.section.4.p.3">The key pair for RSA-FDH-VRF MUST be generated in a way that it satisfies the conditions specified in Section 3 of <a href="#RFC8017" class="xref">[RFC8017]</a>.  </p>
-<p id="rfc.section.4.p.4">In this document, the notation from <a href="#RFC8017" class="xref">[RFC8017]</a> is used.  </p>
+<p id="rfc.section.4.p.4">In this section, the notation from <a href="#RFC8017" class="xref">[RFC8017]</a> is used.  </p>
 <p id="rfc.section.4.p.5">Parameters used: </p>
 
 <ul class="empty">
@@ -747,7 +747,7 @@
 <p id="rfc.section.4.1.p.4">Steps: </p>
 
 <ol>
-<li>one_string = 0x01 = I2OSP(1, 1), a single octet with value 1</li>
+<li>one_string = 0x01</li>
 <li>EM = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
 <li>m = OS2IP(EM)</li>
 <li>s = RSASP1(K, m)</li>
@@ -777,7 +777,7 @@
 <p id="rfc.section.4.2.p.5">Steps: </p>
 
 <ol>
-<li>two_string = 0x02 = I2OSP(2, 1), a single octet with value 2</li>
+<li>two_string = 0x02</li>
 <li>beta_string = Hash(two_string || pi_string)</li>
 <li>Output beta_string</li>
 </ol>
@@ -807,7 +807,7 @@
 <li>s = OS2IP(pi_string)</li>
 <li>m = RSAVP1((n, e), s)</li>
 <li>EM = I2OSP(m, k - 1)</li>
-<li>one_string = 0x01 = I2OSP(1, 1), a single octet with value 1</li>
+<li>one_string = 0x01</li>
 <li>EM' = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
 <li>If EM and EM' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string)); else output "INVALID".  </li>
 </ol>
@@ -825,6 +825,7 @@
 <li>x^y - x raised to the power y</li>
 <li>x*y - x multiplied by y</li>
 <li>s || t - concatenation of octet strings s and t</li>
+<li>0xMN (where M and N are hexadecimal digits) - a single octet with value M*16+N; equivalently, int_to_string(M*16+N, 1), where int_to_string is as defined below.</li>
 </ul>
 
 <p> </p>
@@ -929,8 +930,8 @@
 <li>D = ECVRF_decode_proof(pi_string) (see <a href="#ecvrfDecodeProof" class="xref">Section 5.4.4</a>)</li>
 <li>If D is "INVALID", output "INVALID" and stop</li>
 <li>(Gamma, c, s) = D</li>
-<li>three_string = 0x03 = int_to_string(3, 1), a single octet with value 3 </li>
-<li>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </li>
+<li>three_string = 0x03</li>
+<li>zero_string = 0x00</li>
 <li>beta_string = Hash(suite_string || three_string || point_to_string(cofactor * Gamma) || zero_string)</li>
 <li>Output beta_string</li>
 </ol>
@@ -1005,8 +1006,8 @@
 <ol>
 <li>ctr = 0</li>
 <li>PK_string = point_to_string(Y)</li>
-<li>one_string = 0x01 = int_to_string(1, 1), a single octet with value 1 </li>
-<li>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </li>
+<li>one_string = 0x01</li>
+<li>zero_string = 0x00</li>
 <li>H = "INVALID"</li>
 <li>While H is "INVALID" or H is the identity element of the elliptic curve group: <ol style="list-style-type: upper-alpha">
 <li>ctr_string = int_to_string(ctr, 1)</li>
@@ -1137,10 +1138,10 @@
 <p id="rfc.section.5.4.3.p.4">Steps: </p>
 
 <ol>
-<li>two_string = 0x02 = int_to_string(2, 1), a single octet with value 2 </li>
+<li>two_string = 0x02</li>
 <li>Initialize str = suite_string || two_string </li>
 <li>for PJ in [P1, P2, ... PM]: <br>str = str || point_to_string(PJ) </li>
-<li>zero_string = 0x00 = int_to_string(0, 1), a single octet with value 0 </li>
+<li>zero_string = 0x00</li>
 <li>str = str || zero_string</li>
 <li>c_string = Hash(str)</li>
 <li>truncated_c_string = c_string[0]...c_string[n-1] </li>
@@ -1189,7 +1190,7 @@
 <p id="rfc.section.5.5.p.1">This document defines ECVRF-P256-SHA256-TAI as follows: </p>
 
 <ul>
-<li>suite_string = 0x01 = int_to_string(1, 1), a single octet with value 1.</li>
+<li>suite_string = 0x01</li>
 <li>The EC group G is the NIST P-256 elliptic curve, with curve parameters as specified in <a href="#FIPS-186-4" class="xref">[FIPS-186-4]</a> (Section D.1.2.3) and <a href="#RFC5114" class="xref">[RFC5114]</a>  (Section 2.6). For this group, 2n = qLen =  32 and cofactor = 1.  </li>
 <li>The key pair generation primitive is specified in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a> (q, B, SK, and Y in this document correspond to n, G, d, and Q in Section 3.2.1 of <a href="#SECG1" class="xref">[SECG1]</a>).  In this ciphersuite, the secret scalar x is equal to the private key SK.  </li>
 <li>The ECVRF_nonce_generation function is as specified in <a href="#nonceP256" class="xref">Section 5.4.2.1</a>.</li>
@@ -1198,14 +1199,14 @@
 <li>The point_to_string function converts an EC point to an octet string according to the encoding specified in Section 2.3.3 of <a href="#SECG1" class="xref">[SECG1]</a> with point compression on.  This implies ptLen = 2n + 1 = 33.  (Note that certain software implementations do not introduce a separate elliptic curve point type and instead directly treat the EC point as an octet string per above encoding. When using such an implementation, the point_to_string function can be treated as the identity function.) </li>
 <li>The string_to_point function converts an octet string to an EC point according to the encoding specified in Section 2.3.4 of <a href="#SECG1" class="xref">[SECG1]</a>. This function MUST output INVALID if the octet string does not decode to an EC point.  </li>
 <li>The hash function Hash is SHA-256 as specified in <a href="#RFC6234" class="xref">[RFC6234]</a>, with hLen = 32.  </li>
-<li>The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s) (where 0x02 is a single octet with value 2, 0x02=int_to_string(2, 1)). The input s to arbitrary_string_to_point is a 32-octet string and the output is either an EC point or "INVALID".  </li>
+<li>The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s). The input s to arbitrary_string_to_point is a 32-octet string and the output is either an EC point or "INVALID".  </li>
 </ul>
 
 <p> </p>
 <p id="rfc.section.5.5.p.2">This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that: </p>
 
 <ul>
-<li>suite_string = 0x02 = int_to_string(2, 1), a single octet with value 2.</li>
+<li>suite_string = 0x02</li>
 <li>the ECVRF_hash_to_curve function is as specified in <a href="#h2csuite" class="xref">Section 5.4.1.2</a> with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_ (the suite is defined in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a> Section 8.2)</li>
 </ul>
 
@@ -1213,10 +1214,9 @@
 <p id="rfc.section.5.5.p.3">This document defines ECVRF-EDWARDS25519-SHA512-TAI as follows: </p>
 
 <ul>
-<li>suite_string = 0x03 = int_to_string(3, 1), a single octet with value 3. </li>
+<li>suite_string = 0x03.</li>
 <li>The EC group G is the edwards25519 elliptic curve with parameters defined in Table 1 of <a href="#RFC8032" class="xref">[RFC8032]</a>.  For this group, 2n = qLen = 32 and cofactor = 8.  </li>
-<li>The private key and generation of the secret scalar and the public key are specified in Section 5.1.5 of <a href="#RFC8032" class="xref">[RFC8032]</a>
-</li>
+<li>The private key and generation of the secret scalar and the public key are specified in Section 5.1.5 of <a href="#RFC8032" class="xref">[RFC8032]</a>.</li>
 <li>The ECVRF_nonce_generation function is as specified in <a href="#nonce25519" class="xref">Section 5.4.2.2</a>.</li>
 <li>The int_to_string function as specified in the first paragraph of Section 5.1.2 of <a href="#RFC8032" class="xref">[RFC8032]</a>. (This is little-endian representation.)</li>
 <li>The string_to_int function interprets the string as an integer in little-endian representation.</li>
@@ -1230,8 +1230,8 @@
 <p id="rfc.section.5.5.p.4">This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except: </p>
 
 <ul>
-<li>suite_string = 0x04 = int_to_string(4, 1), a single octet with value 4.  </li>
-<li>the ECVRF_hash_to_curve function is as specified in <a href="#h2csuite" class="xref">Section 5.4.1.2</a> with h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_ (the suite is defined in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a> Section 8.5.) </li>
+<li>suite_string = 0x04; </li>
+<li>the ECVRF_hash_to_curve function is as specified in <a href="#h2csuite" class="xref">Section 5.4.1.2</a> with h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_ (the suite is defined in <a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">[I-D.irtf-cfrg-hash-to-curve]</a> Section 8.5).  </li>
 </ul>
 
 <p> </p>
@@ -1274,7 +1274,7 @@
 <li>Y = string_to_point(PK_string)</li>
 <li>If Y is "INVALID", output "INVALID" and stop</li>
 <li>y_string = PK_string</li>
-<li>oneTwentySeven_string = 0x7F = int_to_string(127, 1) <br>(a single octet with value 127)</li>
+<li>oneTwentySeven_string = 0x7F</li>
 <li>y_string[31] = y_string[31] &amp; oneTwentySeven_string <br>(this step clears the high-order bit of octet 31)</li>
 <li>bad_pk[0] = int_to_string(0, 32)</li>
 <li>bad_pk[1] = int_to_string(1, 32)</li>
@@ -1309,7 +1309,7 @@
 </h1>
 <h1 id="rfc.section.7.1">
 <a href="#rfc.section.7.1">7.1.</a> Key Generation</h1>
-<p id="rfc.section.7.1.p.1">Applications that use the VRFs defined in this document MUST ensure that that the VRF key is generated correctly, using good randomness.  </p>
+<p id="rfc.section.7.1.p.1">Applications that use the VRFs defined in this document MUST ensure that the VRF key is generated correctly, using good randomness.  </p>
 <h1 id="rfc.section.7.1.1">
 <a href="#rfc.section.7.1.1">7.1.1.</a> <a href="#untrustedkeys" id="untrustedkeys">Uniqueness and collision resistance with untrusted keys</a>
 </h1>
