@@ -4,7 +4,7 @@ All comments have been addressed in the text, except:
 
 > a subsection discussing pros and cons of RSAVRF vs. ECVRF.
 
-This one falls in the broader discussion of EC-based vs RSA-based cryptography. The pros and cons are somewhat ambiguous and the discussion woud lengthy, needlessly controversial, and not specific to the VRF.
+This one falls in the broader discussion of EC-based vs RSA-based cryptography. The pros and cons are somewhat ambiguous and the discussion would be lengthy, needlessly controversial, and not specific to the VRF.
 
 > 4. I appreciate you don't want to repeat things from elsewhere, but I think it would add to the readability of the document if you added a subsection / appendix briefly recalling the RSASP1 and RSAVP1 primitives. 
 
