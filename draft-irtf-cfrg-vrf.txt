@@ -134,19 +134,20 @@ Internet-Draft                     VRF                     November 2021
 
    A Verifiable Random Function (VRF) [MRV99] is the public-key version
    of a keyed cryptographic hash.  Only the holder of the private VRF
-   key can compute the hash, but anyone with corresponding public key
-   can verify the correctness of the hash.
+   key can compute the hash, but anyone with the corresponding public
+   key can verify the correctness of the hash.
 
    A key application of the VRF is to provide privacy against offline
-   enumeration (e.g. dictionary attacks) on data stored in a hash-based
-   data structure.  In this application, a Prover holds the VRF private
-   key and uses the VRF hashing to construct a hash-based data structure
-   on the input data.  Due to the nature of the VRF, only the Prover can
-   answer queries about whether or not some data is stored in the data
-   structure.  Anyone who knows the public VRF key can verify that the
-   Prover has answered the queries correctly.  However, no offline
-   inferences (i.e. inferences without querying the Prover) can be made
-   about the data stored in the data structure.
+   dictionary attacks (also known as enumeration attacks) on data stored
+   in a hash-based data structure.  In this application, a Prover holds
+   the VRF private key and uses the VRF hashing to construct a hash-
+   based data structure on the input data.  Due to the nature of the
+   VRF, only the Prover can answer queries about whether or not some
+   data is stored in the data structure.  Anyone who knows the public
+   VRF key can verify that the Prover has answered the queries
+   correctly.  However, no offline inferences (i.e. inferences without
+   querying the Prover) can be made about the data stored in the data
+   structure.
 
 1.2.  Requirements
 
@@ -161,7 +162,6 @@ Internet-Draft                     VRF                     November 2021
    SK:  The private key for the VRF.
 
    PK:  The public key for the VRF.
-
 
 
 
@@ -213,7 +213,7 @@ Internet-Draft                     VRF                     November 2021
 
    The proof pi allows a Verifier holding the public key PK to verify
    that beta is the correct VRF hash of input alpha under key PK.  Thus,
-   the VRF also comes with an algorithm
+   the VRFs defined in this document also come with an algorithm
 
       VRF_verify(PK, alpha, pi)
 
@@ -325,10 +325,10 @@ Internet-Draft                     VRF                     November 2021
    value by comparing beta to the result of VRF_hash(SK, alpha).
 
    Also, the VRF output beta does not look random to any party that
-   knows the valid VRF proof pi corresponding to the VRF input alpha,
-   even if this party does not know the private VRF key SK.  Such a
-   party can easily distinguish beta from a random value by checking
-   whether VRF_verify(PK, alpha, pi) returns (VALID, beta).
+   knows a valid VRF proof pi corresponding to the VRF input alpha, even
+   if this party does not know the private VRF key SK.  Such a party can
+   easily distinguish beta from a random value by checking whether
+   VRF_verify(PK, alpha, pi) returns (VALID, beta).
 
 
 
@@ -757,15 +757,15 @@ Internet-Draft                     VRF                     November 2021
 
 5.3.  ECVRF Verifying
 
-   ECVRF_verify(Y, pi_string, alpha_string)
+   ECVRF_verify(Y, alpha_string, pi_string)
 
    Input:
 
       Y - public key, an EC point
 
-      pi_string - VRF proof, octet string of length ptLen+n+qLen
-
       alpha_string - VRF input, octet string
+
+      pi_string - VRF proof, octet string of length ptLen+n+qLen
 
    Output:
 
@@ -1334,8 +1334,8 @@ Internet-Draft                     VRF                     November 2021
 
    13.  bad_pk[6] = int_to_string(p+1, 32)
 
-   14.  If y_string is in bad_pk[0]...bad_pk[6], output "INVALID" and
-        stop
+   14.  If y_string is in the list [bad_pk[0],...,bad_pk[6]], output
+        "INVALID" and stop
 
    15.  Output Y
 
@@ -1590,7 +1590,7 @@ Internet-Draft                     VRF                     November 2021
    input alpha for both signing and verifying.  Thus, additional
    prehashing of alpha (as specified, for example, in [RFC8032] for
    EdDSA signatures) is not needed, even for applications that need to
-   handle long alpha or to support the Initialized-Update-Finalize (IUF)
+   handle long alpha or to support the Initialize-Update-Finalize (IUF)
    interface (in such an interface, alpha is not supplied all at once,
    but rather in pieces by a sequence of calls to Update).  The ECVRF,
    in particular, uses alpha only in ECVRF_hash_to_curve.  The curve
@@ -1644,23 +1644,23 @@ Internet-Draft                     VRF                     November 2021
       to the nonzero length of the domain separation tag by
       [I-D.irtf-cfrg-hash-to-curve].
 
-   For the RSA VRF, if future designs need to specify variants of the
+   For RSA-FDH-VRF, if future designs need to specify variants of the
    design in this document, such variants should use different first
    octets in inputs to MGF1 and to the hash function used in
    proof_to_hash, in order to avoid the possibility that an adversary
    can obtain a VRF output under one variant, and then claim it was
    obtained under another variant
 
-   For the elliptic curve VRF, if future designs need to specify
-   variants (e.g., additional ciphersuites) of the design in this
-   document, then, to avoid the possibility that an adversary can obtain
-   a VRF output under one variant, and then claim it was obtained under
-   another variant, they should specify a different suite_string
-   constant.  This way, the inputs to the hash_to_curve hash function
-   used in producing H are guaranteed to be different; since all the
-   other hashing done by the prover depends on H, inputs all the hash
-   functions used by the prover will also be different as long as
-   hash_to_curve is collision resistant.
+   For ECVRF, if future designs need to specify variants (e.g.,
+   additional ciphersuites) of the design in this document, then, to
+   avoid the possibility that an adversary can obtain a VRF output under
+   one variant, and then claim it was obtained under another variant,
+   they should specify a different suite_string constant.  This way, the
+   inputs to the hash_to_curve hash function used in producing H are
+   guaranteed to be different; since all the other hashing done by the
+   prover depends on H, inputs all the hash functions used by the prover
+   will also be different as long as hash_to_curve is collision
+   resistant.
 
 8.  Change Log
 

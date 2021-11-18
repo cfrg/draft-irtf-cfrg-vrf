@@ -94,12 +94,12 @@
    A Verifiable Random Function
    (VRF) <xref target="MRV99" format="default"/> is the public-key version of a
    keyed cryptographic hash. Only the holder of the private VRF key
-   can compute the hash, but anyone with corresponding public key
+   can compute the hash, but anyone with the corresponding public key
    can verify the correctness of the hash.
         </t>
         <t>
    A key application of the VRF is to provide privacy against 
-   offline enumeration (e.g. dictionary attacks) on data  stored in a 
+   offline dictionary attacks (also known as enumeration attacks) on data stored in a
    hash-based data structure. 
    In this application, a Prover holds the VRF private key and uses the VRF hashing to
    construct a hash-based data structure on the input data.
@@ -210,7 +210,7 @@
       <t>
    The proof pi allows a Verifier holding the public key PK
    to verify that beta is the correct VRF hash of input alpha
-   under key PK. Thus, the VRF also comes with an algorithm
+   under key PK. Thus, the VRFs defined in this document also come with an algorithm
       </t>
       <ul empty="true" spacing="normal">
         <li>   VRF_verify(PK, alpha, pi)</li>
@@ -321,7 +321,7 @@
        a random value by comparing beta to the result of VRF_hash(SK, alpha).	     
         </t>
         <t> Also, the VRF output beta does not look random to any party that
-	knows the valid VRF proof pi corresponding to the VRF input alpha, even
+	knows a valid VRF proof pi corresponding to the VRF input alpha, even
 	if this party does not know the private VRF key SK.
 	Such a party can easily distinguish beta from a random value by
     checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).
@@ -683,15 +683,15 @@
       <section anchor="ecverify" numbered="true" toc="default">
         <name>ECVRF Verifying</name>
         <t>
-                ECVRF_verify(Y, pi_string, alpha_string)
+                ECVRF_verify(Y, alpha_string, pi_string)
         </t>
         <t>
                 Input:
         </t>
         <ul empty="true" spacing="normal">
           <li>Y -  public key, an EC point</li>
-          <li>pi_string - VRF proof, octet string of length ptLen+n+qLen</li>
           <li>alpha_string - VRF input, octet string</li>
+          <li>pi_string - VRF proof, octet string of length ptLen+n+qLen</li>
         </ul>
         <t>
                 Output:
@@ -1182,7 +1182,7 @@
             <li>bad_pk[4] = int_to_string(p-1, 32)</li>
             <li>bad_pk[5] = int_to_string(p, 32)</li>
             <li>bad_pk[6] = int_to_string(p+1, 32)</li>
-            <li>If y_string is in bad_pk[0]...bad_pk[6], output "INVALID" and stop</li>
+            <li>If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop</li>
             <li>Output Y</li>
           </ol>
           <t>
@@ -1398,7 +1398,7 @@
         <xref target="RFC8032" format="default"/> for EdDSA signatures) is not needed, 
         even for applications that need to handle long alpha or
         to support the
-        Initialized-Update-Finalize (IUF) interface (in such an interface,
+        Initialize-Update-Finalize (IUF) interface (in such an interface,
         alpha is not supplied
         all at once, but rather in pieces by a sequence of calls to Update).
         The ECVRF, in particular, uses alpha only in
@@ -1435,11 +1435,11 @@
           and therefore different from the last octet of the input to the hash function used in ECVRF_hash_to_curve_h2c_suite,
           which is set equal to the nonzero length of the domain separation tag by <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/>.</li>
         </ul>
-        <t>For the RSA VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
+        <t>For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
          another variant
         </t>
-        <t>For the elliptic curve VRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
+        <t>For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
          then, to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
          another variant,
