@@ -381,7 +381,7 @@
       <ul empty="true" spacing="normal">
         <!-- do not change the names, these are from RFC8017 -->
                 <li>(n, e) - RSA public key</li>
-        <li>K - RSA private key</li>
+        <li>K - RSA private key (its representation is implementation-dependent)</li>
         <li>k - length in octets of the RSA modulus n (k must be less than 2^32)</li>
       </ul>
       <t>
@@ -407,7 +407,7 @@
                 </li>
         <li>
                     RSASP1 - RSA signature primitive as defined in
-                    Section 5.2.1 of <xref target="RFC8017" format="default"/> (given a secret key and an input, raises the input to the secret RSA exponent modulo n)
+                    Section 5.2.1 of <xref target="RFC8017" format="default"/> (given a private key and an input, raises the input to the private RSA exponent modulo n)
                 </li>
         <li>
                     RSAVP1 - RSA verification primitive as defined in
@@ -492,7 +492,7 @@
         <ul empty="true" spacing="normal">
           <li>(n, e) - RSA public key</li>
           <li>alpha_string - VRF hash input, an octet string</li>
-          <li>pi_string - proof to be verified, an octet string of length n</li>
+          <li>pi_string - proof to be verified, an octet string of length k</li>
         </ul>
         <t>
                 Output:
@@ -508,14 +508,14 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>s = OS2IP(pi_string)</li>
-          <li>m = RSAVP1((n, e), s)</li>
-          <li>EM = I2OSP(m, k - 1)</li>
+          <li>m = RSAVP1((n, e), s); if RSAVP1 returns "signature representative out of range", output "INVALID" and stop.</li>
           <li>one_string = 0x01</li>
           <li>EM' = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
+          <li>m' = OS2IP(EM')</li>
           <li>
-                        If EM and EM' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
+                        If m and m' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
                         else output "INVALID".
-                    </li>
+          </li>
         </ol>
       </section>
     </section>
