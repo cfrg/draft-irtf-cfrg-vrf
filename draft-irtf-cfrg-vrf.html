@@ -1199,11 +1199,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">VRF</td>
-<td class="right">November 2021</td>
+<td class="right">January 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goldberg, et al.</td>
-<td class="center">Expires 22 May 2022</td>
+<td class="center">Expires 17 July 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1216,12 +1216,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-irtf-cfrg-vrf-10</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-11-18" class="published">18 November 2021</time>
+<time datetime="2022-01-13" class="published">13 January 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-05-22">22 May 2022</time></dd>
+<dd class="expires"><time datetime="2022-07-17">17 July 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1275,7 +1275,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 May 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 July 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1284,7 +1284,7 @@ li > p:last-of-type {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2022 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1374,7 +1374,7 @@ li > p:last-of-type {
                     <p id="section-toc.1-1.5.2.4.2.2.1"><a href="#section-5.4.2" class="xref">5.4.2</a>.  <a href="#name-ecvrf-nonce-generation" class="xref">ECVRF Nonce Generation</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.3">
-                    <p id="section-toc.1-1.5.2.4.2.3.1"><a href="#section-5.4.3" class="xref">5.4.3</a>.  <a href="#name-ecvrf-hash-points" class="xref">ECVRF Hash Points</a></p>
+                    <p id="section-toc.1-1.5.2.4.2.3.1"><a href="#section-5.4.3" class="xref">5.4.3</a>.  <a href="#name-ecvrf-challenge-generation" class="xref">ECVRF Challenge Generation</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.4">
                     <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="xref">5.4.4</a>.  <a href="#name-ecvrf-decode-proof" class="xref">ECVRF Decode Proof</a></p>
@@ -1427,7 +1427,10 @@ li > p:last-of-type {
                 <p id="section-toc.1-1.7.2.6.1"><a href="#section-7.6" class="xref">7.6</a>.  <a href="#name-prehashing" class="xref">Prehashing</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.7">
-                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="xref">7.7</a>.  <a href="#name-hash-function-domain-separa" class="xref">Hash function domain separation and futureproofing</a></p>
+                <p id="section-toc.1-1.7.2.7.1"><a href="#section-7.7" class="xref">7.7</a>.  <a href="#name-challenge-generation" class="xref">Challenge Generation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.8">
+                <p id="section-toc.1-1.7.2.8.1"><a href="#section-7.8" class="xref">7.8</a>.  <a href="#name-hash-function-domain-separa" class="xref">Hash function domain separation and futureproofing</a></p>
 </li>
             </ul>
 </li>
@@ -2072,7 +2075,7 @@ li > p:last-of-type {
 </li>
           <li id="section-5.1-7.5">k = ECVRF_nonce_generation(SK, h_string)<a href="#section-5.1-7.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.1-7.6">c = ECVRF_hash_points(H, Gamma, k*B, k*H) (see <a href="#ecvrfHashPoints" class="xref">Section 5.4.3</a>)<a href="#section-5.1-7.6" class="pilcrow">¶</a>
+          <li id="section-5.1-7.6">c = ECVRF_challenge_generation(H, Gamma, k*B, k*H) (see <a href="#ecvrfChallengeGeneration" class="xref">Section 5.4.3</a>)<a href="#section-5.1-7.6" class="pilcrow">¶</a>
 </li>
           <li id="section-5.1-7.7">s = (k + c*x) mod q<a href="#section-5.1-7.7" class="pilcrow">¶</a>
 </li>
@@ -2169,7 +2172,7 @@ li > p:last-of-type {
 </li>
           <li id="section-5.3-7.6">V = s*H - c*Gamma<a href="#section-5.3-7.6" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.7">c' = ECVRF_hash_points(H, Gamma, U, V) (see <a href="#ecvrfHashPoints" class="xref">Section 5.4.3</a>)<a href="#section-5.3-7.7" class="pilcrow">¶</a>
+          <li id="section-5.3-7.7">c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <a href="#ecvrfChallengeGeneration" class="xref">Section 5.4.3</a>)<a href="#section-5.3-7.7" class="pilcrow">¶</a>
 </li>
           <li id="section-5.3-7.8">
                         If c and c' are equal, output ("VALID", ECVRF_proof_to_hash(pi_string));
@@ -2192,7 +2195,7 @@ li > p:last-of-type {
             This algorithm is the only place the VRF input alpha is used
             for proving and verifying. See
             <a href="#prehash" class="xref">Section 7.6</a> for further discussion.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.4.1-2">This section specifies a number of such algorithms, which are not compatible with each other. The choice of a particular algorithm from the options specified in this section is made in <a href="#suites" class="xref">Section 5.5</a>.<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.4.1-2">This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <a href="#suites" class="xref">Section 5.5</a>.<a href="#section-5.4.1-2" class="pilcrow">¶</a></p>
 <div id="ecvrfH2C1">
 <section id="section-5.4.1.1">
             <h5 id="name-ecvrf_hash_to_curve_try_and">
@@ -2232,7 +2235,7 @@ li > p:last-of-type {
 <p id="section-5.4.1.1-9">
                 Fixed option  (specified in <a href="#suites" class="xref">Section 5.5</a>):<a href="#section-5.4.1.1-9" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.1.1-10.1">arbitrary_string_to_point - conversion of an arbitrary octet string to an
+<li class="normal ulEmpty" id="section-5.4.1.1-10.1">interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to an
                     EC point.<a href="#section-5.4.1.1-10.1" class="pilcrow">¶</a>
 </li>
             </ul>
@@ -2256,7 +2259,7 @@ li > p:last-of-type {
 </li>
                   <li id="section-5.4.1.1-12.6.2.2">hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)<a href="#section-5.4.1.1-12.6.2.2" class="pilcrow">¶</a>
 </li>
-                  <li id="section-5.4.1.1-12.6.2.3">H = arbitrary_string_to_point(hash_string)<a href="#section-5.4.1.1-12.6.2.3" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.6.2.3">H = interpret_hash_value_as_a_point(hash_string)<a href="#section-5.4.1.1-12.6.2.3" class="pilcrow">¶</a>
 </li>
                   <li id="section-5.4.1.1-12.6.2.4">If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H<a href="#section-5.4.1.1-12.6.2.4" class="pilcrow">¶</a>
 </li>
@@ -2358,7 +2361,7 @@ li > p:last-of-type {
 <p id="section-5.4.2.1-4">
                     Output:<a href="#section-5.4.2.1-4" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.2.1-5.1">k - an integer between 1 and q-1<a href="#section-5.4.2.1-5.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.2.1-5.1">k - an integer nonce between 1 and q-1<a href="#section-5.4.2.1-5.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-5.4.2.1-6">
@@ -2375,7 +2378,7 @@ li > p:last-of-type {
 </li>
               <li class="normal ulEmpty" id="section-5.4.2.1-7.5"> The prime q is the same as in this specification<a href="#section-5.4.2.1-7.5" class="pilcrow">¶</a>
 </li>
-              <li class="normal ulEmpty" id="section-5.4.2.1-7.6"> qlen is the binary length of q, i.e., the smallest integer such that 2^qlen &gt; q<a href="#section-5.4.2.1-7.6" class="pilcrow">¶</a>
+              <li class="normal ulEmpty" id="section-5.4.2.1-7.6"> qlen is the binary length of q, i.e., the smallest integer such that 2^qlen &gt; q (this qlen is not to be confused with qLen in this document, which is the length of q in octets)<a href="#section-5.4.2.1-7.6" class="pilcrow">¶</a>
 </li>
               <li class="normal ulEmpty" id="section-5.4.2.1-7.7"> All the other values and primitives as defined in <span>[<a href="#RFC6979" class="xref">RFC6979</a>]</span><a href="#section-5.4.2.1-7.7" class="pilcrow">¶</a>
 </li>
@@ -2402,7 +2405,7 @@ li > p:last-of-type {
 <p id="section-5.4.2.2-5">
                     Output:<a href="#section-5.4.2.2-5" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.2.2-6.1">k - an integer between 0 and q-1<a href="#section-5.4.2.2-6.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.2.2-6.1">k - an integer nonce between 0 and q-1<a href="#section-5.4.2.2-6.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-5.4.2.2-7">
@@ -2421,23 +2424,23 @@ li > p:last-of-type {
 </div>
 </section>
 </div>
-<div id="ecvrfHashPoints">
+<div id="ecvrfChallengeGeneration">
 <section id="section-5.4.3">
-          <h4 id="name-ecvrf-hash-points">
-<a href="#section-5.4.3" class="section-number selfRef">5.4.3. </a><a href="#name-ecvrf-hash-points" class="section-name selfRef">ECVRF Hash Points</a>
+          <h4 id="name-ecvrf-challenge-generation">
+<a href="#section-5.4.3" class="section-number selfRef">5.4.3. </a><a href="#name-ecvrf-challenge-generation" class="section-name selfRef">ECVRF Challenge Generation</a>
           </h4>
 <p id="section-5.4.3-1">
-                ECVRF_hash_points(P1, P2, ..., PM)<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
+                ECVRF_challenge_generation(P1, P2, P3, P4)<a href="#section-5.4.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-2">
                 Input:<a href="#section-5.4.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.3-3.1">P1...PM - EC points in G<a href="#section-5.4.3-3.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.3-3.1">P1, P2, P3, P4 - EC points in G<a href="#section-5.4.3-3.1" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-5.4.3-4">
                 Output:<a href="#section-5.4.3-4" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.3-5.1">c - hash value, integer between 0 and 2^(8n)-1<a href="#section-5.4.3-5.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.3-5.1">c - challenge value, integer between 0 and 2^(8n)-1<a href="#section-5.4.3-5.1" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-5.4.3-6">
@@ -2448,7 +2451,7 @@ li > p:last-of-type {
             <li id="section-5.4.3-7.2">Initialize str = suite_string || two_string<a href="#section-5.4.3-7.2" class="pilcrow">¶</a>
 </li>
             <li id="section-5.4.3-7.3">
-              <p id="section-5.4.3-7.3.1">for PJ in [P1, P2, ... PM]:<a href="#section-5.4.3-7.3.1" class="pilcrow">¶</a></p>
+              <p id="section-5.4.3-7.3.1">for PJ in [P1, P2, P3, P4]:<a href="#section-5.4.3-7.3.1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-7.3.2">str = str || point_to_string(PJ)<a href="#section-5.4.3-7.3.2" class="pilcrow">¶</a></p>
 </li>
             <li id="section-5.4.3-7.4">zero_string = 0x00<a href="#section-5.4.3-7.4" class="pilcrow">¶</a>
@@ -2567,7 +2570,7 @@ li > p:last-of-type {
             The hash function Hash is SHA-256 as specified in <span>[<a href="#RFC6234" class="xref">RFC6234</a>]</span>, with hLen = 32.<a href="#section-5.5-2.9" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.10">
-            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s). The input s to arbitrary_string_to_point is a 32-octet string
+            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s). The input s to interpret_hash_value_as_a_point is a 32-octet string
                   and the output is either an EC point or "INVALID".<a href="#section-5.5-2.10" class="pilcrow">¶</a>
 </li>
         </ul>
@@ -2621,7 +2624,7 @@ li > p:last-of-type {
             The hash function Hash is SHA-512 as specified in <span>[<a href="#RFC6234" class="xref">RFC6234</a>]</span>, with hLen = 64.<a href="#section-5.5-6.9" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-6.10">
-            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with arbitrary_string_to_point(s) = string_to_point(s[0]...s[31]).<a href="#section-5.5-6.10" class="pilcrow">¶</a>
+            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).<a href="#section-5.5-6.10" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-5.5-7">This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:<a href="#section-5.5-7" class="pilcrow">¶</a></p>
@@ -2948,46 +2951,57 @@ li > p:last-of-type {
         all at once, but rather in pieces by a sequence of calls to Update).
         The ECVRF, in particular, uses alpha only in
         ECVRF_hash_to_curve. The curve point H becomes the representative
-        of alpha thereafter. Note that the suite_string octet and the public key
-        are hashed together with alpha in ECVRF_hash_to_curve, which ensures
-        that the curve (including the generator B) and the public
-    key are included indirectly into subsequent hashes.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
+        of alpha thereafter.<a href="#section-7.6-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="challengeGen">
 <section id="section-7.7">
-        <h3 id="name-hash-function-domain-separa">
-<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-hash-function-domain-separa" class="section-name selfRef">Hash function domain separation and futureproofing</a>
+        <h3 id="name-challenge-generation">
+<a href="#section-7.7" class="section-number selfRef">7.7. </a><a href="#name-challenge-generation" class="section-name selfRef">Challenge Generation</a>
         </h3>
-<p id="section-7.7-1">
-         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, hash_points, and proof_to_hash). The
+<p id="section-7.7-1">Note that the suite_string octet and the public key
+            are hashed together with alpha in ECVRF_hash_to_curve, which ensures
+            that the curve, including the generator B, and the public
+            key are included indirectly into subsequent hashes
+            (in particular, the hash that generates the challenge value c) via the point H.
+            Including the curve and the public key into the hash that generates the challenge is necessary for the
+            security of the VRF, as explained in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-7.8">
+        <h3 id="name-hash-function-domain-separa">
+<a href="#section-7.8" class="section-number selfRef">7.8. </a><a href="#name-hash-function-domain-separa" class="section-name selfRef">Hash function domain separation and futureproofing</a>
+        </h3>
+<p id="section-7.8-1">
+         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
          theoretical analysis assumes each of these functions is a separate random oracle.
          This analysis still holds even if the same hash function is used, as long as the four 
          queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
          to equal each other or to any queries made to the hash function for the same SK and 
          different alpha. This is indeed the case for the RSA-FDH-VRF defined in this document, because the first octets
-         of the input to the hash function used in MGF1 and in proof_to_hash are different.<a href="#section-7.7-1" class="pilcrow">¶</a></p>
-<p id="section-7.7-2">
-         This is also the case for the ECVRF ciphersuites defined in this document, because:<a href="#section-7.7-2" class="pilcrow">¶</a></p>
+         of the input to the hash function used in MGF1 and in proof_to_hash are different.<a href="#section-7.8-1" class="pilcrow">¶</a></p>
+<p id="section-7.8-2">
+         This is also the case for the ECVRF ciphersuites defined in this document, because:<a href="#section-7.8-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.7-3.1">inputs to the hash function used during nonce_generation are unlikely to equal 
-          inputs used in hash_to_curve, proof_to_hash, and hash_points. This
+<li class="normal" id="section-7.8-3.1">inputs to the hash function used during nonce_generation are unlikely to equal 
+          inputs used in hash_to_curve, proof_to_hash, and challenge_generation. This
           follows since nonce_generation inputs a secret to the hash function that is not used by 
-          honest parties as input to any other hash function, and is not available to the adversary.<a href="#section-7.7-3.1" class="pilcrow">¶</a>
+          honest parties as input to any other hash function, and is not available to the adversary.<a href="#section-7.8-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.7-3.2">the second octets of the inputs to the hash function used in
-          proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment
-          are all different.<a href="#section-7.7-3.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-7.8-3.2">the second octets of the inputs to the hash function used in
+          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment
+          are all different.<a href="#section-7.8-3.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.7-3.3">the last octet of the input to the hash function used in
-          proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment is always zero,
+          <li class="normal" id="section-7.8-3.3">the last octet of the input to the hash function used in
+          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment is always zero,
           and therefore different from the last octet of the input to the hash function used in ECVRF_hash_to_curve_h2c_suite,
-          which is set equal to the nonzero length of the domain separation tag by <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span>.<a href="#section-7.7-3.3" class="pilcrow">¶</a>
+          which is set equal to the nonzero length of the domain separation tag by <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span>.<a href="#section-7.8-3.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-7.7-4">For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
+<p id="section-7.8-4">For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
-         another variant<a href="#section-7.7-4" class="pilcrow">¶</a></p>
-<p id="section-7.7-5">For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
+         another variant<a href="#section-7.8-4" class="pilcrow">¶</a></p>
+<p id="section-7.8-5">For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
          then, to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
          another variant,
@@ -2995,7 +3009,7 @@ li > p:last-of-type {
         to the hash_to_curve hash function used in producing H are
         guaranteed to be different; since all the other hashing done by the prover
         depends on H, inputs all the hash functions used by the prover will also be
-        different as long as hash_to_curve is collision resistant.<a href="#section-7.7-5" class="pilcrow">¶</a></p>
+        different as long as hash_to_curve is collision resistant.<a href="#section-7.8-5" class="pilcrow">¶</a></p>
 </section>
 </section>
 </div>

@@ -67,7 +67,7 @@
         <email>jvcelak@ns1.com</email>
       </address>
     </author>
-    <date year="2021"/>
+    <date year="2022"/>
     <workgroup>CFRG</workgroup>
     <keyword>public key cryptography</keyword>
     <keyword>hashing</keyword>
@@ -637,7 +637,7 @@
           <li>h_string = point_to_string(H)</li>
           <li>Gamma = x*H</li>
           <li>k = ECVRF_nonce_generation(SK, h_string)</li>
-          <li>c = ECVRF_hash_points(H, Gamma, k*B, k*H) (see <xref target="ecvrfHashPoints" format="default"/>)</li>
+          <li>c = ECVRF_challenge_generation(H, Gamma, k*B, k*H) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
           <li>s = (k + c*x) mod q</li>
           <li>pi_string = point_to_string(Gamma) || int_to_string(c, n) || int_to_string(s, qLen)</li>
           <li>Output pi_string</li>
@@ -712,7 +712,7 @@
           <li>H = ECVRF_hash_to_curve(Y, alpha_string)</li>
           <li>U = s*B - c*Y</li>
           <li>V = s*H - c*Gamma</li>
-          <li>c' = ECVRF_hash_points(H, Gamma, U, V) (see <xref target="ecvrfHashPoints" format="default"/>)</li>
+          <li>c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
           <li>
                         If c and c' are equal, output ("VALID", ECVRF_proof_to_hash(pi_string));
                         else output "INVALID"
@@ -729,7 +729,7 @@
             for proving and verifying. See
             <xref target="prehash" format="default"/> for further discussion.
           </t>
-          <t>This section specifies a number of such algorithms, which are not compatible with each other. The choice of a particular algorithm from the options specified in this section is made in <xref target="suites" format="default"/>.</t>
+          <t>This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <xref target="suites" format="default"/>.</t>
           <section anchor="ecvrfH2C1" numbered="true" toc="default">
             <name>ECVRF_hash_to_curve_try_and_increment</name>
             <t>
@@ -770,7 +770,7 @@
                 Fixed option  (specified in <xref target="suites" format="default"/>):
             </t>
             <ul empty="true" spacing="normal">
-              <li>arbitrary_string_to_point - conversion of an arbitrary octet string to an
+              <li>interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to an
                     EC point.</li>
             </ul>
             <t>
@@ -786,7 +786,7 @@
                 </t>
                 <ol spacing="normal" type="a"><li>ctr_string = int_to_string(ctr, 1)</li>
                   <li>hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)</li>
-                  <li>H = arbitrary_string_to_point(hash_string)</li>
+                  <li>H = interpret_hash_value_as_a_point(hash_string)</li>
                   <li>If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H</li>
                   <li>ctr = ctr + 1</li>
                 </ol>
@@ -875,7 +875,7 @@
                     Output:
             </t>
             <ul empty="true" spacing="normal">
-              <li>k - an integer between 1 and q-1</li>
+              <li>k - an integer nonce between 1 and q-1</li>
             </ul>
             <t>
                     The ECVRF_nonce_generation function is as specified in 
@@ -887,7 +887,7 @@
               <li> The hash function H is Hash and its output length hlen is set as hLen*8</li>
               <li> The secret key x is set equal to the VRF secret scalar x </li>
               <li> The prime q is the same as in this specification</li>
-              <li> qlen is the binary length of q, i.e., the smallest integer such that 2^qlen &gt; q</li>
+              <li> qlen is the binary length of q, i.e., the smallest integer such that 2^qlen &gt; q (this qlen is not to be confused with qLen in this document, which is the length of q in octets)</li>
               <li> All the other values and primitives as defined in <xref target="RFC6979" format="default"/> </li>
             </ul>
           </section>
@@ -910,7 +910,7 @@
                     Output:
             </t>
             <ul empty="true" spacing="normal">
-              <li>k - an integer between 0 and q-1</li>
+              <li>k - an integer nonce between 0 and q-1</li>
             </ul>
             <t>
                     Steps:
@@ -922,22 +922,22 @@
             </ol>
           </section>
         </section>
-        <section anchor="ecvrfHashPoints" numbered="true" toc="default">
-          <name>ECVRF Hash Points</name>
+        <section anchor="ecvrfChallengeGeneration" numbered="true" toc="default">
+          <name>ECVRF Challenge Generation</name>
           <t>
-                ECVRF_hash_points(P1, P2, ..., PM)
+                ECVRF_challenge_generation(P1, P2, P3, P4)
           </t>
           <t>
                 Input:
           </t>
           <ul empty="true" spacing="normal">
-            <li>P1...PM - EC points in G</li>
+            <li>P1, P2, P3, P4 - EC points in G</li>
           </ul>
           <t>
                 Output:
           </t>
           <ul empty="true" spacing="normal">
-            <li>c - hash value, integer between 0 and 2^(8n)-1</li>
+            <li>c - challenge value, integer between 0 and 2^(8n)-1</li>
           </ul>
           <t>
                 Steps:
@@ -945,7 +945,7 @@
           <ol spacing="normal" type="1"><li>two_string = 0x02</li>
             <li>Initialize str = suite_string || two_string </li>
             <li>
-              <t>for PJ in [P1, P2, ... PM]:
+              <t>for PJ in [P1, P2, P3, P4]:
               </t>
               <t>str = str || point_to_string(PJ)
               </t>
@@ -1044,7 +1044,7 @@
             The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32.
         </li>
           <li>
-            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with arbitrary_string_to_point(s) = string_to_point(0x02 || s). The input s to arbitrary_string_to_point is a 32-octet string
+            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s). The input s to interpret_hash_value_as_a_point is a 32-octet string
                   and the output is either an EC point or "INVALID".
         </li>
         </ul>
@@ -1093,7 +1093,7 @@
             The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64.
         </li>
           <li>
-            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with arbitrary_string_to_point(s) = string_to_point(s[0]...s[31]).
+            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).
         </li>
         </ul>
         <t>This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:
@@ -1403,15 +1403,25 @@
         all at once, but rather in pieces by a sequence of calls to Update).
         The ECVRF, in particular, uses alpha only in
         ECVRF_hash_to_curve. The curve point H becomes the representative
-        of alpha thereafter. Note that the suite_string octet and the public key
-        are hashed together with alpha in ECVRF_hash_to_curve, which ensures
-        that the curve (including the generator B) and the public
-    key are included indirectly into subsequent hashes.</t>
+        of alpha thereafter.</t>
       </section>
+
+        <section anchor="challengeGen" numbered="true" toc="default">
+            <name>Challenge Generation</name>
+            <t>Note that the suite_string octet and the public key
+            are hashed together with alpha in ECVRF_hash_to_curve, which ensures
+            that the curve, including the generator B, and the public
+            key are included indirectly into subsequent hashes
+            (in particular, the hash that generates the challenge value c) via the point H.
+            Including the curve and the public key into the hash that generates the challenge is necessary for the
+            security of the VRF, as explained in <xref target="PWHVNRG17" format="default"/>.
+            </t>
+        </section>
+        
       <section numbered="true" toc="default">
         <name>Hash function domain separation and futureproofing</name>
         <t>
-         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, hash_points, and proof_to_hash). The
+         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
          theoretical analysis assumes each of these functions is a separate random oracle.
          This analysis still holds even if the same hash function is used, as long as the four 
          queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
@@ -1424,14 +1434,14 @@
         </t>
         <ul spacing="normal">
           <li>inputs to the hash function used during nonce_generation are unlikely to equal 
-          inputs used in hash_to_curve, proof_to_hash, and hash_points. This
+          inputs used in hash_to_curve, proof_to_hash, and challenge_generation. This
           follows since nonce_generation inputs a secret to the hash function that is not used by 
           honest parties as input to any other hash function, and is not available to the adversary.</li>
           <li>the second octets of the inputs to the hash function used in
-          proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment
+          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment
           are all different.</li>
           <li>the last octet of the input to the hash function used in
-          proof_to_hash, hash_points, and ECVRF_hash_to_curve_try_and_increment is always zero,
+          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment is always zero,
           and therefore different from the last octet of the input to the hash function used in ECVRF_hash_to_curve_h2c_suite,
           which is set equal to the nonzero length of the domain separation tag by <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/>.</li>
         </ul>
