@@ -355,7 +355,7 @@
       <t>
             The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that satisfies
             the "trusted uniqueness", "trusted
-            collision resistance", and "full pseudorandomness" properties defined in <xref target="secdef" format="default"/>.
+            collision resistance", and "full pseudorandomness" properties defined in <xref target="secdef" format="default"/>, as further discussed in <xref target="securitycons" format="default"/>.
             Its security follows from the
             standard RSA assumption in the random oracle model.  Formal
             security proofs are in <xref target="PWHVNRG17" format="default"/>.
@@ -523,13 +523,14 @@
       <name>Elliptic Curve VRF (ECVRF)</name>
       <t>
             The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that
-            satisfies the trusted uniqueness, trusted collision resistance,
-            and full pseudorandomness properties defined in <xref target="secdef" format="default"/>.
+            satisfies the "full uniqueness", "trusted collision resistance",
+            and "full pseudorandomness properties" defined in <xref target="secdef" format="default"/>,
+            as further discussed in <xref target="securitycons" format="default"/>.
             The security of this VRF follows from the decisional 
             Diffie-Hellman (DDH) assumption in the random oracle model. Formal security proofs are
             in <xref target="PWHVNRG17" format="default"/>.
       </t>
-      <t> To additionally satisfy "full uniqueness" and "full collision resistance", 
+      <t> To additionally satisfy "full collision resistance",
         the Verifier MUST additionally perform the validation procedure specified in 
         <xref target="keycheck" format="default"/>  upon receipt of the public
         VRF key.
@@ -576,7 +577,7 @@
                     to a nonnegative integer</li>
         <li>point_to_string - conversion of EC point to an ptLen-octet string</li>
         <li>string_to_point - conversion of an ptLen-octet string to EC point.
-                    string_to_point returns INVALID if the octet string does not convert to a valid EC point.</li>
+                    string_to_point returns INVALID if the octet string does not convert to a valid EC point on the curve E.</li>
         <li>
                     Note that with certain software libraries
                     (for big integer and elliptic curve arithmetic),
@@ -594,17 +595,13 @@
       </t>
       <ul empty="true" spacing="normal">
         <li>SK - VRF private key</li>
-        <li>
-          <t>x - VRF secret scalar, an integer
-          </t>
-          <ul spacing="normal">
-            <li>
+        <li>x - VRF secret scalar, an integer.
                         Note: depending on the ciphersuite used, the VRF secret scalar may be equal
                         to SK; else, it is derived from SK
                     </li>
-          </ul>
-        </li>
         <li>Y = x*B - VRF public key, an EC point</li>
+        <li>PK_string = point_to_string(Y) - VRF public key represented as an octet string</li>
+
       </ul>
       <section anchor="ecvrfprove" numbered="true" toc="default">
         <name>ECVRF Proving</name>
@@ -684,13 +681,13 @@
       <section anchor="ecverify" numbered="true" toc="default">
         <name>ECVRF Verifying</name>
         <t>
-                ECVRF_verify(Y, alpha_string, pi_string)
+                ECVRF_verify(PK_string, alpha_string, pi_string)
         </t>
         <t>
                 Input:
         </t>
         <ul empty="true" spacing="normal">
-          <li>Y -  public key, an EC point</li>
+          <li>PK_string - public key, an octet string</li>
           <li>alpha_string - VRF input, octet string</li>
           <li>pi_string - VRF proof, octet string of length ptLen+cLen+qLen</li>
         </ul>
@@ -707,7 +704,10 @@
         <t>
                 Steps:
         </t>
-        <ol spacing="normal" type="1"><li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
+        <ol spacing="normal" type="1">
+          <li>Y =  string_to_point(PK_string)</li>
+          <li>If Y is "INVALID", output "INVALID" and stop</li>
+          <li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
           <li>If D is "INVALID", output "INVALID" and stop</li>
           <li>(Gamma, c, s) = D</li>
           <li>H = ECVRF_hash_to_curve(Y, alpha_string)</li>
@@ -719,6 +719,8 @@
                         else output "INVALID"
                     </li>
         </ol>
+        <t>Note that the first two steps need to be performed only once for a given public key.</t>
+        
       </section>
       <section numbered="true" toc="default">
         <name>ECVRF Auxiliary Functions</name>
@@ -1043,7 +1045,7 @@
           <li> The string_to_point function converts an octet string to an 
             EC point according to the encoding specified in Section 2.3.4 of 
             <xref target="SECG1" format="default"/>. This function MUST output INVALID if
-            the octet string does not decode to an EC point.
+            the octet string does not decode to a point on the curve E.
         </li>
           <li>
             The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32.
@@ -1095,7 +1097,7 @@
           <li> The string_to_point function converts an octet string to an EC point
         according to the encoding specified in Section 5.1.3 
         of <xref target="RFC8032" format="default"/>.  This function MUST output INVALID if
-            the octet string does not decode to an EC point.
+            the octet string does not decode to a point on the curve E.
         </li>
           <li>
             The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64.
@@ -1121,18 +1123,17 @@
       <section anchor="keycheck" numbered="true" toc="default">
         <name>When the ECVRF Keys are Untrusted</name>
         <t>The ECVRF as specified above is a VRF that satisfies the
-        "trusted uniqueness", "trusted collision resistance", and 
+        "full uniqueness", "trusted collision resistance", and
         "full pseudorandomness" properties defined in <xref target="secdef" format="default"/>.
-        In order to obtain "full uniqueness" and "full collision resistance" (which provide
-        protection against a malicious VRF public key), the Verifier MUST
+        In order to obtain "full collision resistance" (that is, collision resistance even with
+        a malicious VRF public key), the Verifier MUST
         perform
         the following additional validation procedure upon receipt of the public
         VRF key. The public VRF key MUST NOT be used if this procedure returns "INVALID".
         </t>
         <t>
         Note that this procedure is not sufficient if the elliptic curve E
-        or the point B, the generator of group G, is untrusted. If the prover is untrusted,
-        the Verifier MUST
+        or the point B, the generator of group G, is untrusted. The Verifier MUST
         obtain E and B from a trusted source, such as a ciphersuite specification, rather
         than from the prover.
         Ciphersuites in this document specify E and B.
@@ -1156,20 +1157,21 @@
                 Output:
           </t>
           <ul empty="true" spacing="normal">
-            <li>"INVALID", or </li>
-            <li>Y - public key, an EC point</li>
+            <li>"VALID" or "INVALID"</li>
           </ul>
           <t>
                 Steps:
           </t>
-          <ol spacing="normal" type="1"><li>Y = string_to_point(PK_string)</li>
+          <ol spacing="normal" type="1">
+            <li>Y = string_to_point(PK_string)</li>
             <li>If Y is "INVALID", output "INVALID" and stop</li>
             <li>If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop</li>
-            <li>Output Y</li>
+            <li>Output "VALID"</li>
           </ol>
-          <t>Note that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
-                to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, when cofactor&gt;1, it is not necessary to verify
-                that Y is in the subgroup G; Step 3 suffices. Therefore, if the cofactor is small, the total number
+          <t>Note that first two steps are the same as in ECVRF_verify; thus, if ECVRF_validate_key is performed, it can output Y so that ECVRF_verify can skip the first two steps.</t>
+              
+              <t>Note also that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
+                to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, if the cofactor is small, the total number
                 of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply
                 check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:
           </t>
@@ -1263,38 +1265,39 @@
     document MUST ensure that the VRF key is generated correctly,
     using good randomness.
         </t>
+        
         <section anchor="untrustedkeys" numbered="true" toc="default">
           <name>Uniqueness and collision resistance with untrusted keys</name>
-          <t>The ECVRF as specified in <xref target="ecvrfprove" format="default"/>-<xref target="suites" format="default"/>
-    satisfies the "trusted uniqueness" (see <xref target="uniqueness" format="default"/>)
-    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties
-    as long as the VRF keys are generated correctly, with good randomness.
-    If the Verifier trusts the VRF keys are generated correctly, it MAY use 
-    the public key Y as is.
+          <t>The RSA-FDH-VRF satisfies the "trusted uniqueness" (see <xref target="uniqueness" format="default"/>)
+              and "trusted collision resistance"
+              (see <xref target="collisionresistance" format="default"/>) properties
+    as long as the VRF keys are generated correctly.
+    Uniqueness and collision resistance may not hold if the keys are generated adversarially
+    (specifically, if the RSA function specified in the public key is not bijective because the modulus n or the exponent e are chosen not in compliance with the stadnard); thus,
+    RSA-FDH-VRF defined in this document does not have "full uniqueness" and "full collision resistance".
+    Therefore, if adversarial key generation is a concern, the
+    RSA-FDH-VRF has to be enhanced by additional cryptographic checks
+    that its public key has the right form.  These enhacements are left for future specification.
+          </t>
+
+          
+          
+          <t>For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
+              ECVRF as specified in <xref target="ecvrfprove" format="default"/>-<xref target="suites" format="default"/>
+    satisfies the "full uniqueness" (see <xref target="uniqueness" format="default"/>)
+    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties.
           </t>
           <t>
-    However, if the ECVRF uses keys that could be generated adversarially, then the
+    However, if the verifier needs collision-resistance even when the ECVRF key was generated adversarially,
+    then the
      Verifier MUST first perform the validation procedure ECVRF_validate_key(PK_string)
-    (specified in <xref target="keycheck" format="default"/>)  upon receipt of the
-    public key as an octet string.  If the validation procedure
-    outputs "INVALID", then the public key MUST not be used.  
-    Otherwise, the procedure will output a valid public key Y,
-    and the ECVRF with public key Y satisfies the "full uniqueness" and
-    "full collision resistance" properties.
-          </t>
-          <t>The RSA-FDH-VRF satisfies the "trusted uniqueness" and "trusted collision resistance" properties
-    as long as the VRF keys are generated correctly, with good randomness.
-    These properties may not hold if the keys are generated adversarially  
-    (e.g., if the RSA function specified in the public key is not bijective). Meanwhile,
-    the "full uniqueness" and "full collision resistance" are 
-    properties that hold  even if VRF keys are generated by an adversary.
-    The RSA-FDH-VRF defined in this document does not have these properties.
-    However, if adversarial key generation is a concern, the
-    RSA-FDH-VRF may be modified to have these
-    properties by adding additional cryptographic checks
-    that its public key has the right form.  These modifications are left for future specification.
+    (specified in <xref target="keycheck" format="default"/>) before using the public key.
+    If the validation procedure
+    outputs "INVALID", then the public key MUST not be used.
+    With the validation procedure, the ECVRF satisfies "full collision resistance".
           </t>
         </section>
+
         <section numbered="true" toc="default">
           <name>Pseudorandomness with untrusted keys</name>
           <t> Without good randomness, the "pseudorandomness"
@@ -1321,7 +1324,7 @@
             As shown in <xref target="PWHVNRG17" format="default"/>, the security level of the ECVRF, measured in bits, is as follows (in the random oracle model for the functions Hash and ECVRF_hash_to_curve):
         </t>
             <ul>
-                <li>For uniqueness (trusted or full, depending on whether validation is performed as explained in <xref target="untrustedkeys" format="default"/>): approximately 8*min(qLen, cLen).</li>
+                <li>For trusted uniqueness: approximately 8*min(qLen, cLen).</li>
                 <li>For collision resistance (trusted or full, depending on whether validation is performed as explained in <xref target="untrustedkeys" format="default"/>): approximately 8*min(qLen/2, hLen/2).</li>
                 <li>For the selective pseudorandomness property: approximately as strong as the security, in bits, of the decisional Diffie-Hellman problem in the group G (which is at most 8*qLen/2).</li>
             </ul>
@@ -1549,7 +1552,7 @@
         <li> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
-        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section</li>
+        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
