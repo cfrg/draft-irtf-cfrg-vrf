@@ -768,7 +768,7 @@
                 Output:
             </t>
             <ul empty="true" spacing="normal">
-              <li>H - hashed value, a finite EC point in G </li>
+              <li>H - hashed value, a point in G </li>
             </ul>
             <t>
                 Fixed option  (specified in <xref target="suites" format="default"/>):
@@ -822,7 +822,7 @@
                 Output:
             </t>
             <ul empty="true" spacing="normal">
-              <li>H - hashed value, a finite EC point in G
+              <li>H - hashed value, a point in G
                     </li>
             </ul>
             <t>

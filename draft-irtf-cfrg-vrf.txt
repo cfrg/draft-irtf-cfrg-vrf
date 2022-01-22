@@ -861,7 +861,7 @@ Internet-Draft                     VRF                      January 2022
 
    Output:
 
-      H - hashed value, a finite EC point in G
+      H - hashed value, a point in G
 
    Fixed option (specified in Section 5.5):
 
@@ -923,7 +923,7 @@ Internet-Draft                     VRF                      January 2022
 
    Output:
 
-      H - hashed value, a finite EC point in G
+      H - hashed value, a point in G
 
    Fixed option (specified in Section 5.5):
 
