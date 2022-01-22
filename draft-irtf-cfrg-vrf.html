@@ -1433,7 +1433,13 @@ li > p:last-of-type {
                 <p id="section-toc.1-1.7.2.8.1"><a href="#section-7.8" class="xref">7.8</a>.  <a href="#name-challenge-generation" class="xref">Challenge Generation</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.9">
-                <p id="section-toc.1-1.7.2.9.1"><a href="#section-7.9" class="xref">7.9</a>.  <a href="#name-hash-function-domain-separa" class="xref">Hash function domain separation and futureproofing</a></p>
+                <p id="section-toc.1-1.7.2.9.1"><a href="#section-7.9" class="xref">7.9</a>.  <a href="#name-hash-function-domain-separa" class="xref">Hash function domain separation</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.10">
+                <p id="section-toc.1-1.7.2.10.1"><a href="#section-7.10" class="xref">7.10</a>. <a href="#name-hash-function-salting" class="xref">Hash function salting</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.11">
+                <p id="section-toc.1-1.7.2.11.1"><a href="#section-7.11" class="xref">7.11</a>. <a href="#name-futureproofing" class="xref">Futureproofing</a></p>
 </li>
             </ul>
 </li>
@@ -2066,11 +2072,11 @@ li > p:last-of-type {
                 Steps:<a href="#section-5.1-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.1-7">
 <li id="section-5.1-7.1">
-            <p id="section-5.1-7.1.1">Use SK to derive the VRF secret scalar x and the VRF public key Y = x*B<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
+            <p id="section-5.1-7.1.1">Use SK to derive the VRF secret scalar x and the VRF public key PK_string = point_to_string(x*B)<a href="#section-5.1-7.1.1" class="pilcrow">¶</a></p>
 <p id="section-5.1-7.1.2">(this derivation depends on the ciphersuite, as per  <a href="#suites" class="xref">Section 5.5</a>;<a href="#section-5.1-7.1.2" class="pilcrow">¶</a></p>
 <p id="section-5.1-7.1.3">these values can be cached, for example, after key generation, and need not be rederived each time)<a href="#section-5.1-7.1.3" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-5.1-7.2">H = ECVRF_hash_to_curve(Y, alpha_string)<a href="#section-5.1-7.2" class="pilcrow">¶</a>
+          <li id="section-5.1-7.2">H = ECVRF_hash_to_curve(PK_string, alpha_string)<a href="#section-5.1-7.2" class="pilcrow">¶</a>
 </li>
           <li id="section-5.1-7.3">h_string = point_to_string(H)<a href="#section-5.1-7.3" class="pilcrow">¶</a>
 </li>
@@ -2173,7 +2179,7 @@ li > p:last-of-type {
 </li>
           <li id="section-5.3-7.5">(Gamma, c, s) = D<a href="#section-5.3-7.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.6">H = ECVRF_hash_to_curve(Y, alpha_string)<a href="#section-5.3-7.6" class="pilcrow">¶</a>
+          <li id="section-5.3-7.6">H = ECVRF_hash_to_curve(PK_string, alpha_string)<a href="#section-5.3-7.6" class="pilcrow">¶</a>
 </li>
           <li id="section-5.3-7.7">U = s*B - c*Y<a href="#section-5.3-7.7" class="pilcrow">¶</a>
 </li>
@@ -2198,8 +2204,10 @@ li > p:last-of-type {
           <h4 id="name-ecvrf-hash-to-curve">
 <a href="#section-5.4.1" class="section-number selfRef">5.4.1. </a><a href="#name-ecvrf-hash-to-curve" class="section-name selfRef">ECVRF Hash to Curve</a>
           </h4>
-<p id="section-5.4.1-1">The ECVRF_hash_to_curve algorithm takes in the VRF input alpha
-            and converts it to H, an EC point in G.
+<p id="section-5.4.1-1">The ECVRF_hash_to_curve algorithm takes the VRF input alpha
+            and converts it to H, an EC point in G; in order to create a different conversion function
+            for each public key (see <a href="#salt" class="xref">Section 7.10</a>),
+            this algorithm also takes in the public key.
             This algorithm is the only place the VRF input alpha is used
             for proving and verifying. See
             <a href="#prehash" class="xref">Section 7.7</a> for further discussion.<a href="#section-5.4.1-1" class="pilcrow">¶</a></p>
@@ -2210,7 +2218,7 @@ li > p:last-of-type {
 <a href="#section-5.4.1.1" class="section-number selfRef">5.4.1.1. </a><a href="#name-ecvrf_hash_to_curve_try_and" class="section-name selfRef">ECVRF_hash_to_curve_try_and_increment</a>
             </h5>
 <p id="section-5.4.1.1-1">
-            The following ECVRF_hash_to_curve_try_and_increment(Y, alpha_string) algorithm
+            The following ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string) algorithm
             implements ECVRF_hash_to_curve in a simple and
             generic way that works for any elliptic curve. To use this algorithm,
             hLen MUST be at least fLen.<a href="#section-5.4.1.1-1" class="pilcrow">¶</a></p>
@@ -2226,11 +2234,11 @@ li > p:last-of-type {
             applications where it is important that
             the VRF input alpha remain secret.<a href="#section-5.4.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.1-4">
-                ECVRF_hash_to_try_and_increment(Y, alpha_string)<a href="#section-5.4.1.1-4" class="pilcrow">¶</a></p>
+                ECVRF_hash_to_try_and_increment(PK_string, alpha_string)<a href="#section-5.4.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.1-5">
                 Input:<a href="#section-5.4.1.1-5" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.1.1-6.1">Y - public key, an EC point<a href="#section-5.4.1.1-6.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.1.1-6.1">PK_string - public key, an octet string<a href="#section-5.4.1.1-6.1" class="pilcrow">¶</a>
 </li>
               <li class="normal ulEmpty" id="section-5.4.1.1-6.2">alpha_string - value to be hashed, an octet string<a href="#section-5.4.1.1-6.2" class="pilcrow">¶</a>
 </li>
@@ -2253,30 +2261,28 @@ li > p:last-of-type {
 <ol start="1" type="1" class="normal type-1" id="section-5.4.1.1-12">
 <li id="section-5.4.1.1-12.1">ctr = 0<a href="#section-5.4.1.1-12.1" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.2">PK_string = point_to_string(Y)<a href="#section-5.4.1.1-12.2" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.2">one_string = 0x01<a href="#section-5.4.1.1-12.2" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.3">one_string = 0x01<a href="#section-5.4.1.1-12.3" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.3">zero_string = 0x00<a href="#section-5.4.1.1-12.3" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.4">zero_string = 0x00<a href="#section-5.4.1.1-12.4" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.4">H = "INVALID"<a href="#section-5.4.1.1-12.4" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.5">H = "INVALID"<a href="#section-5.4.1.1-12.5" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.5">
+                <p id="section-5.4.1.1-12.5.1">While H is "INVALID" or H is the identity element of the elliptic curve group:<a href="#section-5.4.1.1-12.5.1" class="pilcrow">¶</a></p>
+<ol start="1" type="a" class="normal type-a" id="section-5.4.1.1-12.5.2">
+<li id="section-5.4.1.1-12.5.2.1">ctr_string = int_to_string(ctr, 1)<a href="#section-5.4.1.1-12.5.2.1" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.6">
-                <p id="section-5.4.1.1-12.6.1">While H is "INVALID" or H is the identity element of the elliptic curve group:<a href="#section-5.4.1.1-12.6.1" class="pilcrow">¶</a></p>
-<ol start="1" type="a" class="normal type-a" id="section-5.4.1.1-12.6.2">
-<li id="section-5.4.1.1-12.6.2.1">ctr_string = int_to_string(ctr, 1)<a href="#section-5.4.1.1-12.6.2.1" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.5.2.2">hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)<a href="#section-5.4.1.1-12.5.2.2" class="pilcrow">¶</a>
 </li>
-                  <li id="section-5.4.1.1-12.6.2.2">hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)<a href="#section-5.4.1.1-12.6.2.2" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.5.2.3">H = interpret_hash_value_as_a_point(hash_string)<a href="#section-5.4.1.1-12.5.2.3" class="pilcrow">¶</a>
 </li>
-                  <li id="section-5.4.1.1-12.6.2.3">H = interpret_hash_value_as_a_point(hash_string)<a href="#section-5.4.1.1-12.6.2.3" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.5.2.4">If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H<a href="#section-5.4.1.1-12.5.2.4" class="pilcrow">¶</a>
 </li>
-                  <li id="section-5.4.1.1-12.6.2.4">If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H<a href="#section-5.4.1.1-12.6.2.4" class="pilcrow">¶</a>
-</li>
-                  <li id="section-5.4.1.1-12.6.2.5">ctr = ctr + 1<a href="#section-5.4.1.1-12.6.2.5" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.5.2.5">ctr = ctr + 1<a href="#section-5.4.1.1-12.5.2.5" class="pilcrow">¶</a>
 </li>
                 </ol>
 </li>
-              <li id="section-5.4.1.1-12.7">Output H<a href="#section-5.4.1.1-12.7" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.6">Output H<a href="#section-5.4.1.1-12.6" class="pilcrow">¶</a>
 </li>
             </ol>
 </section>
@@ -2286,7 +2292,7 @@ li > p:last-of-type {
             <h5 id="name-ecvrf_hash_to_curve_h2c_sui">
 <a href="#section-5.4.1.2" class="section-number selfRef">5.4.1.2. </a><a href="#name-ecvrf_hash_to_curve_h2c_sui" class="section-name selfRef">ECVRF_hash_to_curve_h2c_suite</a>
             </h5>
-<p id="section-5.4.1.2-1">The ECVRF_hash_to_curve_h2c_suite(Y, alpha_string) algorithm
+<p id="section-5.4.1.2-1">The ECVRF_hash_to_curve_h2c_suite(PK_string, alpha_string) algorithm
                 implements ECVRF_hash_to_curve using one of the several
                 hash-to-curve options defined in
                 <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span>.
@@ -2294,13 +2300,13 @@ li > p:last-of-type {
                 (called Suite ID in <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span>)
                 is given by the h2c_suite_ID_string parameter.<a href="#section-5.4.1.2-1" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.2-2">
-                ECVRF_hash_to_curve_h2c_suite(Y, alpha_string)<a href="#section-5.4.1.2-2" class="pilcrow">¶</a></p>
+                ECVRF_hash_to_curve_h2c_suite(PK_string, alpha_string)<a href="#section-5.4.1.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.2-3">
                 Input:<a href="#section-5.4.1.2-3" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.1.2-4.1">alpha_string - value to be hashed, an octet string<a href="#section-5.4.1.2-4.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.1.2-4.1">PK_string - public key, an octet string<a href="#section-5.4.1.2-4.1" class="pilcrow">¶</a>
 </li>
-              <li class="normal ulEmpty" id="section-5.4.1.2-4.2">Y - public key, an EC point<a href="#section-5.4.1.2-4.2" class="pilcrow">¶</a>
+              <li class="normal ulEmpty" id="section-5.4.1.2-4.2">alpha_string - value to be hashed, an octet string<a href="#section-5.4.1.2-4.2" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-5.4.1.2-5">
@@ -2318,15 +2324,13 @@ li > p:last-of-type {
 <p id="section-5.4.1.2-9">
                 Steps<a href="#section-5.4.1.2-9" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.4.1.2-10">
-<li id="section-5.4.1.2-10.1">PK_string = point_to_string(Y)<a href="#section-5.4.1.2-10.1" class="pilcrow">¶</a>
+              <li id="section-5.4.1.2-10.1">string_to_be_hashed = PK_string || alpha_string<a href="#section-5.4.1.2-10.1" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.2-10.2">string_to_be_hashed = PK_string || alpha_string<a href="#section-5.4.1.2-10.2" class="pilcrow">¶</a>
+              <li id="section-5.4.1.2-10.2">
+                <p id="section-5.4.1.2-10.2.1">H = encode(string_to_be_hashed)<a href="#section-5.4.1.2-10.2.1" class="pilcrow">¶</a></p>
+<p id="section-5.4.1.2-10.2.2">(the encode function is discussed below)<a href="#section-5.4.1.2-10.2.2" class="pilcrow">¶</a></p>
 </li>
-              <li id="section-5.4.1.2-10.3">
-                <p id="section-5.4.1.2-10.3.1">H = encode(string_to_be_hashed)<a href="#section-5.4.1.2-10.3.1" class="pilcrow">¶</a></p>
-<p id="section-5.4.1.2-10.3.2">(the encode function is discussed below)<a href="#section-5.4.1.2-10.3.2" class="pilcrow">¶</a></p>
-</li>
-              <li id="section-5.4.1.2-10.4">Output H<a href="#section-5.4.1.2-10.4" class="pilcrow">¶</a>
+              <li id="section-5.4.1.2-10.3">Output H<a href="#section-5.4.1.2-10.3" class="pilcrow">¶</a>
 </li>
             </ol>
 <p id="section-5.4.1.2-11">The encode function is provided by the hash-to-curve suite whose ID is h2c_suite_ID_string, as specified in
@@ -2443,7 +2447,7 @@ li > p:last-of-type {
 <p id="section-5.4.3-2">
                 Input:<a href="#section-5.4.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.3-3.1">P1, P2, P3, P4 - EC points in G<a href="#section-5.4.3-3.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.3-3.1">P1, P2, P3, P4 - EC points<a href="#section-5.4.3-3.1" class="pilcrow">¶</a>
 </li>
           </ul>
 <p id="section-5.4.3-4">
@@ -3002,13 +3006,14 @@ li > p:last-of-type {
             security of the VRF, as explained in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>.<a href="#section-7.8-1" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="domainsep">
 <section id="section-7.9">
         <h3 id="name-hash-function-domain-separa">
-<a href="#section-7.9" class="section-number selfRef">7.9. </a><a href="#name-hash-function-domain-separa" class="section-name selfRef">Hash function domain separation and futureproofing</a>
+<a href="#section-7.9" class="section-number selfRef">7.9. </a><a href="#name-hash-function-domain-separa" class="section-name selfRef">Hash function domain separation</a>
         </h3>
 <p id="section-7.9-1">
          Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
-         theoretical analysis assumes each of these functions is a separate random oracle.
+         theoretical analysis treats each of these functions as a separate hash function, modeled as a random oracle.
          This analysis still holds even if the same hash function is used, as long as the four 
          queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
          to equal each other or to any queries made to the hash function for the same SK and 
@@ -3032,18 +3037,33 @@ li > p:last-of-type {
           which is set equal to the nonzero length of the domain separation tag by <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span>.<a href="#section-7.9-3.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-7.9-4">For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
+</section>
+</div>
+<div id="salt">
+<section id="section-7.10">
+        <h3 id="name-hash-function-salting">
+<a href="#section-7.10" class="section-number selfRef">7.10. </a><a href="#name-hash-function-salting" class="section-name selfRef">Hash function salting</a>
+        </h3>
+<p id="section-7.10-1">
+        The analysis of <span>[<a href="#GNPRVZ15" class="xref">GNPRVZ15</a>]</span> and <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span> studies an adversary who attacks only a single public key. In order to prevent the adversary from attacking multiple public keys more efficiently, the MGF1 function for the RSA-FDH-VRF and ECVRF_hash_to_curve function for the ECVRF are given the public key as part of the input (as a so-called "salt"), effectively ensuring that the hash function applied to alpha is different for each public key. In ECVRF, since all the other hashing depends on H output by ECVRF_hash_to_curve, this salt makes all the remaining hashing different for each public key as long as ECVRF_hash_to_curve is collision resistant.<a href="#section-7.10-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-7.11">
+        <h3 id="name-futureproofing">
+<a href="#section-7.11" class="section-number selfRef">7.11. </a><a href="#name-futureproofing" class="section-name selfRef">Futureproofing</a>
+        </h3>
+<p id="section-7.11-1">For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
-         another variant<a href="#section-7.9-4" class="pilcrow">¶</a></p>
-<p id="section-7.9-5">For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
+         another variant.<a href="#section-7.11-1" class="pilcrow">¶</a></p>
+<p id="section-7.11-2">For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
          then, to avoid the possibility
          that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
          another variant,
         they should specify a different suite_string constant. This way, the inputs
-        to the hash_to_curve hash function used in producing H are
+        to the ECVRF_hash_to_curve hash function used in producing H are
         guaranteed to be different; since all the other hashing done by the prover
         depends on H, inputs all the hash functions used by the prover will also be
-        different as long as hash_to_curve is collision resistant.<a href="#section-7.9-5" class="pilcrow">¶</a></p>
+        different as long as ECVRF_hash_to_curve is collision resistant.<a href="#section-7.11-2" class="pilcrow">¶</a></p>
 </section>
 </section>
 </div>
@@ -3094,7 +3114,7 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-8-2.11"> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references.<a href="#section-8-2.11" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness<a href="#section-8-2.12" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing.<a href="#section-8-2.12" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
