@@ -385,11 +385,13 @@
         <li>k - length in octets of the RSA modulus n (k must be less than 2^32)</li>
       </ul>
       <t>
-            Fixed options:
+            Fixed options (specified in <xref target="rsavrfSuites" format="default"/>):
       </t>
       <ul empty="true" spacing="normal">
         <li>Hash - cryptographic hash function</li>
         <li>hLen - output length in octets of hash function Hash</li>
+        <li>suite_string - a single octet specifying the RSA-FDH-VRF
+                ciphersuite, which determines the above options</li>
       </ul>
       <t>
             Primitives used:
@@ -443,7 +445,7 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>one_string = 0x01</li>
-          <li>EM = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
+          <li>EM = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
           <li>m = OS2IP(EM)</li>
           <li>s = RSASP1(K, m)</li>
           <li>pi_string = I2OSP(s, k)</li>
@@ -477,7 +479,7 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>two_string = 0x02</li>
-          <li>beta_string = Hash(two_string || pi_string)</li>
+          <li>beta_string = Hash(suite_string || two_string || pi_string)</li>
           <li>Output beta_string</li>
         </ol>
       </section>
@@ -510,7 +512,7 @@
         <ol spacing="normal" type="1"><li>s = OS2IP(pi_string)</li>
           <li>m = RSAVP1((n, e), s); if RSAVP1 returns "signature representative out of range", output "INVALID" and stop.</li>
           <li>one_string = 0x01</li>
-          <li>EM' = MGF1(one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
+          <li>EM' = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
           <li>m' = OS2IP(EM')</li>
           <li>
                         If m and m' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
@@ -518,7 +520,31 @@
           </li>
         </ol>
       </section>
+      
+      <section anchor="rsavrfSuites" numbered="true" toc="default">
+      <name>RSA-FDH-VRF Ciphersuites</name>
+      <t>This document defines RSA-FDH-VRF-SHA256 as follows:</t>
+        <ul spacing="normal">
+          <li>suite_string = 0x01</li>
+          <li>The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32.</li>
+         </ul>
+
+      <t>This document defines RSA-FDH-VRF-SHA384 as follows:</t>
+        <ul spacing="normal">
+          <li>suite_string = 0x02</li>
+          <li>The hash function Hash is SHA-384 as specified in <xref target="RFC6234" format="default"/>, with hLen = 48.</li>
+        </ul>
+        
+      <t>This document defines RSA-FDH-VRF-SHA512 as follows:</t>
+        <ul spacing="normal">
+          <li>suite_string = 0x03</li>
+          <li>The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64.</li>
+        </ul>
+
+      </section>
     </section>
+    
+    
     <section anchor="ecvrf" numbered="true" toc="default">
       <name>Elliptic Curve VRF (ECVRF)</name>
       <t>
@@ -546,7 +572,7 @@
         <li>0xMN (where M and N are hexadecimal digits) - a single octet with value M*16+N; equivalently, int_to_string(M*16+N, 1), where int_to_string is as defined below.</li>
       </ul>
       <t>
-            Fixed options (specified in <xref target="suites" format="default"/>):
+            Fixed options (specified in <xref target="ecvrfSuites" format="default"/>):
       </t>
       <ul empty="true" spacing="normal">
         <li>F - finite field</li>
@@ -568,7 +594,7 @@
                 ciphersuite, which determines the above options as well as type conversions and parameter generation </li>
       </ul>
       <t>
-            Type conversions (specified in <xref target="suites" format="default"/>):
+            Type conversions (specified in <xref target="ecvrfSuites" format="default"/>):
       </t>
       <ul empty="true" spacing="normal">
         <li>int_to_string(a, len) - conversion of nonnegative integer a
@@ -591,7 +617,7 @@
                 </li>
       </ul>
       <t>
-            Parameters used (the generation of these parameters is specified in <xref target="suites" format="default"/>):
+            Parameters used (the generation of these parameters is specified in <xref target="ecvrfSuites" format="default"/>):
       </t>
       <ul empty="true" spacing="normal">
         <li>SK - VRF private key</li>
@@ -627,7 +653,7 @@
         <ol spacing="normal" type="1"><li>
             <t>Use SK to derive the VRF secret scalar x and the VRF public key PK_string = point_to_string(x*B)
             </t>
-            <t>(this derivation depends on the ciphersuite, as per  <xref target="suites" format="default"/>;
+            <t>(this derivation depends on the ciphersuite, as per  <xref target="ecvrfSuites" format="default"/>;
             </t>
             <t>these values can be cached, for example, after key generation, and need not be rederived each time)</t>
           </li>
@@ -734,7 +760,7 @@
             for proving and verifying. See
             <xref target="prehash" format="default"/> for further discussion.
           </t>
-          <t>This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <xref target="suites" format="default"/>.</t>
+          <t>This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <xref target="ecvrfSuites" format="default"/>.</t>
           <section anchor="ecvrfH2C1" numbered="true" toc="default">
             <name>ECVRF_hash_to_curve_try_and_increment</name>
             <t>
@@ -746,7 +772,7 @@
             <t>
             The running time of this algorithm depends on alpha_string.
             For the ciphersuites specified 
-            in <xref target="suites" format="default"/>, this algorithm 
+            in <xref target="ecvrfSuites" format="default"/>, this algorithm
             is expected to find a valid curve point after approximately two attempts 
             (i.e., when ctr=1) on average.
             </t>
@@ -773,7 +799,7 @@
               <li>H - hashed value, a point in G </li>
             </ul>
             <t>
-                Fixed option  (specified in <xref target="suites" format="default"/>):
+                Fixed option  (specified in <xref target="ecvrfSuites" format="default"/>):
             </t>
             <ul empty="true" spacing="normal">
               <li>interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to an
@@ -827,7 +853,7 @@
                     </li>
             </ul>
             <t>
-                Fixed option (specified in <xref target="suites" format="default"/>):
+                Fixed option (specified in <xref target="ecvrfSuites" format="default"/>):
             </t>
             <ul empty="true" spacing="normal">
               <li>h2c_suite_ID_string - a hash-to-curve suite ID, encoded in ASCII (see discussion below)</li>
@@ -1006,7 +1032,7 @@
       </section>
       <!-- Auxiliary Functions -->
 
-        <section anchor="suites" numbered="true" toc="default">
+        <section anchor="ecvrfSuites" numbered="true" toc="default">
         <name>ECVRF Ciphersuites</name>
         <t>This document defines ECVRF-P256-SHA256-TAI as follows:
         </t>
@@ -1284,7 +1310,7 @@
           
           
           <t>For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
-              ECVRF as specified in <xref target="ecvrfprove" format="default"/>-<xref target="suites" format="default"/>
+              ECVRF as specified in <xref target="ecvrfprove" format="default"/>-<xref target="ecvrfSuites" format="default"/>
     satisfies the "full uniqueness" (see <xref target="uniqueness" format="default"/>)
     and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties.
           </t>
@@ -1374,7 +1400,7 @@
     Otherwise, an adversary may be able to recover
     the private VRF key x (and thus break pseudorandomness of the VRF)
     after observing several valid VRF proofs pi. The nonce generation methods
-    specified in the ECVRF ciphersuites of <xref target="suites" format="default"/>
+    specified in the ECVRF ciphersuites of <xref target="ecvrfSuites" format="default"/>
     are designed with this requirement in mind.
         </t>
       </section>
@@ -1462,7 +1488,7 @@
          This analysis still holds even if the same hash function is used, as long as the four 
          queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
          to equal each other or to any queries made to the hash function for the same SK and 
-         different alpha. This is indeed the case for the RSA-FDH-VRF defined in this document, because the first octets
+         different alpha. This is indeed the case for the RSA-FDH-VRF defined in this document, because the second octets
          of the input to the hash function used in MGF1 and in proof_to_hash are different.
         </t>
         <t>
@@ -1492,19 +1518,16 @@
         
         <section numbered="true" toc="default">
         <name>Futureproofing</name>
-        <t>For RSA-FDH-VRF, if future designs need to specify variants of the design in this document, such variants should use different first octets in inputs to MGF1 and to the hash function used in proof_to_hash, in order to avoid the possibility
-         that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
-         another variant.
-        </t>
-        <t>For ECVRF, if future designs need to specify variants (e.g., additional ciphersuites) of the design in this document,
-         then, to avoid the possibility
-         that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
-         another variant,
-        they should specify a different suite_string constant. This way, the inputs
-        to the ECVRF_hash_to_curve hash function used in producing H are
-        guaranteed to be different; since all the other hashing done by the prover
-        depends on H, inputs all the hash functions used by the prover will also be
-        different as long as ECVRF_hash_to_curve is collision resistant.
+        <t>if future designs need to specify variants (e.g., additional ciphersuites) of the RSA-FDH-VRF or the ECVRF in this document,
+            then, to avoid the possibility
+            that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
+            another variant,
+           they should specify a different suite_string constant. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
+        For the ECVRF, the inputs
+        ECVRF_hash_to_curve hash function used in producing H are then guaranteed to be different from other
+        ciphersuites; since all the other hashing done by the prover
+        depends on H, inputs to all the hash functions used by the prover will also be
+        different from other ciphersuites as long as ECVRF_hash_to_curve is collision resistant.
         </t>
       </section>
     </section>
@@ -1565,7 +1588,7 @@
         <li> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
-        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing.</li>
+        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites.</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
