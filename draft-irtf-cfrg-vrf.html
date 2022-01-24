@@ -1382,18 +1382,13 @@ li > p:last-of-type {
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.4">
                     <p id="section-toc.1-1.5.2.4.2.4.1"><a href="#section-5.4.4" class="xref">5.4.4</a>.  <a href="#name-ecvrf-decode-proof" class="xref">ECVRF Decode Proof</a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.4.2.5">
+                    <p id="section-toc.1-1.5.2.4.2.5.1"><a href="#section-5.4.5" class="xref">5.4.5</a>.  <a href="#name-ecvrf-validate-key" class="xref">ECVRF Validate Key</a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.5">
                 <p id="section-toc.1-1.5.2.5.1"><a href="#section-5.5" class="xref">5.5</a>.  <a href="#name-ecvrf-ciphersuites" class="xref">ECVRF Ciphersuites</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6">
-                <p id="section-toc.1-1.5.2.6.1"><a href="#section-5.6" class="xref">5.6</a>.  <a href="#name-when-the-ecvrf-keys-are-unt" class="xref">When the ECVRF Keys are Untrusted</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.6.2.1">
-                    <p id="section-toc.1-1.5.2.6.2.1.1"><a href="#section-5.6.1" class="xref">5.6.1</a>.  <a href="#name-ecvrf-validate-key" class="xref">ECVRF Validate Key</a></p>
-</li>
-                </ul>
 </li>
             </ul>
 </li>
@@ -1750,7 +1745,7 @@ li > p:last-of-type {
        A formal definition of this property appears in Section 3.2 of <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>.  The VRF schemes presented in this specification are believed to satisfy this property if the public key was generated in a trustworthy
        manner. Additionally, the ECVRF is believed to also satisfy this property even if the public key was not generated in a trustworthy manner, as long as
        the public key satisfies the key validation
-   procedure in <a href="#keycheck" class="xref">Section 5.6</a>.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+   procedure in <a href="#keycheck" class="xref">Section 5.4.5</a>.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
 </section>
 </div>
@@ -1988,9 +1983,7 @@ li > p:last-of-type {
             Diffie-Hellman (DDH) assumption in the random oracle model. Formal security proofs are
             in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2"> To additionally satisfy "full collision resistance",
-        the Verifier MUST additionally perform the validation procedure specified in 
-        <a href="#keycheck" class="xref">Section 5.6</a>  upon receipt of the public
-        VRF key.<a href="#section-5-2" class="pilcrow">¶</a></p>
+          key_validation_flag MUST be set to "REQUIRED" or "OPTIONAL" and, if key_validation_flag is set to "OPTIONAL", then the validate_key parameter given to the ECVRF_verify MUST be true.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">
             Notation used:<a href="#section-5-3" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
@@ -2014,7 +2007,7 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-5-6.3">E - elliptic curve (EC) defined over F<a href="#section-5-6.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-6.4">ptLen - length, in octets, of an EC point encoded as an octet string<a href="#section-5-6.4" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-5-6.4">ptLen - length, in octets, of a point on E encoded as an octet string<a href="#section-5-6.4" class="pilcrow">¶</a>
 </li>
         <li class="normal ulEmpty" id="section-5-6.5">G - subgroup of E of large prime order<a href="#section-5-6.5" class="pilcrow">¶</a>
 </li>
@@ -2032,13 +2025,15 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-5-6.12">hLen - output length in octets of Hash (hLen must be at least cLen; in the typical case, it is at least qLen)<a href="#section-5-6.12" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-6.13">ECVRF_hash_to_curve - a function that hashes strings to an EC point.<a href="#section-5-6.13" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-5-6.13">ECVRF_hash_to_curve - a function that hashes strings to points on E.<a href="#section-5-6.13" class="pilcrow">¶</a>
 </li>
         <li class="normal ulEmpty" id="section-5-6.14">ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.<a href="#section-5-6.14" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-6.15">suite_string - a single nonzero octet specifying the ECVRF
-                ciphersuite, which determines the above options as well as type conversions and parameter generation<a href="#section-5-6.15" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-5-6.15">key_validation_flag - set to REQUIRED, OPTIONAL, or UNNECESSARY<a href="#section-5-6.15" class="pilcrow">¶</a>
+</li>
+        <li class="normal ulEmpty" id="section-5-6.16">suite_string - a single nonzero octet specifying the ECVRF
+                ciphersuite, which determines the above options as well as type conversions and parameter generation<a href="#section-5-6.16" class="pilcrow">¶</a>
 </li>
       </ul>
 <p id="section-5-7">
@@ -2050,9 +2045,9 @@ li > p:last-of-type {
         <li class="normal ulEmpty" id="section-5-8.2"> string_to_int(a_string) - conversion of an octet string a_string
                     to a nonnegative integer<a href="#section-5-8.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-8.3">point_to_string - conversion of EC point to an ptLen-octet string<a href="#section-5-8.3" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-5-8.3">point_to_string - conversion of a point on E to an ptLen-octet string<a href="#section-5-8.3" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-8.4">string_to_point - conversion of an ptLen-octet string to EC point.
+        <li class="normal ulEmpty" id="section-5-8.4">string_to_point - conversion of an ptLen-octet string to a point on E.
                     string_to_point returns INVALID if the octet string does not convert to a valid EC point on the curve E.<a href="#section-5-8.4" class="pilcrow">¶</a>
 </li>
         <li class="normal ulEmpty" id="section-5-8.5">
@@ -2076,7 +2071,7 @@ li > p:last-of-type {
                         Note: depending on the ciphersuite used, the VRF secret scalar may be equal
                         to SK; else, it is derived from SK<a href="#section-5-10.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-10.3">Y = x*B - VRF public key, an EC point<a href="#section-5-10.3" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-5-10.3">Y = x*B - VRF public key, an point on E<a href="#section-5-10.3" class="pilcrow">¶</a>
 </li>
         <li class="normal ulEmpty" id="section-5-10.4">PK_string = point_to_string(Y) - VRF public key represented as an octet string<a href="#section-5-10.4" class="pilcrow">¶</a>
 </li>
@@ -2181,7 +2176,7 @@ li > p:last-of-type {
 <a href="#section-5.3" class="section-number selfRef">5.3. </a><a href="#name-ecvrf-verifying" class="section-name selfRef">ECVRF Verifying</a>
         </h3>
 <p id="section-5.3-1">
-                ECVRF_verify(PK_string, alpha_string, pi_string)<a href="#section-5.3-1" class="pilcrow">¶</a></p>
+                ECVRF_verify(PK_string, alpha_string, pi_string, [validate_key])<a href="#section-5.3-1" class="pilcrow">¶</a></p>
 <p id="section-5.3-2">
                 Input:<a href="#section-5.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
@@ -2190,6 +2185,8 @@ li > p:last-of-type {
           <li class="normal ulEmpty" id="section-5.3-3.2">alpha_string - VRF input, octet string<a href="#section-5.3-3.2" class="pilcrow">¶</a>
 </li>
           <li class="normal ulEmpty" id="section-5.3-3.3">pi_string - VRF proof, octet string of length ptLen+cLen+qLen<a href="#section-5.3-3.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal ulEmpty" id="section-5.3-3.4">validate_key - a boolean, needed only if key_validation_flag = OPTIONAL<a href="#section-5.3-3.4" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-5.3-4">
@@ -2207,26 +2204,30 @@ li > p:last-of-type {
 </li>
           <li id="section-5.3-7.2">If Y is "INVALID", output "INVALID" and stop<a href="#section-5.3-7.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.3">D = ECVRF_decode_proof(pi_string) (see <a href="#ecvrfDecodeProof" class="xref">Section 5.4.4</a>)<a href="#section-5.3-7.3" class="pilcrow">¶</a>
+          <li id="section-5.3-7.3">
+            <p id="section-5.3-7.3.1">If (key_validation_flag = "REQUIRED") or (key_validation_flag = "OPTIONAL" and validate_key = true):<a href="#section-5.3-7.3.1" class="pilcrow">¶</a></p>
+<p id="section-5.3-7.3.2">run ECVRF_validate_key(Y) (<a href="#keycheck" class="xref">Section 5.4.5</a>); if it outputs "INVALID", output "INVALID" and stop<a href="#section-5.3-7.3.2" class="pilcrow">¶</a></p>
 </li>
-          <li id="section-5.3-7.4">If D is "INVALID", output "INVALID" and stop<a href="#section-5.3-7.4" class="pilcrow">¶</a>
+          <li id="section-5.3-7.4">D = ECVRF_decode_proof(pi_string) (see <a href="#ecvrfDecodeProof" class="xref">Section 5.4.4</a>)<a href="#section-5.3-7.4" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.5">(Gamma, c, s) = D<a href="#section-5.3-7.5" class="pilcrow">¶</a>
+          <li id="section-5.3-7.5">If D is "INVALID", output "INVALID" and stop<a href="#section-5.3-7.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.6">H = ECVRF_hash_to_curve(PK_string, alpha_string)<a href="#section-5.3-7.6" class="pilcrow">¶</a>
+          <li id="section-5.3-7.6">(Gamma, c, s) = D<a href="#section-5.3-7.6" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.7">U = s*B - c*Y<a href="#section-5.3-7.7" class="pilcrow">¶</a>
+          <li id="section-5.3-7.7">H = ECVRF_hash_to_curve(PK_string, alpha_string)<a href="#section-5.3-7.7" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.8">V = s*H - c*Gamma<a href="#section-5.3-7.8" class="pilcrow">¶</a>
+          <li id="section-5.3-7.8">U = s*B - c*Y<a href="#section-5.3-7.8" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.9">c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <a href="#ecvrfChallengeGeneration" class="xref">Section 5.4.3</a>)<a href="#section-5.3-7.9" class="pilcrow">¶</a>
+          <li id="section-5.3-7.9">V = s*H - c*Gamma<a href="#section-5.3-7.9" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.3-7.10">
+          <li id="section-5.3-7.10">c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <a href="#ecvrfChallengeGeneration" class="xref">Section 5.4.3</a>)<a href="#section-5.3-7.10" class="pilcrow">¶</a>
+</li>
+          <li id="section-5.3-7.11">
                         If c and c' are equal, output ("VALID", ECVRF_proof_to_hash(pi_string));
-                        else output "INVALID"<a href="#section-5.3-7.10" class="pilcrow">¶</a>
+                        else output "INVALID"<a href="#section-5.3-7.11" class="pilcrow">¶</a>
 </li>
         </ol>
-<p id="section-5.3-8">Note that the first two steps need to be performed only once for a given public key.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
+<p id="section-5.3-8">Note that the first three steps need to be performed only once for a given public key.<a href="#section-5.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-5.4">
@@ -2286,8 +2287,7 @@ li > p:last-of-type {
 <p id="section-5.4.1.1-9">
                 Fixed option  (specified in <a href="#ecvrfSuites" class="xref">Section 5.5</a>):<a href="#section-5.4.1.1-9" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.1.1-10.1">interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to an
-                    EC point.<a href="#section-5.4.1.1-10.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.1.1-10.1">interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to a point on E.<a href="#section-5.4.1.1-10.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-5.4.1.1-11">
@@ -2534,7 +2534,7 @@ li > p:last-of-type {
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-5.4.4-5.1">"INVALID", or<a href="#section-5.4.4-5.1" class="pilcrow">¶</a>
 </li>
-            <li class="normal ulEmpty" id="section-5.4.4-5.2">Gamma - EC point<a href="#section-5.4.4-5.2" class="pilcrow">¶</a>
+            <li class="normal ulEmpty" id="section-5.4.4-5.2">Gamma - a point on E<a href="#section-5.4.4-5.2" class="pilcrow">¶</a>
 </li>
             <li class="normal ulEmpty" id="section-5.4.4-5.3">
                     c - integer between 0 and 2^(8*cLen)-1<a href="#section-5.4.4-5.3" class="pilcrow">¶</a>
@@ -2565,6 +2565,79 @@ li > p:last-of-type {
             <li id="section-5.4.4-7.9">Output Gamma, c, and s<a href="#section-5.4.4-7.9" class="pilcrow">¶</a>
 </li>
           </ol>
+</section>
+</div>
+<div id="keycheck">
+<section id="section-5.4.5">
+          <h4 id="name-ecvrf-validate-key">
+<a href="#section-5.4.5" class="section-number selfRef">5.4.5. </a><a href="#name-ecvrf-validate-key" class="section-name selfRef">ECVRF Validate Key</a>
+          </h4>
+<p id="section-5.4.5-1">
+                  ECVRF_validate_key(Y)<a href="#section-5.4.5-1" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-2">
+                  Input:<a href="#section-5.4.5-2" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.4.5-3.1">Y - public key, a point on E<a href="#section-5.4.5-3.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-5.4.5-4">
+                  Output:<a href="#section-5.4.5-4" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.4.5-5.1">"VALID" or "INVALID"<a href="#section-5.4.5-5.1" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-5.4.5-6">
+            Note that this procedure is not sufficient if the elliptic curve E
+            or the point B, the generator of group G, is untrusted. The Verifier MUST
+            obtain E and B from a trusted source, such as a ciphersuite specification, rather
+            than from the prover.
+            Ciphersuites in this document specify E and B.<a href="#section-5.4.5-6" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-7">
+            The public key Y given to this procedure MUST be a valid point on E.<a href="#section-5.4.5-7" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-8">
+            Steps:<a href="#section-5.4.5-8" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.5-9">
+              <li id="section-5.4.5-9.1">If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop<a href="#section-5.4.5-9.1" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-9.2">Output "VALID"<a href="#section-5.4.5-9.2" class="pilcrow">¶</a>
+</li>
+          </ol>
+<p id="section-5.4.5-10">Note that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
+                  to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, if the cofactor is small, the total number
+                  of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply
+                  check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:<a href="#section-5.4.5-10" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-5.4.5-11">
+              <li id="section-5.4.5-11.1">PK_string = point_to_string(Y)<a href="#section-5.4.5-11.1" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.2">oneTwentySeven_string = 0x7F<a href="#section-5.4.5-11.2" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.3">
+              <p id="section-5.4.5-11.3.1">y_string[31] = y_string[31] &amp; oneTwentySeven_string<a href="#section-5.4.5-11.3.1" class="pilcrow">¶</a></p>
+<p id="section-5.4.5-11.3.2">(this step clears the high-order bit of octet 31)<a href="#section-5.4.5-11.3.2" class="pilcrow">¶</a></p>
+</li>
+            <li id="section-5.4.5-11.4">bad_pk[0] = int_to_string(0, 32)<a href="#section-5.4.5-11.4" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.5">bad_pk[1] = int_to_string(1, 32)<a href="#section-5.4.5-11.5" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.6">bad_y2 = 2707385501144840649318225287225658788936804267575313519463743609750303402022<a href="#section-5.4.5-11.6" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.7">bad_pk[2] = int_to_string(bad_y2, 32)<a href="#section-5.4.5-11.7" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.8">bad_pk[3] = int_to_string(p-bad_y2, 32)<a href="#section-5.4.5-11.8" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.9">bad_pk[4] = int_to_string(p-1, 32)<a href="#section-5.4.5-11.9" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.10">bad_pk[5] = int_to_string(p, 32)<a href="#section-5.4.5-11.10" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.11">bad_pk[6] = int_to_string(p+1, 32)<a href="#section-5.4.5-11.11" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.12">If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop<a href="#section-5.4.5-11.12" class="pilcrow">¶</a>
+</li>
+            <li id="section-5.4.5-11.13">Output Y<a href="#section-5.4.5-11.13" class="pilcrow">¶</a>
+</li>
+          </ol>
+<p id="section-5.4.5-12">
+                  (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <span>[<a href="#X25519" class="xref">X25519</a>]</span> to Edwards coordinates.)<a href="#section-5.4.5-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2601,7 +2674,7 @@ li > p:last-of-type {
         4.2 of <span>[<a href="#RFC8017" class="xref">RFC8017</a>]</span>. (This is big-endian representation.)<a href="#section-5.5-2.7" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.8">
-            The point_to_string function converts an EC point to an octet string
+            The point_to_string function converts a point on E to an octet string
             according to the encoding specified in Section 2.3.3 of 
             <span>[<a href="#SECG1" class="xref">SECG1</a>]</span> with point compression on.
             This implies ptLen = fLen + 1 = 33.
@@ -2612,7 +2685,7 @@ li > p:last-of-type {
              can be treated as the identity function.)<a href="#section-5.5-2.8" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.9"> The string_to_point function converts an octet string to an 
-            EC point according to the encoding specified in Section 2.3.4 of 
+            a point on E according to the encoding specified in Section 2.3.4 of
             <span>[<a href="#SECG1" class="xref">SECG1</a>]</span>. This function MUST output INVALID if
             the octet string does not decode to a point on the curve E.<a href="#section-5.5-2.9" class="pilcrow">¶</a>
 </li>
@@ -2621,7 +2694,10 @@ li > p:last-of-type {
 </li>
           <li class="normal" id="section-5.5-2.11">
             The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s). The input s to interpret_hash_value_as_a_point is a 32-octet string
-                  and the output is either an EC point or "INVALID".<a href="#section-5.5-2.11" class="pilcrow">¶</a>
+                  and the output is either a point on E or "INVALID".<a href="#section-5.5-2.11" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.5-2.12">
+            key_validation_flag = "REQUIRED"<a href="#section-5.5-2.12" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-5.5-3">This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:<a href="#section-5.5-3" class="pilcrow">¶</a></p>
@@ -2658,7 +2734,7 @@ li > p:last-of-type {
           <li class="normal" id="section-5.5-6.7">The string_to_int function interprets the string as an integer in little-endian
        representation.<a href="#section-5.5-6.7" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.5-6.8"> The point_to_string function converts an EC point to an 
+          <li class="normal" id="section-5.5-6.8"> The point_to_string function converts an point on E to an
             octet string according to the encoding specified
              in Section 5.1.2 of <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span>. 
             This implies ptLen = fLen = 32.
@@ -2668,7 +2744,7 @@ li > p:last-of-type {
              and implementation, the point_to_string 
              function can be treated as the identity function.)<a href="#section-5.5-6.8" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.5-6.9"> The string_to_point function converts an octet string to an EC point
+          <li class="normal" id="section-5.5-6.9"> The string_to_point function converts an octet string to a point on E
         according to the encoding specified in Section 5.1.3 
         of <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span>.  This function MUST output INVALID if
             the octet string does not decode to a point on the curve E.<a href="#section-5.5-6.9" class="pilcrow">¶</a>
@@ -2678,6 +2754,9 @@ li > p:last-of-type {
 </li>
           <li class="normal" id="section-5.5-6.11">
             The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).<a href="#section-5.5-6.11" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-5.5-6.12">
+              key_validation_flag = "REQUIRED"<a href="#section-5.5-6.12" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-5.5-7">This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:<a href="#section-5.5-7" class="pilcrow">¶</a></p>
@@ -2691,102 +2770,6 @@ li > p:last-of-type {
             <span>[<a href="#I-D.irtf-cfrg-hash-to-curve" class="xref">I-D.irtf-cfrg-hash-to-curve</a>]</span> Section 8.5).<a href="#section-5.5-8.2" class="pilcrow">¶</a>
 </li>
         </ul>
-</section>
-</div>
-<div id="keycheck">
-<section id="section-5.6">
-        <h3 id="name-when-the-ecvrf-keys-are-unt">
-<a href="#section-5.6" class="section-number selfRef">5.6. </a><a href="#name-when-the-ecvrf-keys-are-unt" class="section-name selfRef">When the ECVRF Keys are Untrusted</a>
-        </h3>
-<p id="section-5.6-1">The ECVRF as specified above is a VRF that satisfies the
-        "full uniqueness", "trusted collision resistance", and
-        "full pseudorandomness" properties defined in <a href="#secdef" class="xref">Section 3</a>.
-        In order to obtain "full collision resistance" (that is, collision resistance even with
-        a malicious VRF public key), the Verifier MUST
-        perform
-        the following additional validation procedure upon receipt of the public
-        VRF key. The public VRF key MUST NOT be used if this procedure returns "INVALID".<a href="#section-5.6-1" class="pilcrow">¶</a></p>
-<p id="section-5.6-2">
-        Note that this procedure is not sufficient if the elliptic curve E
-        or the point B, the generator of group G, is untrusted. The Verifier MUST
-        obtain E and B from a trusted source, such as a ciphersuite specification, rather
-        than from the prover.
-        Ciphersuites in this document specify E and B.<a href="#section-5.6-2" class="pilcrow">¶</a></p>
-<p id="section-5.6-3"> This procedure supposes that the public key provided to the Verifier is an octet 
-        string. The procedure returns "INVALID" if the public key in invalid. 
-        Otherwise, it returns Y, the public key as an EC point.<a href="#section-5.6-3" class="pilcrow">¶</a></p>
-<section id="section-5.6.1">
-          <h4 id="name-ecvrf-validate-key">
-<a href="#section-5.6.1" class="section-number selfRef">5.6.1. </a><a href="#name-ecvrf-validate-key" class="section-name selfRef">ECVRF Validate Key</a>
-          </h4>
-<p id="section-5.6.1-1">
-                ECVRF_validate_key(PK_string)<a href="#section-5.6.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.6.1-2">
-                Input:<a href="#section-5.6.1-2" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.6.1-3.1">PK_string - public key, an octet string<a href="#section-5.6.1-3.1" class="pilcrow">¶</a>
-</li>
-          </ul>
-<p id="section-5.6.1-4">
-                Output:<a href="#section-5.6.1-4" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.6.1-5.1">"VALID" or "INVALID"<a href="#section-5.6.1-5.1" class="pilcrow">¶</a>
-</li>
-          </ul>
-<p id="section-5.6.1-6">
-                Steps:<a href="#section-5.6.1-6" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.6.1-7">
-            <li id="section-5.6.1-7.1">Y = string_to_point(PK_string)<a href="#section-5.6.1-7.1" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-7.2">If Y is "INVALID", output "INVALID" and stop<a href="#section-5.6.1-7.2" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-7.3">If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop<a href="#section-5.6.1-7.3" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-7.4">Output "VALID"<a href="#section-5.6.1-7.4" class="pilcrow">¶</a>
-</li>
-          </ol>
-<p id="section-5.6.1-8">Note that first two steps are the same as in ECVRF_verify; thus, if ECVRF_validate_key is performed, it can output Y so that ECVRF_verify can skip the first two steps.<a href="#section-5.6.1-8" class="pilcrow">¶</a></p>
-<p id="section-5.6.1-9">Note also that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
-                to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, if the cofactor is small, the total number
-                of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply
-                check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:<a href="#section-5.6.1-9" class="pilcrow">¶</a></p>
-<ol start="1" type="1" class="normal type-1" id="section-5.6.1-10">
-<li id="section-5.6.1-10.1">Y = string_to_point(PK_string)<a href="#section-5.6.1-10.1" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.2">If Y is "INVALID", output "INVALID" and stop<a href="#section-5.6.1-10.2" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.3">y_string = PK_string<a href="#section-5.6.1-10.3" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.4">oneTwentySeven_string = 0x7F<a href="#section-5.6.1-10.4" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.5">
-              <p id="section-5.6.1-10.5.1">y_string[31] = y_string[31] &amp; oneTwentySeven_string<a href="#section-5.6.1-10.5.1" class="pilcrow">¶</a></p>
-<p id="section-5.6.1-10.5.2">(this step clears the high-order bit of octet 31)<a href="#section-5.6.1-10.5.2" class="pilcrow">¶</a></p>
-</li>
-            <li id="section-5.6.1-10.6">bad_pk[0] = int_to_string(0, 32)<a href="#section-5.6.1-10.6" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.7">bad_pk[1] = int_to_string(1, 32)<a href="#section-5.6.1-10.7" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.8">bad_y2 = 2707385501144840649318225287225658788936804267575313519463743609750303402022<a href="#section-5.6.1-10.8" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.9">bad_pk[2] = int_to_string(bad_y2, 32)<a href="#section-5.6.1-10.9" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.10">bad_pk[3] = int_to_string(p-bad_y2, 32)<a href="#section-5.6.1-10.10" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.11">bad_pk[4] = int_to_string(p-1, 32)<a href="#section-5.6.1-10.11" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.12">bad_pk[5] = int_to_string(p, 32)<a href="#section-5.6.1-10.12" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.13">bad_pk[6] = int_to_string(p+1, 32)<a href="#section-5.6.1-10.13" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.14">If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop<a href="#section-5.6.1-10.14" class="pilcrow">¶</a>
-</li>
-            <li id="section-5.6.1-10.15">Output Y<a href="#section-5.6.1-10.15" class="pilcrow">¶</a>
-</li>
-          </ol>
-<p id="section-5.6.1-11">
-                (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <span>[<a href="#X25519" class="xref">X25519</a>]</span> to Edwards coordinates.)<a href="#section-5.6.1-11" class="pilcrow">¶</a></p>
-</section>
 </section>
 </div>
 </section>
@@ -2865,17 +2848,9 @@ li > p:last-of-type {
     RSA-FDH-VRF has to be enhanced by additional cryptographic checks
     that its public key has the right form.  These enhacements are left for future specification.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
 <p id="section-7.1.1-2">For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
-              ECVRF as specified in <a href="#ecvrfprove" class="xref">Section 5.1</a>-<a href="#ecvrfSuites" class="xref">Section 5.5</a>
+              ECVRF
     satisfies the "full uniqueness" (see <a href="#uniqueness" class="xref">Section 3.1</a>)
-    and "trusted collision resistance" (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties.<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
-<p id="section-7.1.1-3">
-    However, if the verifier needs collision-resistance even when the ECVRF key was generated adversarially,
-    then the
-     Verifier MUST first perform the validation procedure ECVRF_validate_key(PK_string)
-    (specified in <a href="#keycheck" class="xref">Section 5.6</a>) before using the public key.
-    If the validation procedure
-    outputs "INVALID", then the public key MUST not be used.
-    With the validation procedure, the ECVRF satisfies "full collision resistance".<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
+    and "trusted collision resistance" (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties. It additonally satisfies "full collision resistance" if key_validation_flag is set to "REQUIRED", or if key_validation_flag is set to OPTIONAL and the validate_key given to the ECVRF_verify is true.<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-7.1.2">

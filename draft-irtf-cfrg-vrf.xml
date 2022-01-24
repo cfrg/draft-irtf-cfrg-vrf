@@ -557,9 +557,7 @@
             in <xref target="PWHVNRG17" format="default"/>.
       </t>
       <t> To additionally satisfy "full collision resistance",
-        the Verifier MUST additionally perform the validation procedure specified in 
-        <xref target="keycheck" format="default"/>  upon receipt of the public
-        VRF key.
+          key_validation_flag MUST be set to "REQUIRED" or "OPTIONAL" and, if key_validation_flag is set to "OPTIONAL", then the validate_key parameter given to the ECVRF_verify MUST be true.
       </t>
       <t>
             Notation used:
@@ -578,7 +576,7 @@
         <li>F - finite field</li>
         <li>fLen - length, in octets, of an element in F encoded as an octet string</li>
         <li>E - elliptic curve (EC) defined over F</li>
-        <li>ptLen - length, in octets, of an EC point encoded as an octet string</li>
+        <li>ptLen - length, in octets, of a point on E encoded as an octet string</li>
         <li>G - subgroup of E of large prime order</li>
         <li>q - prime order of group G</li>
         <li>qLen - length of q in octets, i.e., smallest integer such that 2^(8qLen)&gt;q</li>
@@ -587,9 +585,10 @@
         <li>B - generator of group G</li>
         <li>Hash - cryptographic hash function</li>
         <li>hLen - output length in octets of Hash (hLen must be at least cLen; in the typical case, it is at least qLen)</li>
-        <li>ECVRF_hash_to_curve - a function that hashes strings to an EC point.</li>
+        <li>ECVRF_hash_to_curve - a function that hashes strings to points on E.</li>
         <li>ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.</li>
+        <li>key_validation_flag - set to REQUIRED, OPTIONAL, or UNNECESSARY</li>
         <li>suite_string - a single nonzero octet specifying the ECVRF
                 ciphersuite, which determines the above options as well as type conversions and parameter generation </li>
       </ul>
@@ -601,8 +600,8 @@
                     to octet string of length len</li>
         <li> string_to_int(a_string) - conversion of an octet string a_string
                     to a nonnegative integer</li>
-        <li>point_to_string - conversion of EC point to an ptLen-octet string</li>
-        <li>string_to_point - conversion of an ptLen-octet string to EC point.
+        <li>point_to_string - conversion of a point on E to an ptLen-octet string</li>
+        <li>string_to_point - conversion of an ptLen-octet string to a point on E.
                     string_to_point returns INVALID if the octet string does not convert to a valid EC point on the curve E.</li>
         <li>
                     Note that with certain software libraries
@@ -625,7 +624,7 @@
                         Note: depending on the ciphersuite used, the VRF secret scalar may be equal
                         to SK; else, it is derived from SK
                     </li>
-        <li>Y = x*B - VRF public key, an EC point</li>
+        <li>Y = x*B - VRF public key, an point on E</li>
         <li>PK_string = point_to_string(Y) - VRF public key represented as an octet string</li>
 
       </ul>
@@ -707,7 +706,7 @@
       <section anchor="ecverify" numbered="true" toc="default">
         <name>ECVRF Verifying</name>
         <t>
-                ECVRF_verify(PK_string, alpha_string, pi_string)
+                ECVRF_verify(PK_string, alpha_string, pi_string, [validate_key])
         </t>
         <t>
                 Input:
@@ -716,6 +715,7 @@
           <li>PK_string - public key, an octet string</li>
           <li>alpha_string - VRF input, octet string</li>
           <li>pi_string - VRF proof, octet string of length ptLen+cLen+qLen</li>
+          <li>validate_key - a boolean, needed only if key_validation_flag = OPTIONAL</li>
         </ul>
         <t>
                 Output:
@@ -727,12 +727,16 @@
             <t> "INVALID"</t>
           </li>
         </ul>
+ 
         <t>
                 Steps:
         </t>
         <ol spacing="normal" type="1">
           <li>Y =  string_to_point(PK_string)</li>
           <li>If Y is "INVALID", output "INVALID" and stop</li>
+          <li><t>If (key_validation_flag = "REQUIRED") or (key_validation_flag = "OPTIONAL" and validate_key = true):</t>
+                <t>run ECVRF_validate_key(Y) (<xref target="keycheck" format="default"/>); if it outputs "INVALID", output "INVALID" and stop</t>
+          </li>
           <li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
           <li>If D is "INVALID", output "INVALID" and stop</li>
           <li>(Gamma, c, s) = D</li>
@@ -745,7 +749,7 @@
                         else output "INVALID"
                     </li>
         </ol>
-        <t>Note that the first two steps need to be performed only once for a given public key.</t>
+        <t>Note that the first three steps need to be performed only once for a given public key.</t>
         
       </section>
       <section numbered="true" toc="default">
@@ -802,8 +806,7 @@
                 Fixed option  (specified in <xref target="ecvrfSuites" format="default"/>):
             </t>
             <ul empty="true" spacing="normal">
-              <li>interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to an
-                    EC point.</li>
+              <li>interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to a point on E.</li>
             </ul>
             <t>
                 Steps:
@@ -1007,7 +1010,7 @@
           </t>
           <ul empty="true" spacing="normal">
             <li>"INVALID", or </li>
-            <li>Gamma - EC point</li>
+            <li>Gamma - a point on E</li>
             <li>
                     c - integer between 0 and 2^(8*cLen)-1
                     </li>
@@ -1029,6 +1032,74 @@
             <li>Output Gamma, c, and s</li>
           </ol>
         </section>
+        
+          <section anchor="keycheck" numbered="true" toc="default">
+            <name>ECVRF Validate Key</name>
+            <t>
+                  ECVRF_validate_key(Y)
+            </t>
+            <t>
+                  Input:
+            </t>
+            <ul empty="true" spacing="normal">
+              <li>Y - public key, a point on E</li>
+            </ul>
+            <t>
+                  Output:
+            </t>
+            <ul empty="true" spacing="normal">
+              <li>"VALID" or "INVALID"</li>
+            </ul>
+            <t>
+            Note that this procedure is not sufficient if the elliptic curve E
+            or the point B, the generator of group G, is untrusted. The Verifier MUST
+            obtain E and B from a trusted source, such as a ciphersuite specification, rather
+            than from the prover.
+            Ciphersuites in this document specify E and B.
+            </t>
+            
+            <t>
+            The public key Y given to this procedure MUST be a valid point on E.
+            </t>
+            
+            <t>
+            Steps:
+            </t>
+            <ol spacing="normal" type="1">
+              <li>If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop</li>
+              <li>Output "VALID"</li>
+            </ol>
+                
+                <t>Note that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
+                  to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, if the cofactor is small, the total number
+                  of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply
+                  check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:
+            </t>
+            <ol spacing="normal" type="1">
+              <li>PK_string = point_to_string(Y)</li>
+              <li>oneTwentySeven_string = 0x7F</li>
+              <li>
+                <t>y_string[31] = y_string[31] &amp; oneTwentySeven_string
+                </t>
+                <t>(this step clears the high-order bit of octet 31)</t>
+              </li>
+              <li>bad_pk[0] = int_to_string(0, 32)</li>
+              <li>bad_pk[1] = int_to_string(1, 32)</li>
+              <li>bad_y2 = 2707385501144840649318225287225658788936804267575313519463743609750303402022</li>
+              <li>bad_pk[2] = int_to_string(bad_y2, 32)</li>
+              <li>bad_pk[3] = int_to_string(p-bad_y2, 32)</li>
+              <li>bad_pk[4] = int_to_string(p-1, 32)</li>
+              <li>bad_pk[5] = int_to_string(p, 32)</li>
+              <li>bad_pk[6] = int_to_string(p+1, 32)</li>
+              <li>If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop</li>
+              <li>Output Y</li>
+            </ol>
+            <t>
+                  (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <xref target="X25519" format="default"/> to Edwards coordinates.)
+            </t>
+        </section>
+        <!-- Untrusted keys -->
+
       </section>
       <!-- Auxiliary Functions -->
 
@@ -1059,7 +1130,7 @@
           <li>The string_to_int function is the OS2IP function specified in Section 
         4.2 of <xref target="RFC8017" format="default"/>. (This is big-endian representation.)</li>
           <li>
-            The point_to_string function converts an EC point to an octet string
+            The point_to_string function converts a point on E to an octet string
             according to the encoding specified in Section 2.3.3 of 
             <xref target="SECG1" format="default"/> with point compression on.
             This implies ptLen = fLen + 1 = 33.
@@ -1070,7 +1141,7 @@
              can be treated as the identity function.)
         </li>
           <li> The string_to_point function converts an octet string to an 
-            EC point according to the encoding specified in Section 2.3.4 of 
+            a point on E according to the encoding specified in Section 2.3.4 of
             <xref target="SECG1" format="default"/>. This function MUST output INVALID if
             the octet string does not decode to a point on the curve E.
         </li>
@@ -1079,7 +1150,10 @@
         </li>
           <li>
             The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s). The input s to interpret_hash_value_as_a_point is a 32-octet string
-                  and the output is either an EC point or "INVALID".
+                  and the output is either a point on E or "INVALID".
+        </li>
+        <li>
+            key_validation_flag = "REQUIRED"
         </li>
         </ul>
         <t>This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:
@@ -1111,7 +1185,7 @@
         Section 5.1.2 of <xref target="RFC8032" format="default"/>. (This is little-endian representation.)</li>
           <li>The string_to_int function interprets the string as an integer in little-endian
        representation.</li>
-          <li> The point_to_string function converts an EC point to an 
+          <li> The point_to_string function converts an point on E to an
             octet string according to the encoding specified
              in Section 5.1.2 of <xref target="RFC8032" format="default"/>. 
             This implies ptLen = fLen = 32.
@@ -1121,7 +1195,7 @@
              and implementation, the point_to_string 
              function can be treated as the identity function.)
         </li>
-          <li> The string_to_point function converts an octet string to an EC point
+          <li> The string_to_point function converts an octet string to a point on E
         according to the encoding specified in Section 5.1.3 
         of <xref target="RFC8032" format="default"/>.  This function MUST output INVALID if
             the octet string does not decode to a point on the curve E.
@@ -1132,6 +1206,10 @@
           <li>
             The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).
         </li>
+        <li>
+              key_validation_flag = "REQUIRED"
+        </li>
+
         </ul>
         <t>This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:
     
@@ -1147,89 +1225,8 @@
         </li>
         </ul>
       </section>
-      <section anchor="keycheck" numbered="true" toc="default">
-        <name>When the ECVRF Keys are Untrusted</name>
-        <t>The ECVRF as specified above is a VRF that satisfies the
-        "full uniqueness", "trusted collision resistance", and
-        "full pseudorandomness" properties defined in <xref target="secdef" format="default"/>.
-        In order to obtain "full collision resistance" (that is, collision resistance even with
-        a malicious VRF public key), the Verifier MUST
-        perform
-        the following additional validation procedure upon receipt of the public
-        VRF key. The public VRF key MUST NOT be used if this procedure returns "INVALID".
-        </t>
-        <t>
-        Note that this procedure is not sufficient if the elliptic curve E
-        or the point B, the generator of group G, is untrusted. The Verifier MUST
-        obtain E and B from a trusted source, such as a ciphersuite specification, rather
-        than from the prover.
-        Ciphersuites in this document specify E and B.
-        </t>
-        <t> This procedure supposes that the public key provided to the Verifier is an octet 
-        string. The procedure returns "INVALID" if the public key in invalid. 
-        Otherwise, it returns Y, the public key as an EC point.
-        </t>
-        <section numbered="true" toc="default">
-          <name>ECVRF Validate Key</name>
-          <t>
-                ECVRF_validate_key(PK_string)
-          </t>
-          <t>
-                Input:
-          </t>
-          <ul empty="true" spacing="normal">
-            <li>PK_string - public key, an octet string</li>
-          </ul>
-          <t>
-                Output:
-          </t>
-          <ul empty="true" spacing="normal">
-            <li>"VALID" or "INVALID"</li>
-          </ul>
-          <t>
-                Steps:
-          </t>
-          <ol spacing="normal" type="1">
-            <li>Y = string_to_point(PK_string)</li>
-            <li>If Y is "INVALID", output "INVALID" and stop</li>
-            <li>If cofactor*Y is the identity element of the elliptic curve group, output "INVALID" and stop</li>
-            <li>Output "VALID"</li>
-          </ol>
-          <t>Note that first two steps are the same as in ECVRF_verify; thus, if ECVRF_validate_key is performed, it can output Y so that ECVRF_verify can skip the first two steps.</t>
-              
-              <t>Note also that if the cofactor = 1, then Step 3 need not multiply Y by the cofactor; instead, it suffices
-                to output "INVALID" if Y is the identity element of the elliptic curve group. Moreover, if the cofactor is small, the total number
-                of points that could cause Step 3 to output "INVALID" may be small, and it may be more efficient to simply
-                check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:
-          </t>
-          <ol spacing="normal" type="1"><li>Y = string_to_point(PK_string)</li>
-            <li>If Y is "INVALID", output "INVALID" and stop</li>
-            <li>y_string = PK_string</li>
-            <li>oneTwentySeven_string = 0x7F</li>
-            <li>
-              <t>y_string[31] = y_string[31] &amp; oneTwentySeven_string
-              </t>
-              <t>(this step clears the high-order bit of octet 31)</t>
-            </li>
-            <li>bad_pk[0] = int_to_string(0, 32)</li>
-            <li>bad_pk[1] = int_to_string(1, 32)</li>
-            <li>bad_y2 = 2707385501144840649318225287225658788936804267575313519463743609750303402022</li>
-            <li>bad_pk[2] = int_to_string(bad_y2, 32)</li>
-            <li>bad_pk[3] = int_to_string(p-bad_y2, 32)</li>
-            <li>bad_pk[4] = int_to_string(p-1, 32)</li>
-            <li>bad_pk[5] = int_to_string(p, 32)</li>
-            <li>bad_pk[6] = int_to_string(p+1, 32)</li>
-            <li>If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop</li>
-            <li>Output Y</li>
-          </ol>
-          <t>
-                (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <xref target="X25519" format="default"/> to Edwards coordinates.)
-          </t>
-        </section>
-      </section>
-      <!-- Untrusted keys -->
-
     </section>
+
     <section anchor="imp" numbered="true" toc="default">
       <name>Implementation Status</name>
       <t>
@@ -1310,18 +1307,9 @@
           
           
           <t>For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
-              ECVRF as specified in <xref target="ecvrfprove" format="default"/>-<xref target="ecvrfSuites" format="default"/>
+              ECVRF
     satisfies the "full uniqueness" (see <xref target="uniqueness" format="default"/>)
-    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties.
-          </t>
-          <t>
-    However, if the verifier needs collision-resistance even when the ECVRF key was generated adversarially,
-    then the
-     Verifier MUST first perform the validation procedure ECVRF_validate_key(PK_string)
-    (specified in <xref target="keycheck" format="default"/>) before using the public key.
-    If the validation procedure
-    outputs "INVALID", then the public key MUST not be used.
-    With the validation procedure, the ECVRF satisfies "full collision resistance".
+    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties. It additonally satisfies "full collision resistance" if key_validation_flag is set to "REQUIRED", or if key_validation_flag is set to OPTIONAL and the validate_key parameter given to the ECVRF_verify is true.
           </t>
         </section>
 
