@@ -444,8 +444,8 @@
         <t>
                 Steps:
         </t>
-        <ol spacing="normal" type="1"><li>one_string = 0x01</li>
-          <li>EM = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
+        <ol spacing="normal" type="1"><li>mgf_domain_separator = 0x01</li>
+          <li>EM = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
           <li>m = OS2IP(EM)</li>
           <li>s = RSASP1(K, m)</li>
           <li>pi_string = I2OSP(s, k)</li>
@@ -478,8 +478,8 @@
         <t>
                 Steps:
         </t>
-        <ol spacing="normal" type="1"><li>two_string = 0x02</li>
-          <li>beta_string = Hash(suite_string || two_string || pi_string)</li>
+        <ol spacing="normal" type="1"><li>proof_to_hash_domain_separator = 0x02</li>
+          <li>beta_string = Hash(suite_string || proof_to_hash_domain_separator || pi_string)</li>
           <li>Output beta_string</li>
         </ol>
       </section>
@@ -511,8 +511,8 @@
         </t>
         <ol spacing="normal" type="1"><li>s = OS2IP(pi_string)</li>
           <li>m = RSAVP1((n, e), s); if RSAVP1 returns "signature representative out of range", output "INVALID" and stop.</li>
-          <li>one_string = 0x01</li>
-          <li>EM' = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
+          <li>mgf_domain_separator = 0x01</li>
+          <li>EM' = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
           <li>m' = OS2IP(EM')</li>
           <li>
                         If m and m' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
@@ -693,9 +693,9 @@
         <ol spacing="normal" type="1"><li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
           <li>If D is "INVALID", output "INVALID" and stop</li>
           <li>(Gamma, c, s) = D</li>
-          <li>three_string = 0x03</li>
-          <li>zero_string = 0x00</li>
-          <li>beta_string = Hash(suite_string || three_string || point_to_string(cofactor * Gamma) || zero_string)</li>
+          <li>proof_to_hash_domain_separator_front = 0x03</li>
+          <li>proof_to_hash_domain_separator_back = 0x00</li>
+          <li>beta_string = Hash(suite_string || proof_to_hash_domain_separator_front || point_to_string(cofactor * Gamma) || proof_to_hash_domain_separator_back)</li>
           <li>Output beta_string</li>
         </ol>
       </section>
@@ -816,14 +816,14 @@
                 Steps:
             </t>
             <ol spacing="normal" type="1"><li>ctr = 0</li>
-              <li>one_string = 0x01</li>
-              <li>zero_string = 0x00</li>
+              <li>hash_to_curve_domain_separator_front = 0x01</li>
+              <li>hash_to_curve_domain_separator_back = 0x00</li>
               <li>H = "INVALID"</li>
               <li>
                 <t>While H is "INVALID" or H is the identity element of the elliptic curve group:
                 </t>
                 <ol spacing="normal" type="a"><li>ctr_string = int_to_string(ctr, 1)</li>
-                  <li>hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)</li>
+                  <li>hash_string = Hash(suite_string || hash_to_curve_domain_separator_front || PK_string || alpha_string || ctr_string || hash_to_curve_domain_separator_back)</li>
                   <li>H = interpret_hash_value_as_a_point(hash_string)</li>
                   <li>If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H</li>
                   <li>ctr = ctr + 1</li>
@@ -980,16 +980,16 @@
           <t>
                 Steps:
           </t>
-          <ol spacing="normal" type="1"><li>two_string = 0x02</li>
-            <li>Initialize str = suite_string || two_string </li>
+          <ol spacing="normal" type="1"><li>challenge_generation_domain_separator_front = 0x02</li>
+            <li>Initialize str = suite_string || challenge_generation_domain_separator_front </li>
             <li>
               <t>for PJ in [P1, P2, P3, P4]:
               </t>
               <t>str = str || point_to_string(PJ)
               </t>
             </li>
-            <li>zero_string = 0x00</li>
-            <li>str = str || zero_string</li>
+            <li>challenge_generation_domain_separator_back = 0x00</li>
+            <li>str = str || challenge_generation_domain_separator_back</li>
             <li>c_string = Hash(str)</li>
             <li>truncated_c_string = c_string[0]...c_string[cLen-1]
                     <!--(first cLen octets of c_string)-->
@@ -1568,7 +1568,7 @@
         <li> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
-        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites; made key validation required for the current ciphersuites.</li>
+        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites; made key validation clearer.</li>
       </ul>
     </section>
     <section numbered="true" toc="default">

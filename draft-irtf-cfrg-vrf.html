@@ -1845,9 +1845,9 @@ li > p:last-of-type {
 <p id="section-4.1-6">
                 Steps:<a href="#section-4.1-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-4.1-7">
-<li id="section-4.1-7.1">one_string = 0x01<a href="#section-4.1-7.1" class="pilcrow">¶</a>
+<li id="section-4.1-7.1">mgf_domain_separator = 0x01<a href="#section-4.1-7.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-4.1-7.2">EM = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)<a href="#section-4.1-7.2" class="pilcrow">¶</a>
+          <li id="section-4.1-7.2">EM = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)<a href="#section-4.1-7.2" class="pilcrow">¶</a>
 </li>
           <li id="section-4.1-7.3">m = OS2IP(EM)<a href="#section-4.1-7.3" class="pilcrow">¶</a>
 </li>
@@ -1886,9 +1886,9 @@ li > p:last-of-type {
 <p id="section-4.2-8">
                 Steps:<a href="#section-4.2-8" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-4.2-9">
-<li id="section-4.2-9.1">two_string = 0x02<a href="#section-4.2-9.1" class="pilcrow">¶</a>
+<li id="section-4.2-9.1">proof_to_hash_domain_separator = 0x02<a href="#section-4.2-9.1" class="pilcrow">¶</a>
 </li>
-          <li id="section-4.2-9.2">beta_string = Hash(suite_string || two_string || pi_string)<a href="#section-4.2-9.2" class="pilcrow">¶</a>
+          <li id="section-4.2-9.2">beta_string = Hash(suite_string || proof_to_hash_domain_separator || pi_string)<a href="#section-4.2-9.2" class="pilcrow">¶</a>
 </li>
           <li id="section-4.2-9.3">Output beta_string<a href="#section-4.2-9.3" class="pilcrow">¶</a>
 </li>
@@ -1926,9 +1926,9 @@ li > p:last-of-type {
 </li>
           <li id="section-4.3-7.2">m = RSAVP1((n, e), s); if RSAVP1 returns "signature representative out of range", output "INVALID" and stop.<a href="#section-4.3-7.2" class="pilcrow">¶</a>
 </li>
-          <li id="section-4.3-7.3">one_string = 0x01<a href="#section-4.3-7.3" class="pilcrow">¶</a>
+          <li id="section-4.3-7.3">mgf_domain_separator = 0x01<a href="#section-4.3-7.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-4.3-7.4">EM' = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)<a href="#section-4.3-7.4" class="pilcrow">¶</a>
+          <li id="section-4.3-7.4">EM' = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)<a href="#section-4.3-7.4" class="pilcrow">¶</a>
 </li>
           <li id="section-4.3-7.5">m' = OS2IP(EM')<a href="#section-4.3-7.5" class="pilcrow">¶</a>
 </li>
@@ -2156,11 +2156,11 @@ li > p:last-of-type {
 </li>
           <li id="section-5.2-9.3">(Gamma, c, s) = D<a href="#section-5.2-9.3" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.2-9.4">three_string = 0x03<a href="#section-5.2-9.4" class="pilcrow">¶</a>
+          <li id="section-5.2-9.4">proof_to_hash_domain_separator_front = 0x03<a href="#section-5.2-9.4" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.2-9.5">zero_string = 0x00<a href="#section-5.2-9.5" class="pilcrow">¶</a>
+          <li id="section-5.2-9.5">proof_to_hash_domain_separator_back = 0x00<a href="#section-5.2-9.5" class="pilcrow">¶</a>
 </li>
-          <li id="section-5.2-9.6">beta_string = Hash(suite_string || three_string || point_to_string(cofactor * Gamma) || zero_string)<a href="#section-5.2-9.6" class="pilcrow">¶</a>
+          <li id="section-5.2-9.6">beta_string = Hash(suite_string || proof_to_hash_domain_separator_front || point_to_string(cofactor * Gamma) || proof_to_hash_domain_separator_back)<a href="#section-5.2-9.6" class="pilcrow">¶</a>
 </li>
           <li id="section-5.2-9.7">Output beta_string<a href="#section-5.2-9.7" class="pilcrow">¶</a>
 </li>
@@ -2294,9 +2294,9 @@ li > p:last-of-type {
 <ol start="1" type="1" class="normal type-1" id="section-5.4.1.1-12">
 <li id="section-5.4.1.1-12.1">ctr = 0<a href="#section-5.4.1.1-12.1" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.2">one_string = 0x01<a href="#section-5.4.1.1-12.2" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.2">hash_to_curve_domain_separator_front = 0x01<a href="#section-5.4.1.1-12.2" class="pilcrow">¶</a>
 </li>
-              <li id="section-5.4.1.1-12.3">zero_string = 0x00<a href="#section-5.4.1.1-12.3" class="pilcrow">¶</a>
+              <li id="section-5.4.1.1-12.3">hash_to_curve_domain_separator_back = 0x00<a href="#section-5.4.1.1-12.3" class="pilcrow">¶</a>
 </li>
               <li id="section-5.4.1.1-12.4">H = "INVALID"<a href="#section-5.4.1.1-12.4" class="pilcrow">¶</a>
 </li>
@@ -2305,7 +2305,7 @@ li > p:last-of-type {
 <ol start="1" type="a" class="normal type-a" id="section-5.4.1.1-12.5.2">
 <li id="section-5.4.1.1-12.5.2.1">ctr_string = int_to_string(ctr, 1)<a href="#section-5.4.1.1-12.5.2.1" class="pilcrow">¶</a>
 </li>
-                  <li id="section-5.4.1.1-12.5.2.2">hash_string = Hash(suite_string || one_string || PK_string || alpha_string || ctr_string || zero_string)<a href="#section-5.4.1.1-12.5.2.2" class="pilcrow">¶</a>
+                  <li id="section-5.4.1.1-12.5.2.2">hash_string = Hash(suite_string || hash_to_curve_domain_separator_front || PK_string || alpha_string || ctr_string || hash_to_curve_domain_separator_back)<a href="#section-5.4.1.1-12.5.2.2" class="pilcrow">¶</a>
 </li>
                   <li id="section-5.4.1.1-12.5.2.3">H = interpret_hash_value_as_a_point(hash_string)<a href="#section-5.4.1.1-12.5.2.3" class="pilcrow">¶</a>
 </li>
@@ -2492,17 +2492,17 @@ li > p:last-of-type {
 <p id="section-5.4.3-6">
                 Steps:<a href="#section-5.4.3-6" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.4.3-7">
-<li id="section-5.4.3-7.1">two_string = 0x02<a href="#section-5.4.3-7.1" class="pilcrow">¶</a>
+<li id="section-5.4.3-7.1">challenge_generation_domain_separator_front = 0x02<a href="#section-5.4.3-7.1" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.4.3-7.2">Initialize str = suite_string || two_string<a href="#section-5.4.3-7.2" class="pilcrow">¶</a>
+            <li id="section-5.4.3-7.2">Initialize str = suite_string || challenge_generation_domain_separator_front<a href="#section-5.4.3-7.2" class="pilcrow">¶</a>
 </li>
             <li id="section-5.4.3-7.3">
               <p id="section-5.4.3-7.3.1">for PJ in [P1, P2, P3, P4]:<a href="#section-5.4.3-7.3.1" class="pilcrow">¶</a></p>
 <p id="section-5.4.3-7.3.2">str = str || point_to_string(PJ)<a href="#section-5.4.3-7.3.2" class="pilcrow">¶</a></p>
 </li>
-            <li id="section-5.4.3-7.4">zero_string = 0x00<a href="#section-5.4.3-7.4" class="pilcrow">¶</a>
+            <li id="section-5.4.3-7.4">challenge_generation_domain_separator_back = 0x00<a href="#section-5.4.3-7.4" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.4.3-7.5">str = str || zero_string<a href="#section-5.4.3-7.5" class="pilcrow">¶</a>
+            <li id="section-5.4.3-7.5">str = str || challenge_generation_domain_separator_back<a href="#section-5.4.3-7.5" class="pilcrow">¶</a>
 </li>
             <li id="section-5.4.3-7.6">c_string = Hash(str)<a href="#section-5.4.3-7.6" class="pilcrow">¶</a>
 </li>
@@ -3111,7 +3111,7 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-8-2.11"> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references.<a href="#section-8-2.11" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites; made key validation required for the current ciphersuites.<a href="#section-8-2.12" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites; made key validation clearer.<a href="#section-8-2.12" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>

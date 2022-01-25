@@ -94,7 +94,7 @@ Table of Contents
        5.4.2.  ECVRF Nonce Generation  . . . . . . . . . . . . . . .  19
        5.4.3.  ECVRF Challenge Generation  . . . . . . . . . . . . .  20
        5.4.4.  ECVRF Decode Proof  . . . . . . . . . . . . . . . . .  21
-       5.4.5.  ECVRF Validate Key  . . . . . . . . . . . . . . . . .  21
+       5.4.5.  ECVRF Validate Key  . . . . . . . . . . . . . . . . .  22
      5.5.  ECVRF Ciphersuites  . . . . . . . . . . . . . . . . . . .  23
    6.  Implementation Status . . . . . . . . . . . . . . . . . . . .  25
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  27
@@ -466,10 +466,10 @@ Internet-Draft                     VRF                      January 2022
 
    Steps:
 
-   1.  one_string = 0x01
+   1.  mgf_domain_separator = 0x01
 
-   2.  EM = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n,
-       k) || alpha_string, k - 1)
+   2.  EM = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) ||
+       I2OSP(n, k) || alpha_string, k - 1)
 
    3.  m = OS2IP(EM)
 
@@ -506,9 +506,10 @@ Goldberg, et al.          Expires 29 July 2022                  [Page 9]
 Internet-Draft                     VRF                      January 2022
 
 
-   1.  two_string = 0x02
+   1.  proof_to_hash_domain_separator = 0x02
 
-   2.  beta_string = Hash(suite_string || two_string || pi_string)
+   2.  beta_string = Hash(suite_string ||
+       proof_to_hash_domain_separator || pi_string)
 
    3.  Output beta_string
 
@@ -538,10 +539,10 @@ Internet-Draft                     VRF                      January 2022
    2.  m = RSAVP1((n, e), s); if RSAVP1 returns "signature
        representative out of range", output "INVALID" and stop.
 
-   3.  one_string = 0x01
+   3.  mgf_domain_separator = 0x01
 
-   4.  EM' = MGF1(suite_string || one_string || I2OSP(k, 4) || I2OSP(n,
-       k) || alpha_string, k - 1)
+   4.  EM' = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) ||
+       I2OSP(n, k) || alpha_string, k - 1)
 
    5.  m' = OS2IP(EM')
 
@@ -553,7 +554,6 @@ Internet-Draft                     VRF                      January 2022
    This document defines RSA-FDH-VRF-SHA256 as follows:
 
    *  suite_string = 0x01
-
 
 
 
@@ -774,9 +774,9 @@ Internet-Draft                     VRF                      January 2022
 
    3.  (Gamma, c, s) = D
 
-   4.  three_string = 0x03
+   4.  proof_to_hash_domain_separator_front = 0x03
 
-   5.  zero_string = 0x00
+   5.  proof_to_hash_domain_separator_back = 0x00
 
 
 
@@ -786,8 +786,9 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 14]
 Internet-Draft                     VRF                      January 2022
 
 
-   6.  beta_string = Hash(suite_string || three_string ||
-       point_to_string(cofactor * Gamma) || zero_string)
+   6.  beta_string = Hash(suite_string ||
+       proof_to_hash_domain_separator_front || point_to_string(cofactor
+       * Gamma) || proof_to_hash_domain_separator_back)
 
    7.  Output beta_string
 
@@ -833,7 +834,6 @@ Internet-Draft                     VRF                      January 2022
    5.   If D is "INVALID", output "INVALID" and stop
 
    6.   (Gamma, c, s) = D
-
 
 
 
@@ -917,9 +917,9 @@ Internet-Draft                     VRF                      January 2022
 
    1.  ctr = 0
 
-   2.  one_string = 0x01
+   2.  hash_to_curve_domain_separator_front = 0x01
 
-   3.  zero_string = 0x00
+   3.  hash_to_curve_domain_separator_back = 0x00
 
    4.  H = "INVALID"
 
@@ -928,8 +928,10 @@ Internet-Draft                     VRF                      January 2022
 
        a.  ctr_string = int_to_string(ctr, 1)
 
-       b.  hash_string = Hash(suite_string || one_string || PK_string ||
-           alpha_string || ctr_string || zero_string)
+       b.  hash_string = Hash(suite_string ||
+           hash_to_curve_domain_separator_front || PK_string ||
+           alpha_string || ctr_string ||
+           hash_to_curve_domain_separator_back)
 
        c.  H = interpret_hash_value_as_a_point(hash_string)
 
@@ -938,8 +940,6 @@ Internet-Draft                     VRF                      January 2022
        e.  ctr = ctr + 1
 
    6.  Output H
-
-
 
 
 
@@ -1101,19 +1101,19 @@ Internet-Draft                     VRF                      January 2022
 
    Steps:
 
-   1.  two_string = 0x02
+   1.  challenge_generation_domain_separator_front = 0x02
 
-   2.  Initialize str = suite_string || two_string
+   2.  Initialize str = suite_string ||
+       challenge_generation_domain_separator_front
 
    3.  for PJ in [P1, P2, P3, P4]:
 
        str = str || point_to_string(PJ)
 
-   4.  zero_string = 0x00
+   4.  challenge_generation_domain_separator_back = 0x00
 
-   5.  str = str || zero_string
+   5.  str = str || challenge_generation_domain_separator_back
 
-   6.  c_string = Hash(str)
 
 
 
@@ -1121,6 +1121,8 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 20]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   6.  c_string = Hash(str)
 
    7.  truncated_c_string = c_string[0]...c_string[cLen-1]
 
@@ -1166,9 +1168,7 @@ Internet-Draft                     VRF                      January 2022
 
    9.  Output Gamma, c, and s
 
-5.4.5.  ECVRF Validate Key
 
-   ECVRF_validate_key(Y)
 
 
 
@@ -1177,6 +1177,10 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 21]
 
 Internet-Draft                     VRF                      January 2022
 
+
+5.4.5.  ECVRF Validate Key
+
+   ECVRF_validate_key(Y)
 
    Input:
 
@@ -1223,16 +1227,16 @@ Internet-Draft                     VRF                      January 2022
    6.   bad_y2 = 2707385501144840649318225287225658788936804267575313519
         463743609750303402022
 
-   7.   bad_pk[2] = int_to_string(bad_y2, 32)
-
-   8.   bad_pk[3] = int_to_string(p-bad_y2, 32)
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 22]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   7.   bad_pk[2] = int_to_string(bad_y2, 32)
+
+   8.   bad_pk[3] = int_to_string(p-bad_y2, 32)
 
    9.   bad_pk[4] = int_to_string(p-1, 32)
 
@@ -1278,10 +1282,6 @@ Internet-Draft                     VRF                      January 2022
    *  The ECVRF_nonce_generation function is as specified in
       Section 5.4.2.1.
 
-   *  The int_to_string function is the I2OSP function specified in
-      Section 4.1 of [RFC8017].  (This is big-endian representation.)
-
-
 
 
 
@@ -1289,6 +1289,9 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 23]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   *  The int_to_string function is the I2OSP function specified in
+      Section 4.1 of [RFC8017].  (This is big-endian representation.)
 
    *  The string_to_int function is the OS2IP function specified in
       Section 4.2 of [RFC8017].  (This is big-endian representation.)
@@ -1336,15 +1339,15 @@ Internet-Draft                     VRF                      January 2022
 
    *  cLen = 16.
 
-   *  The private key and generation of the secret scalar and the public
-      key are specified in Section 5.1.5 of [RFC8032].
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 24]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   *  The private key and generation of the secret scalar and the public
+      key are specified in Section 5.1.5 of [RFC8032].
 
    *  The ECVRF_nonce_generation function is as specified in
       Section 5.4.2.2.
@@ -1390,9 +1393,6 @@ Internet-Draft                     VRF                      January 2022
 6.  Implementation Status
 
    Note to RFC editor: Remove before publication
-
-
-
 
 
 
@@ -1834,7 +1834,7 @@ Internet-Draft                     VRF                      January 2022
       parameters for ECVRF; added error handling to RSA-FDH-VRF; added
       security levels section; clarified full vs trusted uniqueness;
       explained the salt in hashing; added RSA ciphersuites; made key
-      validation required for the current ciphersuites.
+      validation clearer.
 
 
 
