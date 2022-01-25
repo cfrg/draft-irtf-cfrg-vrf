@@ -353,7 +353,7 @@
     <section anchor="fdh" numbered="true" toc="default">
       <name>RSA Full Domain Hash VRF (RSA-FDH-VRF)</name>
       <t>
-            The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that satisfies
+            The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that, for suitable key lengths, satisfies
             the "trusted uniqueness", "trusted
             collision resistance", and "full pseudorandomness" properties defined in <xref target="secdef" format="default"/>, as further discussed in <xref target="securitycons" format="default"/>.
             Its security follows from the
@@ -548,7 +548,7 @@
     <section anchor="ecvrf" numbered="true" toc="default">
       <name>Elliptic Curve VRF (ECVRF)</name>
       <t>
-            The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that
+            The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that, for suitable parameter choices,
             satisfies the "full uniqueness", "trusted collision resistance",
             and "full pseudorandomness properties" defined in <xref target="secdef" format="default"/>.
             If validate_key parameter given to the ECVRF_verify is true, then
@@ -1345,19 +1345,20 @@
       <section anchor="prsecurity" numbered="true" toc="default">
         <name>Selective vs. Full Pseudorandomness</name>
         <t><xref target="PWHVNRG17" format="default"/> presents cryptographic reductions to an
-    underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the
-    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this
-    document possess full pseudorandomness
-    as well as selective pseudorandomness
+    underlying hard problem (namely, the RSA problem for RSA-FDH-VRF
+    and the Decisional Diffie-Hellman problem for the ECVRF)
+    to prove that the VRFs specified in this
+    document possess not only selective pseudorandomness, but also
+    full pseudorandomness
     (see <xref target="pseudodef" format="default"/> for an explanation of these notions).
     However, the cryptographic reductions are tighter for selective
-    pseudorandomness than for full pseudorandomness.  This means that
-    the VRFs have quantitively stronger security
-    guarantees for selective pseudorandomness.
+    pseudorandomness than for full pseudorandomness. Specifically, the approximate provable security level, measured in bits,
+    for full pseudorandomness may be obtained from the provable security level for selective pseudorandomness (given in <xref target="seclevel" format="default"/>) by subtracting the binary logarithm
+    of the number of proofs produced for a given secret key. This holds for both the RSA-FDH-VRF and the ECVRF.
         </t>
-        <t> Applications that are concerned about tightness of cryptographic
-    reductions therefore have two options.
-    
+        
+        <t>While no known attacks against full pseudorandomness are stronger than similar attacks against selective pseudorandomness, some applications may be concerned about tightness of cryptographic
+    reductions. Such applications may consider the following two options:
         </t>
         <ul spacing="normal">
           <li> They may choose to ensure that selective pseudorandomness is sufficient for
@@ -1365,13 +1366,12 @@
 	pseudorandomness of outputs matters only for inputs that are chosen
     independently of the VRF key. 
     </li>
-          <li>If full pseudorandomness is required for the application, the application
+          <li>They
     may increase
     security parameters to make up for the loose security reduction. 
     For RSA-FDH-VRF, this means increasing the RSA key length. For 
     ECVRF, this means increasing the cryptographic strength of the EC group
-    G. For both RSA-FDH-VRF and ECVRF, the cryptographic strength of the
-    hash function Hash may also potentially need to be increased.
+    G by specifying a new ciphersuite.
     </li>
         </ul>
       </section>
