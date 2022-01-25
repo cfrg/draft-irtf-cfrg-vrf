@@ -2268,7 +2268,7 @@ li > p:last-of-type {
             applications where it is important that
             the VRF input alpha remain secret.<a href="#section-5.4.1.1-3" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.1-4">
-                ECVRF_hash_to_try_and_increment(PK_string, alpha_string)<a href="#section-5.4.1.1-4" class="pilcrow">¶</a></p>
+                ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string)<a href="#section-5.4.1.1-4" class="pilcrow">¶</a></p>
 <p id="section-5.4.1.1-5">
                 Input:<a href="#section-5.4.1.1-5" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
@@ -2286,7 +2286,7 @@ li > p:last-of-type {
 <p id="section-5.4.1.1-9">
                 Fixed option  (specified in <a href="#ecvrfSuites" class="xref">Section 5.5</a>):<a href="#section-5.4.1.1-9" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.4.1.1-10.1">interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to a point on E.<a href="#section-5.4.1.1-10.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.4.1.1-10.1">interpret_hash_value_as_a_point - a function that attempts to convert a cryptographic hash value to a point on E; may output INVALID.<a href="#section-5.4.1.1-10.1" class="pilcrow">¶</a>
 </li>
             </ul>
 <p id="section-5.4.1.1-11">
@@ -2318,6 +2318,10 @@ li > p:last-of-type {
               <li id="section-5.4.1.1-12.6">Output H<a href="#section-5.4.1.1-12.6" class="pilcrow">¶</a>
 </li>
             </ol>
+<p id="section-5.4.1.1-13">
+            Note even though the loop is infinite as written, and int_to_string(ctr,1) may fail when ctr reaches 256,
+            interpret_hash_value_as_a_point functions specified in <a href="#ecvrfSuites" class="xref">Section 5.5</a>
+            will succeed on roughly half hash_string values, and thus the loop is expected to stop after two iterations, and ctr is overwhelmingly unlikely (probability about 2^-256) to reach 256.<a href="#section-5.4.1.1-13" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="h2csuite">
@@ -2689,8 +2693,7 @@ li > p:last-of-type {
             The hash function Hash is SHA-256 as specified in <span>[<a href="#RFC6234" class="xref">RFC6234</a>]</span>, with hLen = 32.<a href="#section-5.5-2.10" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.11">
-            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s). The input s to interpret_hash_value_as_a_point is a 32-octet string
-                  and the output is either a point on E or "INVALID".<a href="#section-5.5-2.11" class="pilcrow">¶</a>
+            The ECVRF_hash_to_curve function is as specified in <a href="#ecvrfH2C1" class="xref">Section 5.4.1.1</a>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s).<a href="#section-5.5-2.11" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-5.5-3">This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:<a href="#section-5.5-3" class="pilcrow">¶</a></p>
