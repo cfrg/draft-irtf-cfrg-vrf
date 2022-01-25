@@ -13,11 +13,11 @@
        
         A Verifiable Random Function (VRF) is the public-key version of a
         keyed cryptographic hash. Only the holder of the private key
-        can compute the hash, but anyone with public key
+        can compute the hash, but anyone with the public key
         can verify the correctness of the hash.    
         VRFs are useful for preventing enumeration of hash-based data structures.
         This document specifies several VRF constructions that are secure in
-        the cryptographic random oracle model. One  VRF uses RSA and the other
+        the cryptographic random oracle model. One VRF uses RSA and the other
         VRF uses Elliptic Curves (EC).
        
     " name="description">
@@ -1249,11 +1249,11 @@ li > p:last-of-type {
 <p id="section-abstract-1">
         A Verifiable Random Function (VRF) is the public-key version of a
         keyed cryptographic hash. Only the holder of the private key
-        can compute the hash, but anyone with public key
+        can compute the hash, but anyone with the public key
         can verify the correctness of the hash.    
         VRFs are useful for preventing enumeration of hash-based data structures.
         This document specifies several VRF constructions that are secure in
-        the cryptographic random oracle model. One  VRF uses RSA and the other
+        the cryptographic random oracle model. One VRF uses RSA and the other
         VRF uses Elliptic Curves (EC).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <div id="status-of-memo">
@@ -1755,7 +1755,7 @@ li > p:last-of-type {
 <a href="#section-4" class="section-number selfRef">4. </a><a href="#name-rsa-full-domain-hash-vrf-rs" class="section-name selfRef">RSA Full Domain Hash VRF (RSA-FDH-VRF)</a>
       </h2>
 <p id="section-4-1">
-            The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that satisfies
+            The RSA Full Domain Hash  VRF (RSA-FDH-VRF) is a VRF that, for suitable key lengths, satisfies
             the "trusted uniqueness", "trusted
             collision resistance", and "full pseudorandomness" properties defined in <a href="#secdef" class="xref">Section 3</a>, as further discussed in <a href="#securitycons" class="xref">Section 7</a>.
             Its security follows from the
@@ -1975,7 +1975,7 @@ li > p:last-of-type {
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-elliptic-curve-vrf-ecvrf" class="section-name selfRef">Elliptic Curve VRF (ECVRF)</a>
       </h2>
 <p id="section-5-1">
-            The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that
+            The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that, for suitable parameter choices,
             satisfies the "full uniqueness", "trusted collision resistance",
             and "full pseudorandomness properties" defined in <a href="#secdef" class="xref">Section 3</a>.
             If validate_key parameter given to the ECVRF_verify is true, then
@@ -2889,30 +2889,30 @@ li > p:last-of-type {
 <a href="#section-7.3" class="section-number selfRef">7.3. </a><a href="#name-selective-vs-full-pseudoran" class="section-name selfRef">Selective vs. Full Pseudorandomness</a>
         </h3>
 <p id="section-7.3-1"><span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span> presents cryptographic reductions to an
-    underlying hard problem (e.g. Decisional Diffie-Hellman for the ECVRF, or the
-    standard RSA assumption for RSA-FDH-VRF) that prove the VRFs specified in this
-    document possess full pseudorandomness
-    as well as selective pseudorandomness
+    underlying hard problem (namely, the RSA problem for RSA-FDH-VRF
+    and the Decisional Diffie-Hellman problem for the ECVRF)
+    to prove that the VRFs specified in this
+    document possess not only selective pseudorandomness, but also
+    full pseudorandomness
     (see <a href="#pseudodef" class="xref">Section 3.3</a> for an explanation of these notions).
     However, the cryptographic reductions are tighter for selective
-    pseudorandomness than for full pseudorandomness.  This means that
-    the VRFs have quantitively stronger security
-    guarantees for selective pseudorandomness.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
-<p id="section-7.3-2"> Applications that are concerned about tightness of cryptographic
-    reductions therefore have two options.<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+    pseudorandomness than for full pseudorandomness. Specifically, the approximate provable security level, measured in bits,
+    for full pseudorandomness may be obtained from the provable security level for selective pseudorandomness (given in <a href="#seclevel" class="xref">Section 7.2</a>) by subtracting the binary logarithm
+    of the number of proofs produced for a given secret key. This holds for both the RSA-FDH-VRF and the ECVRF.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.3-2">While no known attacks against full pseudorandomness are stronger than similar attacks against selective pseudorandomness, some applications may be concerned about tightness of cryptographic
+    reductions. Such applications may consider the following two options:<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.3-3.1"> They may choose to ensure that selective pseudorandomness is sufficient for
     the application. That is, that
  pseudorandomness of outputs matters only for inputs that are chosen
     independently of the VRF key.<a href="#section-7.3-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.3-3.2">If full pseudorandomness is required for the application, the application
+          <li class="normal" id="section-7.3-3.2">They
     may increase
     security parameters to make up for the loose security reduction. 
     For RSA-FDH-VRF, this means increasing the RSA key length. For 
     ECVRF, this means increasing the cryptographic strength of the EC group
-    G. For both RSA-FDH-VRF and ECVRF, the cryptographic strength of the
-    hash function Hash may also potentially need to be increased.<a href="#section-7.3-3.2" class="pilcrow">¶</a>
+    G by specifying a new ciphersuite.<a href="#section-7.3-3.2" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>

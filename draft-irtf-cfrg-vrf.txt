@@ -20,7 +20,7 @@ Abstract
 
    A Verifiable Random Function (VRF) is the public-key version of a
    keyed cryptographic hash.  Only the holder of the private key can
-   compute the hash, but anyone with public key can verify the
+   compute the hash, but anyone with the public key can verify the
    correctness of the hash.  VRFs are useful for preventing enumeration
    of hash-based data structures.  This document specifies several VRF
    constructions that are secure in the cryptographic random oracle
@@ -116,9 +116,9 @@ Internet-Draft                     VRF                      January 2022
 
      7.6.  Proofs provide no secrecy for the VRF input . . . . . . .  30
      7.7.  Prehashing  . . . . . . . . . . . . . . . . . . . . . . .  30
-     7.8.  Challenge Generation  . . . . . . . . . . . . . . . . . .  30
+     7.8.  Challenge Generation  . . . . . . . . . . . . . . . . . .  31
      7.9.  Hash function domain separation . . . . . . . . . . . . .  31
-     7.10. Hash function salting . . . . . . . . . . . . . . . . . .  31
+     7.10. Hash function salting . . . . . . . . . . . . . . . . . .  32
      7.11. Futureproofing  . . . . . . . . . . . . . . . . . . . . .  32
    8.  Change Log  . . . . . . . . . . . . . . . . . . . . . . . . .  32
    9.  Contributors  . . . . . . . . . . . . . . . . . . . . . . . .  34
@@ -373,12 +373,12 @@ Internet-Draft                     VRF                      January 2022
 
 4.  RSA Full Domain Hash VRF (RSA-FDH-VRF)
 
-   The RSA Full Domain Hash VRF (RSA-FDH-VRF) is a VRF that satisfies
-   the "trusted uniqueness", "trusted collision resistance", and "full
-   pseudorandomness" properties defined in Section 3, as further
-   discussed in Section 7.  Its security follows from the standard RSA
-   assumption in the random oracle model.  Formal security proofs are in
-   [PWHVNRG17].
+   The RSA Full Domain Hash VRF (RSA-FDH-VRF) is a VRF that, for
+   suitable key lengths, satisfies the "trusted uniqueness", "trusted
+   collision resistance", and "full pseudorandomness" properties defined
+   in Section 3, as further discussed in Section 7.  Its security
+   follows from the standard RSA assumption in the random oracle model.
+   Formal security proofs are in [PWHVNRG17].
 
    The VRF computes the proof pi as a deterministic RSA signature on
    input alpha using the RSA Full Domain Hash Algorithm [RFC8017]
@@ -581,12 +581,13 @@ Internet-Draft                     VRF                      January 2022
 
 5.  Elliptic Curve VRF (ECVRF)
 
-   The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that
-   satisfies the "full uniqueness", "trusted collision resistance", and
-   "full pseudorandomness properties" defined in Section 3.  If
-   validate_key parameter given to the ECVRF_verify is true, then the
-   ECVRF satisfies "full collision resistance".  See Section 7 for
-   further discussion.  Formal security proofs are in [PWHVNRG17].
+   The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that,
+   for suitable parameter choices, satisfies the "full uniqueness",
+   "trusted collision resistance", and "full pseudorandomness
+   properties" defined in Section 3.  If validate_key parameter given to
+   the ECVRF_verify is true, then the ECVRF satisfies "full collision
+   resistance".  See Section 7 for further discussion.  Formal security
+   proofs are in [PWHVNRG17].
 
    Notation used:
 
@@ -608,8 +609,7 @@ Internet-Draft                     VRF                      January 2022
 
       F - finite field
 
-      fLen - length, in octets, of an element in F encoded as an octet
-      string
+
 
 
 
@@ -617,6 +617,9 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 11]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      fLen - length, in octets, of an element in F encoded as an octet
+      string
 
       E - elliptic curve (EC) defined over F
 
@@ -663,9 +666,6 @@ Internet-Draft                     VRF                      January 2022
       point_to_string - conversion of a point on E to an ptLen-octet
       string
 
-      string_to_point - conversion of an ptLen-octet string to a point
-      on E.  string_to_point returns INVALID if the octet string does
-      not convert to a valid EC point on the curve E.
 
 
 
@@ -673,6 +673,10 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 12]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      string_to_point - conversion of an ptLen-octet string to a point
+      on E.  string_to_point returns INVALID if the octet string does
+      not convert to a valid EC point on the curve E.
 
       Note that with certain software libraries (for big integer and
       elliptic curve arithmetic), the int_to_string and point_to_string
@@ -717,10 +721,6 @@ Internet-Draft                     VRF                      January 2022
 
        (this derivation depends on the ciphersuite, as per Section 5.5;
 
-       these values can be cached, for example, after key generation,
-       and need not be rederived each time)
-
-   2.  H = ECVRF_hash_to_curve(PK_string, alpha_string)
 
 
 
@@ -729,6 +729,11 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 13]
 
 Internet-Draft                     VRF                      January 2022
 
+
+       these values can be cached, for example, after key generation,
+       and need not be rederived each time)
+
+   2.  H = ECVRF_hash_to_curve(PK_string, alpha_string)
 
    3.  h_string = point_to_string(H)
 
@@ -774,17 +779,16 @@ Internet-Draft                     VRF                      January 2022
 
    3.  (Gamma, c, s) = D
 
-   4.  proof_to_hash_domain_separator_front = 0x03
-
-   5.  proof_to_hash_domain_separator_back = 0x00
-
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 14]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   4.  proof_to_hash_domain_separator_front = 0x03
+
+   5.  proof_to_hash_domain_separator_back = 0x00
 
    6.  beta_string = Hash(suite_string ||
        proof_to_hash_domain_separator_front || point_to_string(cofactor
@@ -831,16 +835,16 @@ Internet-Draft                     VRF                      January 2022
 
    4.   D = ECVRF_decode_proof(pi_string) (see Section 5.4.4)
 
-   5.   If D is "INVALID", output "INVALID" and stop
-
-   6.   (Gamma, c, s) = D
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 15]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   5.   If D is "INVALID", output "INVALID" and stop
+
+   6.   (Gamma, c, s) = D
 
    7.   H = ECVRF_hash_to_curve(PK_string, alpha_string)
 
@@ -884,11 +888,7 @@ Internet-Draft                     VRF                      January 2022
    find a valid curve point after approximately two attempts (i.e., when
    ctr=1) on average.
 
-   However, because the running time of algorithm depends on
-   alpha_string, this algorithm SHOULD be avoided in applications where
-   it is important that the VRF input alpha remain secret.
 
-   ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string)
 
 
 
@@ -897,6 +897,12 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 16]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   However, because the running time of algorithm depends on
+   alpha_string, this algorithm SHOULD be avoided in applications where
+   it is important that the VRF input alpha remain secret.
+
+   ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string)
 
    Input:
 
@@ -940,12 +946,6 @@ Internet-Draft                     VRF                      January 2022
 
        e.  ctr = ctr + 1
 
-   6.  Output H
-
-
-
-
-
 
 
 
@@ -953,6 +953,8 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 17]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   6.  Output H
 
    Note even though the loop is infinite as written, and
    int_to_string(ctr,1) may fail when ctr reaches 256,
@@ -997,10 +999,8 @@ Internet-Draft                     VRF                      January 2022
 
    3.  Output H
 
-   The encode function is provided by the hash-to-curve suite whose ID
-   is h2c_suite_ID_string, as specified in
-   [I-D.irtf-cfrg-hash-to-curve], Section 8.  The domain separation tag
-   DST, a parameter to the hash-to-curve suite, SHALL be set to
+
+
 
 
 
@@ -1009,6 +1009,11 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 18]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   The encode function is provided by the hash-to-curve suite whose ID
+   is h2c_suite_ID_string, as specified in
+   [I-D.irtf-cfrg-hash-to-curve], Section 8.  The domain separation tag
+   DST, a parameter to the hash-to-curve suite, SHALL be set to
 
       "ECVRF_" || h2c_suite_ID_string || suite_string
 
@@ -1051,11 +1056,6 @@ Internet-Draft                     VRF                      January 2022
 
       The prime q is the same as in this specification
 
-      qlen is the binary length of q, i.e., the smallest integer such
-      that 2^qlen > q (this qlen is not to be confused with qLen in this
-      document, which is the length of q in octets)
-
-      All the other values and primitives as defined in [RFC6979]
 
 
 
@@ -1065,6 +1065,12 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 19]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      qlen is the binary length of q, i.e., the smallest integer such
+      that 2^qlen > q (this qlen is not to be confused with qLen in this
+      document, which is the length of q in octets)
+
+      All the other values and primitives as defined in [RFC6979]
 
 5.4.2.2.  ECVRF Nonce Generation from RFC 8032
 
@@ -1108,12 +1114,6 @@ Internet-Draft                     VRF                      January 2022
 
    Steps:
 
-   1.  challenge_generation_domain_separator_front = 0x02
-
-   2.  Initialize str = suite_string ||
-       challenge_generation_domain_separator_front
-
-   3.  for PJ in [P1, P2, P3, P4]:
 
 
 
@@ -1121,6 +1121,13 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 20]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   1.  challenge_generation_domain_separator_front = 0x02
+
+   2.  Initialize str = suite_string ||
+       challenge_generation_domain_separator_front
+
+   3.  for PJ in [P1, P2, P3, P4]:
 
        str = str || point_to_string(PJ)
 
@@ -1164,19 +1171,18 @@ Internet-Draft                     VRF                      January 2022
 
    4.  Gamma = string_to_point(gamma_string)
 
-   5.  if Gamma = "INVALID" output "INVALID" and stop
-
-   6.  c = string_to_int(c_string)
-
-   7.  s = string_to_int(s_string)
-
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 21]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   5.  if Gamma = "INVALID" output "INVALID" and stop
+
+   6.  c = string_to_int(c_string)
+
+   7.  s = string_to_int(s_string)
 
    8.  if s >= q output "INVALID" and stop
 
@@ -1220,12 +1226,6 @@ Internet-Draft                     VRF                      January 2022
 
    2.   oneTwentySeven_string = 0x7F
 
-   3.   y_string[31] = y_string[31] & oneTwentySeven_string
-
-        (this step clears the high-order bit of octet 31)
-
-   4.   bad_pk[0] = int_to_string(0, 32)
-
 
 
 
@@ -1233,6 +1233,12 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 22]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   3.   y_string[31] = y_string[31] & oneTwentySeven_string
+
+        (this step clears the high-order bit of octet 31)
+
+   4.   bad_pk[0] = int_to_string(0, 32)
 
    5.   bad_pk[1] = int_to_string(1, 32)
 
@@ -1277,18 +1283,14 @@ Internet-Draft                     VRF                      January 2022
       [RFC5114] (Section 2.6).  For this group, fLen = qLen = 32 and
       cofactor = 1.
 
-   *  cLen = 16.
-
-
-
-
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 23]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   *  cLen = 16.
 
    *  The key pair generation primitive is specified in Section 3.2.1 of
       [SECG1] (q, B, SK, and Y in this document correspond to n, G, d,
@@ -1337,14 +1339,14 @@ Internet-Draft                     VRF                      January 2022
 
    This document defines ECVRF-EDWARDS25519-SHA512-TAI as follows:
 
-   *  suite_string = 0x03.
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 24]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   *  suite_string = 0x03.
 
    *  The EC group G is the edwards25519 elliptic curve with parameters
       defined in Table 1 of [RFC8032].  For this group, fLen = qLen = 32
@@ -1390,8 +1392,6 @@ Internet-Draft                     VRF                      January 2022
    ECVRF-EDWARDS25519-SHA512-TAI, except:
 
    *  suite_string = 0x04;
-
-
 
 
 
@@ -1557,11 +1557,11 @@ Internet-Draft                     VRF                      January 2022
 7.3.  Selective vs. Full Pseudorandomness
 
    [PWHVNRG17] presents cryptographic reductions to an underlying hard
-   problem (e.g.  Decisional Diffie-Hellman for the ECVRF, or the
-   standard RSA assumption for RSA-FDH-VRF) that prove the VRFs
-   specified in this document possess full pseudorandomness as well as
-   selective pseudorandomness (see Section 3.3 for an explanation of
-   these notions).  However, the cryptographic reductions are tighter
+   problem (namely, the RSA problem for RSA-FDH-VRF and the Decisional
+   Diffie-Hellman problem for the ECVRF) to prove that the VRFs
+   specified in this document possess not only selective
+   pseudorandomness, but also full pseudorandomness (see Section 3.3 for
+   an explanation of these notions).  However, the cryptographic
 
 
 
@@ -1570,25 +1570,30 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 28]
 Internet-Draft                     VRF                      January 2022
 
 
-   for selective pseudorandomness than for full pseudorandomness.  This
-   means that the VRFs have quantitively stronger security guarantees
-   for selective pseudorandomness.
+   reductions are tighter for selective pseudorandomness than for full
+   pseudorandomness.  Specifically, the approximate provable security
+   level, measured in bits, for full pseudorandomness may be obtained
+   from the provable security level for selective pseudorandomness
+   (given in Section 7.2) by subtracting the binary logarithm of the
+   number of proofs produced for a given secret key.  This holds for
+   both the RSA-FDH-VRF and the ECVRF.
 
-   Applications that are concerned about tightness of cryptographic
-   reductions therefore have two options.
+   While no known attacks against full pseudorandomness are stronger
+   than similar attacks against selective pseudorandomness, some
+   applications may be concerned about tightness of cryptographic
+   reductions.  Such applications may consider the following two
+   options:
 
    *  They may choose to ensure that selective pseudorandomness is
       sufficient for the application.  That is, that pseudorandomness of
       outputs matters only for inputs that are chosen independently of
       the VRF key.
 
-   *  If full pseudorandomness is required for the application, the
-      application may increase security parameters to make up for the
-      loose security reduction.  For RSA-FDH-VRF, this means increasing
-      the RSA key length.  For ECVRF, this means increasing the
-      cryptographic strength of the EC group G.  For both RSA-FDH-VRF
-      and ECVRF, the cryptographic strength of the hash function Hash
-      may also potentially need to be increased.
+   *  They may increase security parameters to make up for the loose
+      security reduction.  For RSA-FDH-VRF, this means increasing the
+      RSA key length.  For ECVRF, this means increasing the
+      cryptographic strength of the EC group G by specifying a new
+      ciphersuite.
 
 7.4.  Proper pseudorandom nonce for ECVRF
 
@@ -1611,11 +1616,6 @@ Internet-Draft                     VRF                      January 2022
    inputs that are public, and thus side channel attacks are typically
    not a concern for these algorithms.
 
-   The VRF input alpha may be also a sensitive input to VRF_prove and
-   may need to be protected against side channel attacks.  Below we
-   discuss one particular class of such attacks: timing attacks that can
-   be used to leak information about the VRF input alpha.
-
 
 
 
@@ -1625,6 +1625,11 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 29]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   The VRF input alpha may be also a sensitive input to VRF_prove and
+   may need to be protected against side channel attacks.  Below we
+   discuss one particular class of such attacks: timing attacks that can
+   be used to leak information about the VRF input alpha.
 
    The ECVRF_hash_to_curve_try_and_increment algorithm defined in
    Section 5.4.1.1 SHOULD NOT be used in applications where the VRF
@@ -1665,6 +1670,18 @@ Internet-Draft                     VRF                      January 2022
    in particular, uses alpha only in ECVRF_hash_to_curve.  The curve
    point H becomes the representative of alpha thereafter.
 
+
+
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 30]
+
+Internet-Draft                     VRF                      January 2022
+
+
 7.8.  Challenge Generation
 
    Note that the suite_string octet and the public key are hashed
@@ -1674,14 +1691,6 @@ Internet-Draft                     VRF                      January 2022
    generates the challenge value c) via the point H.  Including the
    curve and the public key into the hash that generates the challenge
    is necessary for the security of the VRF, as explained in
-
-
-
-Goldberg, et al.          Expires 29 July 2022                 [Page 30]
-
-Internet-Draft                     VRF                      January 2022
-
-
    [PWHVNRG17].
 
 7.9.  Hash function domain separation
@@ -1721,6 +1730,14 @@ Internet-Draft                     VRF                      January 2022
       nonzero length of the domain separation tag by
       [I-D.irtf-cfrg-hash-to-curve].
 
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 31]
+
+Internet-Draft                     VRF                      January 2022
+
+
 7.10.  Hash function salting
 
    The analysis of [GNPRVZ15] and [PWHVNRG17] studies an adversary who
@@ -1730,14 +1747,6 @@ Internet-Draft                     VRF                      January 2022
    ECVRF are given the public key as part of the input (as a so-called
    "salt"), effectively ensuring that the hash function applied to alpha
    is different for each public key.  In ECVRF, since all the other
-
-
-
-Goldberg, et al.          Expires 29 July 2022                 [Page 31]
-
-Internet-Draft                     VRF                      January 2022
-
-
    hashing depends on H output by ECVRF_hash_to_curve, this salt makes
    all the remaining hashing different for each public key as long as
    ECVRF_hash_to_curve is collision resistant.
@@ -1777,15 +1786,6 @@ Internet-Draft                     VRF                      January 2022
       consistent with EdDSA and ECDSA.  Highlighted that
       ECVRF_hash_to_curve acts like a prehash.  Added "suites" variable
       to ECVRF for futureproofing.  Ensured domain separation for hash
-      functions by modifying hash_points and added discussion about
-      domain separation.  Updated todos in the "additional
-      pseudorandomness property" section.  Added a discussion of secrecy
-      into security considerations.  Removed B and PK=Y from
-      ECVRF_hash_points because they are already present via H, which is
-      computed via hash_to_curve using the suite_string (which
-      identifies B) and Y.
-
-
 
 
 
@@ -1793,6 +1793,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 32]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      functions by modifying hash_points and added discussion about
+      domain separation.  Updated todos in the "additional
+      pseudorandomness property" section.  Added a discussion of secrecy
+      into security considerations.  Removed B and PK=Y from
+      ECVRF_hash_points because they are already present via H, which is
+      computed via hash_to_curve using the suite_string (which
+      identifies B) and Y.
 
       03 - Changed Ed25519 conversions to little-endian, to match RFC
       8032; added simple key validation for Ed25519; added Simple SWU
@@ -1833,14 +1841,6 @@ Internet-Draft                     VRF                      January 2022
       reduced mod q.  Connected security properties (Section 3) and
       security considerations (Section 7) with more cross-references.
 
-      11 - Clarified various notation, including lengths of various
-      parameters for ECVRF; added error handling to RSA-FDH-VRF; added
-      security levels section; clarified full vs trusted uniqueness;
-      explained the salt in hashing; added RSA ciphersuites; made key
-      validation clearer.
-
-
-
 
 
 
@@ -1849,6 +1849,12 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 33]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      11 - Clarified various notation, including lengths of various
+      parameters for ECVRF; added error handling to RSA-FDH-VRF; added
+      security levels section; clarified full vs trusted uniqueness;
+      explained the salt in hashing; added RSA ciphersuites; made key
+      validation clearer.
 
 9.  Contributors
 
@@ -1893,18 +1899,17 @@ Internet-Draft                     VRF                      January 2022
               DOI 10.17487/RFC8032, January 2017,
               <https://www.rfc-editor.org/info/rfc8032>.
 
-   [RFC6979]  Pornin, T., "Deterministic Usage of the Digital Signature
-              Algorithm (DSA) and Elliptic Curve Digital Signature
-              Algorithm (ECDSA)", RFC 6979, DOI 10.17487/RFC6979, August
-              2013, <https://www.rfc-editor.org/info/rfc6979>.
-
-
 
 
 Goldberg, et al.          Expires 29 July 2022                 [Page 34]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   [RFC6979]  Pornin, T., "Deterministic Usage of the Digital Signature
+              Algorithm (DSA) and Elliptic Curve Digital Signature
+              Algorithm (ECDSA)", RFC 6979, DOI 10.17487/RFC6979, August
+              2013, <https://www.rfc-editor.org/info/rfc6979>.
 
    [I-D.irtf-cfrg-hash-to-curve]
               Faz-Hernandez, A., Scott, S., Sullivan, N., Wahby, R. S.,
@@ -1947,13 +1952,8 @@ Internet-Draft                     VRF                      January 2022
               Zone Enumeration", in NDSS, 2015,
               <https://eprint.iacr.org/2014/582.pdf>.
 
-   [I-D.vcelak-nsec5]
-              Vcelak, J., Goldberg, S., Papadopoulos, D., Huque, S., and
-              D. C. Lawrence, "NSEC5, DNSSEC Authenticated Denial of
-              Existence", Work in Progress, Internet-Draft, draft-
-              vcelak-nsec5-08, 29 December 2018,
-              <https://datatracker.ietf.org/doc/html/draft-vcelak-
-              nsec5-08>.
+
+
 
 
 
@@ -1961,6 +1961,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 35]
 
 Internet-Draft                     VRF                      January 2022
 
+
+   [I-D.vcelak-nsec5]
+              Vcelak, J., Goldberg, S., Papadopoulos, D., Huque, S., and
+              D. C. Lawrence, "NSEC5, DNSSEC Authenticated Denial of
+              Existence", Work in Progress, Internet-Draft, draft-
+              vcelak-nsec5-08, 29 December 2018,
+              <https://datatracker.ietf.org/doc/html/draft-vcelak-
+              nsec5-08>.
 
    [MRV99]    Micali, S., Rabin, M., and S. Vadhan, "Verifiable Random
               Functions", in FOCS, 1999,
@@ -2002,14 +2010,6 @@ A.1.  ECVRF-P256-SHA256-TAI
       02bb6a034f67643c6183c10f8b41dc4babf88bff154b674e377d90bde009c21672
       V = k*H =
       02893ebee7af9a0faa6da810da8a91f9d50e1dc071240c9706726820ff919e8394
-      pi = 035b5c726e8c0e2c488a107c600578ee75cb702343c153cb1eb8dec77f4b5
-      071b498e7c291a16dafb9ccff8c2ae1f039fa92a328d5f7e0d483ee18353067a13
-      f699944a78892ff24939bcd044827eef884
-      beta =
-      a3ad7b0ef73d8fc6655053ea22f9bede8c743f08bbed3d38821f0e16474b505e
-
-   Example 2:
-
 
 
 
@@ -2017,6 +2017,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 36]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      pi = 035b5c726e8c0e2c488a107c600578ee75cb702343c153cb1eb8dec77f4b5
+      071b498e7c291a16dafb9ccff8c2ae1f039fa92a328d5f7e0d483ee18353067a13
+      f699944a78892ff24939bcd044827eef884
+      beta =
+      a3ad7b0ef73d8fc6655053ea22f9bede8c743f08bbed3d38821f0e16474b505e
+
+   Example 2:
 
       SK = x =
       c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721
@@ -2058,14 +2066,6 @@ Internet-Draft                     VRF                      January 2022
       5689e2e08e1110b4dda293ac21667eac6db5de4a46a519c73d533f69be2f4da3
       U = k*B =
       020f465cd0ec74d2e23af0abde4c07e866ae4e5138bded5dd1196b8843f380db84
-      V = k*H =
-      036cb6f811428fc4904370b86c488f60c280fa5b496d2f34ff8772f60ed24b2d1d
-      pi = 03d03398bf53aa23831d7d1b2937e005fb0062cbefa06796579f2a1fc7e7b
-      8c6679d92353c8a4fdfddb2a8540094b686cb5fb50f730d833a098a0399ccad32f
-      3fec4da2299891fc75ebda42baeb65e8c11
-      beta =
-      90871e06da5caa39a3c61578ebb844de8635e27ac0b13e829997d0d95dd98c19
-
 
 
 
@@ -2073,6 +2073,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 37]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      V = k*H =
+      036cb6f811428fc4904370b86c488f60c280fa5b496d2f34ff8772f60ed24b2d1d
+      pi = 03d03398bf53aa23831d7d1b2937e005fb0062cbefa06796579f2a1fc7e7b
+      8c6679d92353c8a4fdfddb2a8540094b686cb5fb50f730d833a098a0399ccad32f
+      3fec4da2299891fc75ebda42baeb65e8c11
+      beta =
+      90871e06da5caa39a3c61578ebb844de8635e27ac0b13e829997d0d95dd98c19
 
 A.2.  ECVRF-P256-SHA256-SSWU
 
@@ -2114,14 +2122,6 @@ A.2.  ECVRF-P256-SHA256-SSWU
       PK =
       0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6
       alpha = 74657374 (ASCII "test")
-      In SSWU: uniform_bytes = 910cc66d84a57985a1d15843dad83fd9138a109af
-      b243b7fa5d64d766ec9ca3894fdcf46ebeb21a3972eb452a4232fd3
-      In SSWU: u =
-      d8b0107f7e7aa36390240d834852f8703a6dc407019d6196bda5861b8fc00181
-      In SSWU: x1 =
-      ccc747fa7318b9486ce4044adbbecaa084c27be6eda88eb7b7f3d688fd0968c7
-      In SSWU: gx1 is a square
-
 
 
 
@@ -2130,6 +2130,13 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 38]
 Internet-Draft                     VRF                      January 2022
 
 
+      In SSWU: uniform_bytes = 910cc66d84a57985a1d15843dad83fd9138a109af
+      b243b7fa5d64d766ec9ca3894fdcf46ebeb21a3972eb452a4232fd3
+      In SSWU: u =
+      d8b0107f7e7aa36390240d834852f8703a6dc407019d6196bda5861b8fc00181
+      In SSWU: x1 =
+      ccc747fa7318b9486ce4044adbbecaa084c27be6eda88eb7b7f3d688fd0968c7
+      In SSWU: gx1 is a square
       H =
       03ccc747fa7318b9486ce4044adbbecaa084c27be6eda88eb7b7f3d688fd0968c7
       k =
@@ -2170,13 +2177,6 @@ Internet-Draft                     VRF                      January 2022
       8e29221f33564f3f66f858ba2b0c14766e1057adbd422c3e7d0d99d5e142b613
       U = k*B =
       03a8823ff9fd16bf879261c740b9c7792b77fee0830f21314117e441784667958d
-      V = k*H =
-      02d48fbb45921c755b73b25be2f23379e3ce69294f6cee9279815f57f4b422659d
-      pi = 039f8d9cdc162c89be2871cbcb1435144739431db7fab437ab7bc4e2651a9
-      e99d5288aac70a5e4bd07df303c1d460eb6336bb5fa95436a07c2f6b7aec6fef7c
-      c4846ea901ee1e238dee12bf752029b0b2e
-      beta =
-      4fbadf33b42a5f42f23a6f89952d2e634a6e3810f15878b46ef1bb85a04fe95a
 
 
 
@@ -2185,6 +2185,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 39]
 
 Internet-Draft                     VRF                      January 2022
 
+
+      V = k*H =
+      02d48fbb45921c755b73b25be2f23379e3ce69294f6cee9279815f57f4b422659d
+      pi = 039f8d9cdc162c89be2871cbcb1435144739431db7fab437ab7bc4e2651a9
+      e99d5288aac70a5e4bd07df303c1d460eb6336bb5fa95436a07c2f6b7aec6fef7c
+      c4846ea901ee1e238dee12bf752029b0b2e
+      beta =
+      4fbadf33b42a5f42f23a6f89952d2e634a6e3810f15878b46ef1bb85a04fe95a
 
 A.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
@@ -2226,14 +2234,6 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
       x =
       68bd9ed75882d52815a97585caf4790a7f6c6b3b7f821c5e259a24b02e502e51
       try_and_increment succeeded on ctr = 1
-      H =
-      5b659fc3d4e9263fd9a4ed1d022d75eaacc20df5e09f9ea937502396598dc551
-      k = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c1
-      67cab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce
-      U = k*B =
-      1dcb0a4821a2c48bf53548228b7f170962988f6d12f5439f31987ef41f034ab3
-      V = k*H =
-      fd03c0bf498c752161bae4719105a074630a2aa5f200ff7b3995f7bfb1513423
 
 
 
@@ -2242,6 +2242,14 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 40]
 Internet-Draft                     VRF                      January 2022
 
 
+      H =
+      5b659fc3d4e9263fd9a4ed1d022d75eaacc20df5e09f9ea937502396598dc551
+      k = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c1
+      67cab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce
+      U = k*B =
+      1dcb0a4821a2c48bf53548228b7f170962988f6d12f5439f31987ef41f034ab3
+      V = k*H =
+      fd03c0bf498c752161bae4719105a074630a2aa5f200ff7b3995f7bfb1513423
       pi = f3141cd382dc42909d19ec5110469e4feae18300e94f304590abdced48aed
       593f7eaf3eb2f1a968cba3f6e23b386aeeaab7b1ea44a256e811892e13eeae7c9f
       6ea8992557453eac11c4d5476b1f35a08
@@ -2281,6 +2289,15 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
    Example 10:
 
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 41]
+
+Internet-Draft                     VRF                      January 2022
+
+
       SK =
       9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60
       PK =
@@ -2290,14 +2307,6 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
       307c83864f2833cb427a2ef1c00a013cfdff2768d980c0a3a520f006904de94f
       In Elligator2: uniform_bytes = d620782a206d9de584b74e23ae5ee1db5ca
       5298b3fc527c4867f049dee6dd419b3674967bd614890f621c128d72269ae
-
-
-
-Goldberg, et al.          Expires 29 July 2022                 [Page 41]
-
-Internet-Draft                     VRF                      January 2022
-
-
       In Elligator2: u =
       30f037b9745a57a9a2b8a68da81f397c39d46dee9d047f86c427c53f8b29a55c
       In Elligator2: gx1 =
@@ -2336,15 +2345,6 @@ Internet-Draft                     VRF                      January 2022
       In Elligator2: gx1 is a nonsquare
       H =
       76ac3ccb86158a9104dff819b1ca293426d305fd76b39b13c9356d9b58c08e57
-      k = 88bf479281fd29a6cbdffd67e2c5ec0024d92f14eaed58f43f22f37c4c37f1
-      d41e65c036fbf01f9fba11d554c07494d0c02e7e5c9d64be88ef78cab7544e444d
-      U = k*B =
-      8ec26e77b8cb3114dd2265fe1564a4efb40d109aa3312536d93dfe3d8d80a061
-      V = k*H =
-      fe799eb5770b4e3a5a27d22518bb631db183c8316bb552155f442c62a47d1c8b
-      pi = 47b327393ff2dd81336f8a2ef10339112401253b3c714eeda879f12c50907
-      2ef9bf1a234f833f72d8fff36075fd9b836da28b5569e74caa418bae7ef521f2dd
-      d35f5727d271ecc70b4a83c1fc8ebc40c
 
 
 
@@ -2354,6 +2354,15 @@ Goldberg, et al.          Expires 29 July 2022                 [Page 42]
 Internet-Draft                     VRF                      January 2022
 
 
+      k = 88bf479281fd29a6cbdffd67e2c5ec0024d92f14eaed58f43f22f37c4c37f1
+      d41e65c036fbf01f9fba11d554c07494d0c02e7e5c9d64be88ef78cab7544e444d
+      U = k*B =
+      8ec26e77b8cb3114dd2265fe1564a4efb40d109aa3312536d93dfe3d8d80a061
+      V = k*H =
+      fe799eb5770b4e3a5a27d22518bb631db183c8316bb552155f442c62a47d1c8b
+      pi = 47b327393ff2dd81336f8a2ef10339112401253b3c714eeda879f12c50907
+      2ef9bf1a234f833f72d8fff36075fd9b836da28b5569e74caa418bae7ef521f2dd
+      d35f5727d271ecc70b4a83c1fc8ebc40c
       beta = 38561d6b77b71d30eb97a062168ae12b667ce5c28caccdf76bc88e093e4
       635987cd96814ce55b4689b3dd2947f80e59aac7b7675f8083865b46c89b2ce9cc
       735
@@ -2391,15 +2400,6 @@ Internet-Draft                     VRF                      January 2022
 
 Authors' Addresses
 
-   Sharon Goldberg
-   Boston University
-   111 Cummington Mall
-   Boston, MA 02215
-   United States of America
-
-   Email: goldbe@cs.bu.edu
-
-
 
 
 
@@ -2408,6 +2408,15 @@ Authors' Addresses
 Goldberg, et al.          Expires 29 July 2022                 [Page 43]
 
 Internet-Draft                     VRF                      January 2022
+
+
+   Sharon Goldberg
+   Boston University
+   111 Cummington Mall
+   Boston, MA 02215
+   United States of America
+
+   Email: goldbe@cs.bu.edu
 
 
    Leonid Reyzin
@@ -2434,15 +2443,6 @@ Internet-Draft                     VRF                      January 2022
    United States of America
 
    Email: jvcelak@ns1.com
-
-
-
-
-
-
-
-
-
 
 
 
