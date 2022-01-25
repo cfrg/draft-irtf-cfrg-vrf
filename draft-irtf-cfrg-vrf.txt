@@ -5,12 +5,12 @@
 CFRG                                                         S. Goldberg
 Internet-Draft                                         Boston University
 Intended status: Standards Track                               L. Reyzin
-Expires: 28 July 2022                     Boston University and Algorand
+Expires: 29 July 2022                     Boston University and Algorand
                                                          D. Papadopoulos
                           Hong Kong University of Science and Technology
                                                                J. Vcelak
                                                                      NS1
-                                                         24 January 2022
+                                                         25 January 2022
 
 
                    Verifiable Random Functions (VRFs)
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 July 2022.
+   This Internet-Draft will expire on 29 July 2022.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 1]
+Goldberg, et al.          Expires 29 July 2022                  [Page 1]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -96,12 +96,12 @@ Table of Contents
        5.4.4.  ECVRF Decode Proof  . . . . . . . . . . . . . . . . .  21
        5.4.5.  ECVRF Validate Key  . . . . . . . . . . . . . . . . .  21
      5.5.  ECVRF Ciphersuites  . . . . . . . . . . . . . . . . . . .  23
-   6.  Implementation Status . . . . . . . . . . . . . . . . . . . .  26
+   6.  Implementation Status . . . . . . . . . . . . . . . . . . . .  25
    7.  Security Considerations . . . . . . . . . . . . . . . . . . .  27
      7.1.  Key Generation  . . . . . . . . . . . . . . . . . . . . .  27
        7.1.1.  Uniqueness and collision resistance with untrusted
                keys  . . . . . . . . . . . . . . . . . . . . . . . .  27
-       7.1.2.  Pseudorandomness with untrusted keys  . . . . . . . .  28
+       7.1.2.  Pseudorandomness with untrusted keys  . . . . . . . .  27
      7.2.  Security Levels . . . . . . . . . . . . . . . . . . . . .  28
      7.3.  Selective vs. Full Pseudorandomness . . . . . . . . . . .  28
      7.4.  Proper pseudorandom nonce for ECVRF . . . . . . . . . . .  29
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 2]
+Goldberg, et al.          Expires 29 July 2022                  [Page 2]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -165,7 +165,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 3]
+Goldberg, et al.          Expires 29 July 2022                  [Page 3]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -221,7 +221,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 4]
+Goldberg, et al.          Expires 29 July 2022                  [Page 4]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -277,7 +277,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 5]
+Goldberg, et al.          Expires 29 July 2022                  [Page 5]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -333,7 +333,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 6]
+Goldberg, et al.          Expires 29 July 2022                  [Page 6]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -389,7 +389,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 7]
+Goldberg, et al.          Expires 29 July 2022                  [Page 7]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -445,7 +445,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 8]
+Goldberg, et al.          Expires 29 July 2022                  [Page 8]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -501,7 +501,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                  [Page 9]
+Goldberg, et al.          Expires 29 July 2022                  [Page 9]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -557,7 +557,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 10]
+Goldberg, et al.          Expires 29 July 2022                 [Page 10]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -583,15 +583,10 @@ Internet-Draft                     VRF                      January 2022
 
    The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that
    satisfies the "full uniqueness", "trusted collision resistance", and
-   "full pseudorandomness properties" defined in Section 3, as further
-   discussed in Section 7.  The security of this VRF follows from the
-   decisional Diffie-Hellman (DDH) assumption in the random oracle
-   model.  Formal security proofs are in [PWHVNRG17].
-
-   To additionally satisfy "full collision resistance",
-   key_validation_flag MUST be set to "REQUIRED" or "OPTIONAL" and, if
-   key_validation_flag is set to "OPTIONAL", then the validate_key
-   parameter given to the ECVRF_verify MUST be true.
+   "full pseudorandomness properties" defined in Section 3.  If
+   validate_key parameter given to the ECVRF_verify is true, then the
+   ECVRF satisfies "full collision resistance".  See Section 7 for
+   further discussion.  Formal security proofs are in [PWHVNRG17].
 
    Notation used:
 
@@ -611,17 +606,17 @@ Internet-Draft                     VRF                      January 2022
 
    Fixed options (specified in Section 5.5):
 
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 11]
-
-Internet-Draft                     VRF                      January 2022
-
-
       F - finite field
 
       fLen - length, in octets, of an element in F encoded as an octet
       string
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 11]
+
+Internet-Draft                     VRF                      January 2022
+
 
       E - elliptic curve (EC) defined over F
 
@@ -653,8 +648,6 @@ Internet-Draft                     VRF                      January 2022
       ECVRF_nonce_generation - a function that derives a pseudorandom
       nonce from SK and the input as part of ECVRF proving.
 
-      key_validation_flag - set to REQUIRED, OPTIONAL, or UNNECESSARY
-
       suite_string - a single nonzero octet specifying the ECVRF
       ciphersuite, which determines the above options as well as type
       conversions and parameter generation
@@ -667,19 +660,19 @@ Internet-Draft                     VRF                      January 2022
       string_to_int(a_string) - conversion of an octet string a_string
       to a nonnegative integer
 
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 12]
-
-Internet-Draft                     VRF                      January 2022
-
-
       point_to_string - conversion of a point on E to an ptLen-octet
       string
 
       string_to_point - conversion of an ptLen-octet string to a point
       on E.  string_to_point returns INVALID if the octet string does
       not convert to a valid EC point on the curve E.
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 12]
+
+Internet-Draft                     VRF                      January 2022
+
 
       Note that with certain software libraries (for big integer and
       elliptic curve arithmetic), the int_to_string and point_to_string
@@ -722,20 +715,20 @@ Internet-Draft                     VRF                      January 2022
    1.  Use SK to derive the VRF secret scalar x and the VRF public key
        PK_string = point_to_string(x*B)
 
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 13]
-
-Internet-Draft                     VRF                      January 2022
-
-
        (this derivation depends on the ciphersuite, as per Section 5.5;
 
        these values can be cached, for example, after key generation,
        and need not be rederived each time)
 
    2.  H = ECVRF_hash_to_curve(PK_string, alpha_string)
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 13]
+
+Internet-Draft                     VRF                      January 2022
+
 
    3.  h_string = point_to_string(H)
 
@@ -779,18 +772,19 @@ Internet-Draft                     VRF                      January 2022
 
    2.  If D is "INVALID", output "INVALID" and stop
 
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 14]
-
-Internet-Draft                     VRF                      January 2022
-
-
    3.  (Gamma, c, s) = D
 
    4.  three_string = 0x03
 
    5.  zero_string = 0x00
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 14]
+
+Internet-Draft                     VRF                      January 2022
+
 
    6.  beta_string = Hash(suite_string || three_string ||
        point_to_string(cofactor * Gamma) || zero_string)
@@ -809,8 +803,14 @@ Internet-Draft                     VRF                      January 2022
 
       pi_string - VRF proof, octet string of length ptLen+cLen+qLen
 
-      validate_key - a boolean, needed only if key_validation_flag =
-      OPTIONAL
+   Optional input:
+
+      validate_key - a boolean
+
+   Note: An implementation MAY support only the option of validate_key =
+   true, or only the option of validate_key = false, in which case this
+   input is not needed.  If an implementation supports only one option,
+   it MUST specify which option is supports.
 
    Output:
 
@@ -825,24 +825,22 @@ Internet-Draft                     VRF                      January 2022
 
    2.   If Y is "INVALID", output "INVALID" and stop
 
-   3.   If (key_validation_flag = "REQUIRED") or (key_validation_flag =
-        "OPTIONAL" and validate_key = true):
-
-        run ECVRF_validate_key(Y) (Section 5.4.5); if it outputs
-        "INVALID", output "INVALID" and stop
+   3.   If validate_key, run ECVRF_validate_key(Y) (Section 5.4.5); if
+        it outputs "INVALID", output "INVALID" and stop
 
    4.   D = ECVRF_decode_proof(pi_string) (see Section 5.4.4)
 
    5.   If D is "INVALID", output "INVALID" and stop
 
+   6.   (Gamma, c, s) = D
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 15]
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 15]
 
 Internet-Draft                     VRF                      January 2022
 
-
-   6.   (Gamma, c, s) = D
 
    7.   H = ECVRF_hash_to_curve(PK_string, alpha_string)
 
@@ -890,15 +888,15 @@ Internet-Draft                     VRF                      January 2022
    alpha_string, this algorithm SHOULD be avoided in applications where
    it is important that the VRF input alpha remain secret.
 
+   ECVRF_hash_to_try_and_increment(PK_string, alpha_string)
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 16]
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 16]
 
 Internet-Draft                     VRF                      January 2022
 
-
-   ECVRF_hash_to_try_and_increment(PK_string, alpha_string)
 
    Input:
 
@@ -949,7 +947,9 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 17]
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 17]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1005,7 +1005,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 18]
+Goldberg, et al.          Expires 29 July 2022                 [Page 18]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1061,7 +1061,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 19]
+Goldberg, et al.          Expires 29 July 2022                 [Page 19]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1117,7 +1117,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 20]
+Goldberg, et al.          Expires 29 July 2022                 [Page 20]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1173,7 +1173,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 21]
+Goldberg, et al.          Expires 29 July 2022                 [Page 21]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1186,28 +1186,27 @@ Internet-Draft                     VRF                      January 2022
 
       "VALID" or "INVALID"
 
-   Note that this procedure is not sufficient if the elliptic curve E or
-   the point B, the generator of group G, is untrusted.  The Verifier
-   MUST obtain E and B from a trusted source, such as a ciphersuite
-   specification, rather than from the prover.  Ciphersuites in this
-   document specify E and B.
-
-   The public key Y given to this procedure MUST be a valid point on E.
+   Important note: the public key Y given to this procedure MUST be a
+   valid point on E.
 
    Steps:
 
-   1.  If cofactor*Y is the identity element of the elliptic curve
-       group, output "INVALID" and stop
+   1.  Let Y' = cofactor*Y
 
-   2.  Output "VALID"
+   2.  If Y' is the identity element of the elliptic curve group, output
+       "INVALID" and stop
 
-   Note that if the cofactor = 1, then Step 3 need not multiply Y by the
-   cofactor; instead, it suffices to output "INVALID" if Y is the
-   identity element of the elliptic curve group.  Moreover, if the
-   cofactor is small, the total number of points that could cause Step 3
-   to output "INVALID" may be small, and it may be more efficient to
-   simply check Y against a fixed list of such points.  For example, the
-   following algorithm can be used for the edwards25519 curve:
+   3.  Output "VALID"
+
+   Note that if the cofactor = 1, then Step 1 simply sets Y'=Y.  In
+   particular, for the P-256 curve, ECVRF_validate_key simply ensures
+   that Y is not the point at infinity.
+
+   Also note that if the cofactor is small, the total number of Y values
+   that could cause Step 2 to output "INVALID" may be small, and it may
+   be more efficient to simply check Y against a fixed list of such
+   points.  For example, the following algorithm can be used for the
+   edwards25519 curve:
 
    1.   PK_string = point_to_string(Y)
 
@@ -1226,15 +1225,14 @@ Internet-Draft                     VRF                      January 2022
 
    7.   bad_pk[2] = int_to_string(bad_y2, 32)
 
+   8.   bad_pk[3] = int_to_string(p-bad_y2, 32)
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 22]
+Goldberg, et al.          Expires 29 July 2022                 [Page 22]
 
 Internet-Draft                     VRF                      January 2022
 
-
-   8.   bad_pk[3] = int_to_string(p-bad_y2, 32)
 
    9.   bad_pk[4] = int_to_string(p-1, 32)
 
@@ -1285,7 +1283,9 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 23]
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 23]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1316,8 +1316,6 @@ Internet-Draft                     VRF                      January 2022
       interpret_hash_value_as_a_point is a 32-octet string and the
       output is either a point on E or "INVALID".
 
-   *  key_validation_flag = "REQUIRED"
-
    This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-
    P256-SHA256-TAI, except that:
 
@@ -1338,16 +1336,15 @@ Internet-Draft                     VRF                      January 2022
 
    *  cLen = 16.
 
+   *  The private key and generation of the secret scalar and the public
+      key are specified in Section 5.1.5 of [RFC8032].
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 24]
+Goldberg, et al.          Expires 29 July 2022                 [Page 24]
 
 Internet-Draft                     VRF                      January 2022
 
-
-   *  The private key and generation of the secret scalar and the public
-      key are specified in Section 5.1.5 of [RFC8032].
 
    *  The ECVRF_nonce_generation function is as specified in
       Section 5.4.2.2.
@@ -1380,8 +1377,6 @@ Internet-Draft                     VRF                      January 2022
       Section 5.4.1.1, with interpret_hash_value_as_a_point(s) =
       string_to_point(s[0]...s[31]).
 
-   *  key_validation_flag = "REQUIRED"
-
    This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to
    ECVRF-EDWARDS25519-SHA512-TAI, except:
 
@@ -1392,19 +1387,20 @@ Internet-Draft                     VRF                      January 2022
       512_ELL2_NU_ (the suite is defined in
       [I-D.irtf-cfrg-hash-to-curve] Section 8.5).
 
-
-
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 25]
-
-Internet-Draft                     VRF                      January 2022
-
-
 6.  Implementation Status
 
    Note to RFC editor: Remove before publication
+
+
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 25]
+
+Internet-Draft                     VRF                      January 2022
+
 
    A reference C++ implementation of ECVRF-P256-SHA256-TAI, ECVRF-
    P256-SHA256-SSWU, ECVRF-EDWARDS25519-SHA512-TAI, and ECVRF-
@@ -1447,21 +1443,20 @@ Internet-Draft                     VRF                      January 2022
    ECVRF-EDWARDS25519-SHA512-TAI from the -00 version of this draft is
    available at https://github.com/r2ishiguro/vrf.
 
-
-
-
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 26]
-
-Internet-Draft                     VRF                      January 2022
-
-
    An implementation similar to ECVRF-EDWARDS25519-SHA512-ELL2 (with
    some changes, including the use of SHA-3) is available as part of the
    CONIKS implementation in Golang at https://github.com/coniks-sys/
    coniks-go/tree/master/crypto/vrf.
+
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 26]
+
+Internet-Draft                     VRF                      January 2022
+
 
    Open Whisper Systems also uses a VRF similar to ECVRF-
    EDWARDS25519-SHA512-ELL2, called VXEdDSA, and specified here
@@ -1498,21 +1493,8 @@ Internet-Draft                     VRF                      January 2022
    prover.  If the verifier does so, then the ECVRF satisfies the "full
    uniqueness" (see Section 3.1) and "trusted collision resistance" (see
    Section 3.2) properties.  It additonally satisfies "full collision
-   resistance" if key_validation_flag is set to "REQUIRED", or if
-   key_validation_flag is set to OPTIONAL and the validate_key given to
-   the ECVRF_verify is true.
-
-
-
-
-
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 27]
-
-Internet-Draft                     VRF                      January 2022
-
+   resistance" if validate_key parameter given to the ECVRF_verify is
+   true.
 
 7.1.2.  Pseudorandomness with untrusted keys
 
@@ -1522,6 +1504,15 @@ Internet-Draft                     VRF                      January 2022
    This is because an adversary can always use bad randomness to
    generate the VRF keys, and thus, the VRF output may not be
    pseudorandom.
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 27]
+
+Internet-Draft                     VRF                      January 2022
+
 
 7.2.  Security Levels
 
@@ -1562,20 +1553,22 @@ Internet-Draft                     VRF                      January 2022
    specified in this document possess full pseudorandomness as well as
    selective pseudorandomness (see Section 3.3 for an explanation of
    these notions).  However, the cryptographic reductions are tighter
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 28]
-
-Internet-Draft                     VRF                      January 2022
-
-
    for selective pseudorandomness than for full pseudorandomness.  This
    means that the VRFs have quantitively stronger security guarantees
    for selective pseudorandomness.
 
    Applications that are concerned about tightness of cryptographic
    reductions therefore have two options.
+
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 28]
+
+Internet-Draft                     VRF                      January 2022
+
 
    *  They may choose to ensure that selective pseudorandomness is
       sufficient for the application.  That is, that pseudorandomness of
@@ -1616,16 +1609,6 @@ Internet-Draft                     VRF                      January 2022
    discuss one particular class of such attacks: timing attacks that can
    be used to leak information about the VRF input alpha.
 
-
-
-
-
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 29]
-
-Internet-Draft                     VRF                      January 2022
-
-
    The ECVRF_hash_to_curve_try_and_increment algorithm defined in
    Section 5.4.1.1 SHOULD NOT be used in applications where the VRF
    input alpha is secret and is hashed by the VRF on-the-fly.  This is
@@ -1635,6 +1618,14 @@ Internet-Draft                     VRF                      January 2022
    information obtained from such a timing attack is likely to be small
    (1 bit, on average), since the algorithm is expected to find a valid
    curve point after only two attempts.  However, there might be inputs
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 29]
+
+Internet-Draft                     VRF                      January 2022
+
+
    which cause the algorithm to make many attempts before it finds a
    valid curve point; for such inputs, the information leaked in a
    timing attack will be more than 1 bit.
@@ -1674,15 +1665,22 @@ Internet-Draft                     VRF                      January 2022
    generates the challenge value c) via the point H.  Including the
    curve and the public key into the hash that generates the challenge
    is necessary for the security of the VRF, as explained in
+   [PWHVNRG17].
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 30]
+
+
+
+
+
+
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 30]
 
 Internet-Draft                     VRF                      January 2022
 
-
-   [PWHVNRG17].
 
 7.9.  Hash function domain separation
 
@@ -1730,16 +1728,16 @@ Internet-Draft                     VRF                      January 2022
    ECVRF are given the public key as part of the input (as a so-called
    "salt"), effectively ensuring that the hash function applied to alpha
    is different for each public key.  In ECVRF, since all the other
+   hashing depends on H output by ECVRF_hash_to_curve, this salt makes
+   all the remaining hashing different for each public key as long as
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 31]
+Goldberg, et al.          Expires 29 July 2022                 [Page 31]
 
 Internet-Draft                     VRF                      January 2022
 
 
-   hashing depends on H output by ECVRF_hash_to_curve, this salt makes
-   all the remaining hashing different for each public key as long as
    ECVRF_hash_to_curve is collision resistant.
 
 7.11.  Futureproofing
@@ -1785,18 +1783,17 @@ Internet-Draft                     VRF                      January 2022
       computed via hash_to_curve using the suite_string (which
       identifies B) and Y.
 
+      03 - Changed Ed25519 conversions to little-endian, to match RFC
+      8032; added simple key validation for Ed25519; added Simple SWU
+      cipher suite; clarified Elligator and removed the extra x0 bit, to
 
 
 
-
-Goldberg, et al.          Expires 28 July 2022                 [Page 32]
+Goldberg, et al.          Expires 29 July 2022                 [Page 32]
 
 Internet-Draft                     VRF                      January 2022
 
 
-      03 - Changed Ed25519 conversions to little-endian, to match RFC
-      8032; added simple key validation for Ed25519; added Simple SWU
-      cipher suite; clarified Elligator and removed the extra x0 bit, to
       make Montgomery and Edwards Elligator the same; added domain
       separation for RSA VRF; improved notation throughout; added nonce
       generation as a section; changed counter in try-and-increment from
@@ -1836,7 +1833,8 @@ Internet-Draft                     VRF                      January 2022
       11 - Clarified various notation, including lengths of various
       parameters for ECVRF; added error handling to RSA-FDH-VRF; added
       security levels section; clarified full vs trusted uniqueness;
-      explained the salt in hashing; added RSA ciphersuites.
+      explained the salt in hashing; added RSA ciphersuites; made key
+      validation required for the current ciphersuites.
 
 
 
@@ -1845,7 +1843,9 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 33]
+
+
+Goldberg, et al.          Expires 29 July 2022                 [Page 33]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1901,7 +1901,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 34]
+Goldberg, et al.          Expires 29 July 2022                 [Page 34]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -1957,7 +1957,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 35]
+Goldberg, et al.          Expires 29 July 2022                 [Page 35]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2013,7 +2013,7 @@ A.1.  ECVRF-P256-SHA256-TAI
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 36]
+Goldberg, et al.          Expires 29 July 2022                 [Page 36]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2069,7 +2069,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 37]
+Goldberg, et al.          Expires 29 July 2022                 [Page 37]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2125,7 +2125,7 @@ A.2.  ECVRF-P256-SHA256-SSWU
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 38]
+Goldberg, et al.          Expires 29 July 2022                 [Page 38]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2181,7 +2181,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 39]
+Goldberg, et al.          Expires 29 July 2022                 [Page 39]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2237,7 +2237,7 @@ A.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 40]
+Goldberg, et al.          Expires 29 July 2022                 [Page 40]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2293,7 +2293,7 @@ A.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 41]
+Goldberg, et al.          Expires 29 July 2022                 [Page 41]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2349,7 +2349,7 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 42]
+Goldberg, et al.          Expires 29 July 2022                 [Page 42]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2405,7 +2405,7 @@ Authors' Addresses
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 43]
+Goldberg, et al.          Expires 29 July 2022                 [Page 43]
 
 Internet-Draft                     VRF                      January 2022
 
@@ -2461,4 +2461,4 @@ Internet-Draft                     VRF                      January 2022
 
 
 
-Goldberg, et al.          Expires 28 July 2022                 [Page 44]
+Goldberg, et al.          Expires 29 July 2022                 [Page 44]
