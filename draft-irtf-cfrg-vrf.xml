@@ -79,9 +79,8 @@
         can compute the hash, but anyone with the public key
         can verify the correctness of the hash.    
         VRFs are useful for preventing enumeration of hash-based data structures.
-        This document specifies several VRF constructions that are secure in
-        the cryptographic random oracle model. One VRF uses RSA and the other
-        VRF uses Elliptic Curves (EC).
+        This document specifies several VRF constructions based on RSA and Elliptic Curves that are secure in
+        the cryptographic random oracle model.
       </t>
     </abstract>
   </front>
@@ -333,21 +332,18 @@
         </t>
       </section>
       <section numbered="true" toc="default">
-        <name>A random-oracle-like unpredictability property</name>
+        <name>Some VRFs: Unpredictability Under Malicious Key Generation</name>
         <t>As explained in <xref target="pseudodef" format="default"/>, pseudorandomness is guaranteed only
        if the VRF keys were generated in a trustworthy fashion.
        For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone and are therefore not pseudorandom.
         </t>
-        <t>There is, however, a different type of unpredictability that is desirable in certain VRF applications (such as <xref target="GHMVZ17" format="default"/> and <xref target="DGKR18" format="default"/>). This property is similar
+        <t>There is, however, a different type of unpredictability that is desirable in certain VRF applications (such as leader selection in the consensus protocols of <xref target="GHMVZ17" format="default"/> and <xref target="DGKR18" format="default"/>), called "unpredictability under malicious key generation". This property is similar
        to the unpredictability achieved by an (ordinary, unkeyed)
        cryptographic hash function: if the input has enough entropy (i.e., cannot be predicted), then the correct output is indistinguishable
-       from uniform.
+       from uniform, no matter how the VRF keys are generated.
         </t>
         <t>
-       A formal definition of this property appears in Section 3.2 of <xref target="DGKR18" format="default"/>.  The VRF schemes presented in this specification are believed to satisfy this property if the public key was generated in a trustworthy
-       manner. Additionally, the ECVRF is believed to also satisfy this property even if the public key was not generated in a trustworthy manner, as long as
-       the public key satisfies the key validation
-   procedure in <xref target="keycheck" format="default"/>.</t>
+       A formal definition of this property appears in Section 3.2 of <xref target="DGKR18" format="default"/>.  The RSA-FDH-VRF presented in this document does not satisfy this property. The ECVRF presented in this document satisfies this property if validate_key parameter given to the ECVRF_verify is TRUE.</t>
       </section>
     </section>
     <section anchor="fdh" numbered="true" toc="default">
@@ -417,7 +413,7 @@
                 </li>
         <li>
                     MGF1 - Mask Generation Function based on the hash function Hash as defined in
-                    Section B.2.1 of <xref target="RFC8017" format="default"/>
+                    Section B.2.1 of <xref target="RFC8017" format="default"/> (given an input, produces a random-oracle-like output of desired length)
         </li>
         <li>
                     || - octet string concatenation
@@ -445,6 +441,7 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>mgf_domain_separator = 0x01</li>
+          <li>Obtain the modulus n and its length in octets k from the private key K (this step is implementation-dependent)</li>
           <li>EM = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
           <li>m = OS2IP(EM)</li>
           <li>s = RSASP1(K, m)</li>
@@ -551,8 +548,8 @@
             The Elliptic Curve Verifiable Random Function (ECVRF) is a VRF that, for suitable parameter choices,
             satisfies the "full uniqueness", "trusted collision resistance",
             and "full pseudorandomness properties" defined in <xref target="secdef" format="default"/>.
-            If validate_key parameter given to the ECVRF_verify is true, then
-            the ECVRF satisfies "full collision resistance". See <xref target="securitycons" format="default"/>
+            If validate_key parameter given to the ECVRF_verify is TRUE, then
+            the ECVRF additionally satisfies "full collision resistance" and "unpredictability under malicious key generation". See <xref target="securitycons" format="default"/>
             for further discussion. Formal security proofs are
             in <xref target="PWHVNRG17" format="default"/>.
       </t>
@@ -585,7 +582,7 @@
         <li>ECVRF_hash_to_curve - a function that hashes strings to points on E.</li>
         <li>ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.</li>
-        <li>suite_string - a single nonzero octet specifying the ECVRF
+        <li>suite_string - a single octet specifying the ECVRF
                 ciphersuite, which determines the above options as well as type conversions and parameter generation </li>
       </ul>
       <t>
@@ -718,7 +715,7 @@
         <ul empty="true" spacing="normal">
           <li>validate_key - a boolean</li>
         </ul>
-        <t>Note: An implementation MAY support only the option of validate_key = true, or only the option of validate_key = false, in which case this input is not needed. If an implementation supports only one option, it MUST specify which option is supports.
+        <t>Note: An implementation MAY support only the option of validate_key = TRUE, or only the option of validate_key = FALSE, in which case this input is not needed. If an implementation supports only one option, it MUST specify which option is supports.
         </t>
 
         
@@ -1305,7 +1302,7 @@
           <t>For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
               ECVRF
     satisfies the "full uniqueness" (see <xref target="uniqueness" format="default"/>)
-    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties. It additonally satisfies "full collision resistance" if validate_key parameter given to the ECVRF_verify is true.
+    and "trusted collision resistance" (see <xref target="collisionresistance" format="default"/>) properties. It additonally satisfies "full collision resistance" if validate_key parameter given to the ECVRF_verify is TRUE.
           </t>
         </section>
 
