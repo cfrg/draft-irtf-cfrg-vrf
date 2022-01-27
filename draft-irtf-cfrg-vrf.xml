@@ -579,7 +579,7 @@
         <li>B - generator of group G</li>
         <li>Hash - cryptographic hash function</li>
         <li>hLen - output length in octets of Hash (hLen must be at least cLen; in the typical case, it is at least qLen)</li>
-        <li>ECVRF_hash_to_curve - a function that hashes strings to points on E.</li>
+        <li>ECVRF_encode_to_curve - a function that hashes strings to points on E.</li>
         <li>ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.</li>
         <li>suite_string - a single octet specifying the ECVRF
@@ -649,7 +649,7 @@
             </t>
             <t>these values can be cached, for example, after key generation, and need not be rederived each time)</t>
           </li>
-          <li>H = ECVRF_hash_to_curve(PK_string, alpha_string)</li>
+          <li>H = ECVRF_encode_to_curve(PK_string, alpha_string)</li>
           <li>h_string = point_to_string(H)</li>
           <li>Gamma = x*H</li>
           <li>k = ECVRF_nonce_generation(SK, h_string)</li>
@@ -741,7 +741,7 @@
           <li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
           <li>If D is "INVALID", output "INVALID" and stop</li>
           <li>(Gamma, c, s) = D</li>
-          <li>H = ECVRF_hash_to_curve(PK_string, alpha_string)</li>
+          <li>H = ECVRF_encode_to_curve(PK_string, alpha_string)</li>
           <li>U = s*B - c*Y</li>
           <li>V = s*H - c*Gamma</li>
           <li>c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
@@ -756,8 +756,8 @@
       <section numbered="true" toc="default">
         <name>ECVRF Auxiliary Functions</name>
         <section anchor="ecvrfH2C" numbered="true" toc="default">
-          <name>ECVRF Hash to Curve</name>
-          <t>The ECVRF_hash_to_curve algorithm takes the VRF input alpha
+          <name>ECVRF Encode to Curve</name>
+          <t>The ECVRF_encode_to_curve algorithm takes the VRF input alpha
             and converts it to H, an EC point in G; in order to create a different conversion function
             for each public key (see <xref target="salt" format="default"/>),
             this algorithm also takes in the public key.
@@ -767,10 +767,10 @@
           </t>
           <t>This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <xref target="ecvrfSuites" format="default"/>.</t>
           <section anchor="ecvrfH2C1" numbered="true" toc="default">
-            <name>ECVRF_hash_to_curve_try_and_increment</name>
+            <name>ECVRF_encode_to_curve_try_and_increment</name>
             <t>
-            The following ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string) algorithm
-            implements ECVRF_hash_to_curve in a simple and
+            The following ECVRF_encode_to_curve_try_and_increment(PK_string, alpha_string) algorithm
+            implements ECVRF_encode_to_curve in a simple and
             generic way that works for any elliptic curve. To use this algorithm,
             hLen MUST be at least fLen.
             </t>
@@ -788,7 +788,7 @@
             the VRF input alpha remain secret. 
             </t>
             <t>
-                ECVRF_hash_to_curve_try_and_increment(PK_string, alpha_string)
+                ECVRF_encode_to_curve_try_and_increment(PK_string, alpha_string)
             </t>
             <t>
                 Input:
@@ -813,14 +813,14 @@
                 Steps:
             </t>
             <ol spacing="normal" type="1"><li>ctr = 0</li>
-              <li>hash_to_curve_domain_separator_front = 0x01</li>
-              <li>hash_to_curve_domain_separator_back = 0x00</li>
+              <li>encode_to_curve_domain_separator_front = 0x01</li>
+              <li>encode_to_curve_domain_separator_back = 0x00</li>
               <li>H = "INVALID"</li>
               <li>
                 <t>While H is "INVALID" or H is the identity element of the elliptic curve group:
                 </t>
                 <ol spacing="normal" type="a"><li>ctr_string = int_to_string(ctr, 1)</li>
-                  <li>hash_string = Hash(suite_string || hash_to_curve_domain_separator_front || PK_string || alpha_string || ctr_string || hash_to_curve_domain_separator_back)</li>
+                  <li>hash_string = Hash(suite_string || encode_to_curve_domain_separator_front || PK_string || alpha_string || ctr_string || encode_to_curve_domain_separator_back)</li>
                   <li>H = interpret_hash_value_as_a_point(hash_string)</li>
                   <li>If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H</li>
                   <li>ctr = ctr + 1</li>
@@ -831,13 +831,13 @@
             <t>
             Note even though the loop is infinite as written, and int_to_string(ctr,1) may fail when ctr reaches 256,
             interpret_hash_value_as_a_point functions specified in <xref target="ecvrfSuites" format="default"/>
-            will succeed on roughly half hash_string values, and thus the loop is expected to stop after two iterations, and ctr is overwhelmingly unlikely (probability about 2^-256) to reach 256.
+            will succeed on roughly half hash_string values. Thus the loop is expected to stop after two iterations, and ctr is overwhelmingly unlikely (probability about 2^-256) to reach 256.
             </t>
           </section>
           <section anchor="h2csuite" numbered="true" toc="default">
-            <name>ECVRF_hash_to_curve_h2c_suite</name>
-            <t>The ECVRF_hash_to_curve_h2c_suite(PK_string, alpha_string) algorithm
-                implements ECVRF_hash_to_curve using one of the several
+            <name>ECVRF_encode_to_curve_h2c_suite</name>
+            <t>The ECVRF_encode_to_curve_h2c_suite(PK_string, alpha_string) algorithm
+                implements ECVRF_encode_to_curve using one of the several
                 hash-to-curve options defined in
                 <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/>.
                 The specific choice of the hash-to-curve option
@@ -845,7 +845,7 @@
                 is given by the h2c_suite_ID_string parameter.
             </t>
             <t>
-                ECVRF_hash_to_curve_h2c_suite(PK_string, alpha_string)
+                ECVRF_encode_to_curve_h2c_suite(PK_string, alpha_string)
             </t>
             <t>
                 Input:
@@ -1150,14 +1150,14 @@
             The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32.
         </li>
           <li>
-            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s).
+            The ECVRF_encode_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(0x02 || s).
         </li>
         </ul>
         <t>This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:
         </t>
         <ul spacing="normal">
           <li> suite_string = 0x02</li>
-          <li>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite" format="default"/>
+          <li>the ECVRF_encode_to_curve function is as specified in <xref target="h2csuite" format="default"/>
                         with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_
                         (the suite is defined in <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/> Section 8.2)</li>
         </ul>
@@ -1201,7 +1201,7 @@
             The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64.
         </li>
           <li>
-            The ECVRF_hash_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).
+            The ECVRF_encode_to_curve function is as specified in <xref target="ecvrfH2C1" format="default"/>, with interpret_hash_value_as_a_point(s) = string_to_point(s[0]...s[31]).
         </li>
         </ul>
         <t>This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:
@@ -1211,7 +1211,7 @@
           <li>
             suite_string = 0x04;
         </li>
-          <li>the ECVRF_hash_to_curve function is as specified in <xref target="h2csuite" format="default"/> with
+          <li>the ECVRF_encode_to_curve function is as specified in <xref target="h2csuite" format="default"/> with
             h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_
             (the suite is defined in
             <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/> Section 8.5).
@@ -1329,7 +1329,7 @@
                 <li>For selective pseudorandomness: approximately as strong as the security, in bits, of the RSA problem for the key (n, e) (as shown in <xref target="GNPRVZ15" format="default"/>).</li>
             </ul>
         <t>
-            As shown in <xref target="PWHVNRG17" format="default"/>, the security level of the ECVRF, measured in bits, is as follows (in the random oracle model for the functions Hash and ECVRF_hash_to_curve):
+            As shown in <xref target="PWHVNRG17" format="default"/>, the security level of the ECVRF, measured in bits, is as follows (in the random oracle model for the functions Hash and ECVRF_encode_to_curve):
         </t>
             <ul>
                 <li>For trusted uniqueness: approximately 8*min(qLen, cLen).</li>
@@ -1402,7 +1402,7 @@
     Below we discuss one particular class of such attacks: timing attacks that can
     be used to leak information about the VRF input alpha.
         </t>
-        <t>The ECVRF_hash_to_curve_try_and_increment algorithm defined in
+        <t>The ECVRF_encode_to_curve_try_and_increment algorithm defined in
     <xref target="ecvrfH2C1" format="default"/> SHOULD NOT be used in applications where
     the VRF input alpha is secret and is hashed by the VRF on-the-fly.
     This is because the algorithm's running time depends
@@ -1445,14 +1445,14 @@
         alpha is not supplied
         all at once, but rather in pieces by a sequence of calls to Update).
         The ECVRF, in particular, uses alpha only in
-        ECVRF_hash_to_curve. The curve point H becomes the representative
+        ECVRF_encode_to_curve. The curve point H becomes the representative
         of alpha thereafter.</t>
       </section>
 
         <section anchor="challengeGen" numbered="true" toc="default">
             <name>Challenge Generation</name>
             <t>Note that the suite_string octet and the public key
-            are hashed together with alpha in ECVRF_hash_to_curve, which ensures
+            are hashed together with alpha in ECVRF_encode_to_curve, which ensures
             that the curve, including the generator B, and the public
             key are included indirectly into subsequent hashes
             (in particular, the hash that generates the challenge value c) via the point H.
@@ -1464,7 +1464,7 @@
       <section anchor="domainsep" numbered="true" toc="default">
         <name>Hash function domain separation</name>
         <t>
-         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in hash_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
+         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in encode_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
          theoretical analysis treats each of these functions as a separate hash function, modeled as a random oracle.
          This analysis still holds even if the same hash function is used, as long as the four 
          queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
@@ -1477,15 +1477,15 @@
         </t>
         <ul spacing="normal">
           <li>inputs to the hash function used during nonce_generation are unlikely to equal 
-          inputs used in hash_to_curve, proof_to_hash, and challenge_generation. This
+          inputs used in encode_to_curve, proof_to_hash, and challenge_generation. This
           follows since nonce_generation inputs a secret to the hash function that is not used by 
           honest parties as input to any other hash function, and is not available to the adversary.</li>
           <li>the second octets of the inputs to the hash function used in
-          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment
+          proof_to_hash, challenge_generation, and encode_to_curve_try_and_increment
           are all different.</li>
           <li>the last octet of the input to the hash function used in
-          proof_to_hash, challenge_generation, and hash_to_curve_try_and_increment is always zero,
-          and therefore different from the last octet of the input to the hash function used in ECVRF_hash_to_curve_h2c_suite,
+          proof_to_hash, challenge_generation, and encode_to_curve_try_and_increment is always zero,
+          and therefore different from the last octet of the input to the hash function used in ECVRF_encode_to_curve_h2c_suite,
           which is set equal to the nonzero length of the domain separation tag by <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/>.</li>
         </ul>
     </section>
@@ -1493,7 +1493,7 @@
         <section anchor="salt" numbered="true" toc="default">
           <name>Hash function salting</name>
         <t>
-        The analysis of <xref target="GNPRVZ15" format="default"/> and <xref target="PWHVNRG17" format="default"/> studies an adversary who attacks only a single public key. In order to prevent the adversary from attacking multiple public keys more efficiently, the MGF1 function for the RSA-FDH-VRF and ECVRF_hash_to_curve function for the ECVRF are given the public key as part of the input (as a so-called "salt"), effectively ensuring that the hash function applied to alpha is different for each public key. In ECVRF, since all the other hashing depends on H output by ECVRF_hash_to_curve, this salt makes all the remaining hashing different for each public key as long as ECVRF_hash_to_curve is collision resistant.
+        The analysis of <xref target="GNPRVZ15" format="default"/> and <xref target="PWHVNRG17" format="default"/> studies an adversary who attacks only a single public key. In order to prevent the adversary from attacking multiple public keys more efficiently, the MGF1 function for the RSA-FDH-VRF and ECVRF_encode_to_curve function for the ECVRF are given the public key as part of the input (as a so-called "salt"), effectively ensuring that the hash function applied to alpha is different for each public key. In ECVRF, since all the other hashing depends on H output by ECVRF_encode_to_curve, this salt makes all the remaining hashing different for each public key as long as ECVRF_encode_to_curve is collision resistant.
         </t>
     </section>
         
@@ -1505,10 +1505,10 @@
             another variant,
            they should specify a different suite_string constant. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
         For the ECVRF, the inputs
-        ECVRF_hash_to_curve hash function used in producing H are then guaranteed to be different from other
+        ECVRF_encode_to_curve hash function used in producing H are then guaranteed to be different from other
         ciphersuites; since all the other hashing done by the prover
         depends on H, inputs to all the hash functions used by the prover will also be
-        different from other ciphersuites as long as ECVRF_hash_to_curve is collision resistant.
+        different from other ciphersuites as long as ECVRF_encode_to_curve is collision resistant.
         </t>
       </section>
     </section>
@@ -1569,7 +1569,7 @@
         <li> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
-        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness; explained the salt in hashing; added RSA ciphersuites; made key validation clearer.</li>
+        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; explained the salt in hashing; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft;</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
@@ -1580,7 +1580,7 @@
             Sachin Vasant (Cisco Systems), and
             Asaf Ziv (Facebook). Chloe Martindale provided a thorough cryptographer's review.
             Shumon Huque, David C. Lawerence, Trevor Perrin, Annie Yousar, Stanislav Smyshlyaev, Liliya Akhmetzyanova,
-            Tony Arcieri, Sergey Gorbunov, Sam Scott, Nick Sullivan, Christopher Wood, Marek Jankowski, Derek Ting-Haye Leung, Adam Suhl, Gary Belvinm, Piotr Nojszewski, Gorka Irazoqui Apecechea, Mario Cao Cueto, Burt Kaliski, Chris Peikert, Jiayu Xu, Antoni Marcedone, Brian Chen, and Christopher Wood provided
+            Tony Arcieri, Sergey Gorbunov, Sam Scott, Nick Sullivan, Christopher Wood, Marek Jankowski, Derek Ting-Haye Leung, Adam Suhl, Gary Belvin, Piotr Nojszewski, Gorka Irazoqui Apecechea, Mario Cao Cueto, Burt Kaliski, Chris Peikert, Jiayu Xu, Antonio Marcedone, and Brian Chen provided
             valuable input to this draft. Riad Wahby was very helpful with the integration of the hash-to-curve draft.
       </t>
     </section>
