@@ -422,7 +422,7 @@
       <section numbered="true" toc="default">
         <name>RSA-FDH-VRF Proving</name>
         <t>
-                RSAFDHVRF_prove(K, alpha_string)
+                RSAFDHVRF_prove(K, alpha_string[, MGF_salt])
         </t>
         <t>
                 Input:
@@ -430,6 +430,13 @@
         <ul empty="true" spacing="normal">
           <li>K - RSA private key</li>
           <li>alpha_string - VRF hash input, an octet string</li>
+        </ul>
+        
+        <t>
+                Optional Input:
+        </t>
+        <ul empty="true" spacing="normal">
+          <li>MGF_salt - a public octet string used as a hash function salt; this input is not used when MGF_salt is specified as part of the ciphersuite</li>
         </ul>
         <t>
                 Output:
@@ -441,8 +448,7 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>mgf_domain_separator = 0x01</li>
-          <li>Obtain the modulus n and its length in octets k from the private key K (this step is implementation-dependent)</li>
-          <li>EM = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) || alpha_string, k - 1)</li>
+          <li>EM = MGF1(suite_string || mgf_domain_separator || MGF_salt || alpha_string, k - 1)</li>
           <li>m = OS2IP(EM)</li>
           <li>s = RSASP1(K, m)</li>
           <li>pi_string = I2OSP(s, k)</li>
@@ -483,7 +489,7 @@
       <section anchor="rsaverify" numbered="true" toc="default">
         <name>RSA-FDH-VRF Verifying</name>
         <t>
-                RSAFDHVRF_verify((n, e), alpha_string, pi_string)
+                RSAFDHVRF_verify((n, e), alpha_string, pi_string[, MGF_salt])
         </t>
         <t>
                 Input:
@@ -493,6 +499,16 @@
           <li>alpha_string - VRF hash input, an octet string</li>
           <li>pi_string - proof to be verified, an octet string of length k</li>
         </ul>
+        <t>
+                Optional Input:
+        </t>
+        <ul empty="true" spacing="normal">
+          <li>MGF_salt - a public octet string used as a hash function salt; this input is not used when MGF_salt is specified as part of the ciphersuite</li>
+        </ul>
+        <t>
+                Output:
+        </t>
+
         <t>
                 Output:
         </t>
@@ -509,7 +525,7 @@
         <ol spacing="normal" type="1"><li>s = OS2IP(pi_string)</li>
           <li>m = RSAVP1((n, e), s); if RSAVP1 returns "signature representative out of range", output "INVALID" and stop.</li>
           <li>mgf_domain_separator = 0x01</li>
-          <li>EM' = MGF1(suite_string || mgf_domain_separator || I2OSP(k, 4) || I2OSP(n, k) ||  alpha_string, k - 1)</li>
+          <li>EM' = MGF1(suite_string || mgf_domain_separator || MGF_salt ||  alpha_string, k - 1)</li>
           <li>m' = OS2IP(EM')</li>
           <li>
                         If m and m' are equal, output ("VALID", RSAFDHVRF_proof_to_hash(pi_string));
@@ -523,19 +539,22 @@
       <t>This document defines RSA-FDH-VRF-SHA256 as follows:</t>
         <ul spacing="normal">
           <li>suite_string = 0x01</li>
-          <li>The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32.</li>
+          <li>The hash function Hash is SHA-256 as specified in <xref target="RFC6234" format="default"/>, with hLen = 32</li>
+          <li>MGF_salt = I2OSP(k, 4) || I2OSP(n, k)</li>
          </ul>
 
       <t>This document defines RSA-FDH-VRF-SHA384 as follows:</t>
         <ul spacing="normal">
           <li>suite_string = 0x02</li>
-          <li>The hash function Hash is SHA-384 as specified in <xref target="RFC6234" format="default"/>, with hLen = 48.</li>
+          <li>The hash function Hash is SHA-384 as specified in <xref target="RFC6234" format="default"/>, with hLen = 48</li>
+          <li>MGF_salt = I2OSP(k, 4) || I2OSP(n, k)</li>
         </ul>
         
       <t>This document defines RSA-FDH-VRF-SHA512 as follows:</t>
         <ul spacing="normal">
           <li>suite_string = 0x03</li>
-          <li>The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64.</li>
+          <li>The hash function Hash is SHA-512 as specified in <xref target="RFC6234" format="default"/>, with hLen = 64</li>
+          <li>MGF_salt = I2OSP(k, 4) || I2OSP(n, k)</li>
         </ul>
 
       </section>
@@ -619,20 +638,30 @@
                     </li>
         <li>Y = x*B - VRF public key, an point on E</li>
         <li>PK_string = point_to_string(Y) - VRF public key represented as an octet string</li>
-
+        <li>encode_to_curve_salt - a public value used as a hash function salt</li>
       </ul>
+      
       <section anchor="ecvrfprove" numbered="true" toc="default">
         <name>ECVRF Proving</name>
         <t>
-                ECVRF_prove(SK, alpha_string)
+                ECVRF_prove(SK, alpha_string[, encode_to_curve_salt])
         </t>
         <t>
                 Input:
         </t>
         <ul empty="true" spacing="normal">
           <li>SK - VRF private key</li>
-          <li>alpha_string = input alpha, an octet string</li>
+          <li>alpha_string - input alpha, an octet string</li>
         </ul>
+        
+        <t>
+                Optional input:
+        </t>
+        <ul empty="true" spacing="normal">
+          <li>encode_to_curve_salt - a public salt value, an octet string; this input is not used when encode_to_curve_salt is specified as part of the ciphersuite</li>
+        </ul>
+
+        
         <t>
                 Output:
         </t>
@@ -643,17 +672,17 @@
                 Steps:
         </t>
         <ol spacing="normal" type="1"><li>
-            <t>Use SK to derive the VRF secret scalar x and the VRF public key PK_string = point_to_string(x*B)
+            <t>Use SK to derive the VRF secret scalar x and the VRF public key Y = x*B
             </t>
             <t>(this derivation depends on the ciphersuite, as per  <xref target="ecvrfSuites" format="default"/>;
             </t>
             <t>these values can be cached, for example, after key generation, and need not be rederived each time)</t>
           </li>
-          <li>H = ECVRF_encode_to_curve(PK_string, alpha_string)</li>
+          <li>H = ECVRF_encode_to_curve(encode_to_curve_salt, alpha_string) (see <xref target="ecvrfH2C" format="default"/>)</li>
           <li>h_string = point_to_string(H)</li>
           <li>Gamma = x*H</li>
-          <li>k = ECVRF_nonce_generation(SK, h_string)</li>
-          <li>c = ECVRF_challenge_generation(H, Gamma, k*B, k*H) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
+          <li>k = ECVRF_nonce_generation(SK, h_string) (see <xref target="ecvrfNonceGeneration" format="default"/>)</li>
+          <li>c = ECVRF_challenge_generation(Y, H, Gamma, k*B, k*H) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
           <li>s = (k + c*x) mod q</li>
           <li>pi_string = point_to_string(Gamma) || int_to_string(c, cLen) || int_to_string(s, qLen)</li>
           <li>Output pi_string</li>
@@ -699,7 +728,7 @@
       <section anchor="ecverify" numbered="true" toc="default">
         <name>ECVRF Verifying</name>
         <t>
-                ECVRF_verify(PK_string, alpha_string, pi_string, [validate_key])
+                ECVRF_verify(PK_string, alpha_string, pi_string[, encode_to_curve_salt, validate_key])
         </t>
         <t>
                 Input:
@@ -713,11 +742,9 @@
                 Optional input:
         </t>
         <ul empty="true" spacing="normal">
-          <li>validate_key - a boolean</li>
+          <li>encode_to_curve_salt - a public salt value, an octet string; this input is not used when encode_to_curve_salt is specified as part of the ciphersuite</li>
+          <li>validate_key - a boolean. An implementation MAY support only the option of validate_key = TRUE, or only the option of validate_key = FALSE, in which case this input is not needed. If an implementation supports only one option, it MUST specify which option is supports.</li>
         </ul>
-        <t>Note: An implementation MAY support only the option of validate_key = TRUE, or only the option of validate_key = FALSE, in which case this input is not needed. If an implementation supports only one option, it MUST specify which option is supports.
-        </t>
-
         
         <t>
                 Output:
@@ -741,10 +768,10 @@
           <li>D = ECVRF_decode_proof(pi_string) (see <xref target="ecvrfDecodeProof" format="default"/>)</li>
           <li>If D is "INVALID", output "INVALID" and stop</li>
           <li>(Gamma, c, s) = D</li>
-          <li>H = ECVRF_encode_to_curve(PK_string, alpha_string)</li>
+          <li>H = ECVRF_encode_to_curve(encode_to_curve_salt, alpha_string) (see <xref target="ecvrfH2C" format="default"/>)</li>
           <li>U = s*B - c*Y</li>
           <li>V = s*H - c*Gamma</li>
-          <li>c' = ECVRF_challenge_generation(H, Gamma, U, V) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
+          <li>c' = ECVRF_challenge_generation(Y, H, Gamma, U, V) (see <xref target="ecvrfChallengeGeneration" format="default"/>)</li>
           <li>
                         If c and c' are equal, output ("VALID", ECVRF_proof_to_hash(pi_string));
                         else output "INVALID"
@@ -757,19 +784,32 @@
         <name>ECVRF Auxiliary Functions</name>
         <section anchor="ecvrfH2C" numbered="true" toc="default">
           <name>ECVRF Encode to Curve</name>
-          <t>The ECVRF_encode_to_curve algorithm takes the VRF input alpha
-            and converts it to H, an EC point in G; in order to create a different conversion function
-            for each public key (see <xref target="salt" format="default"/>),
-            this algorithm also takes in the public key.
+          <t>The ECVRF_encode_to_curve algorithm takes a public salt (see <xref target="salt" format="default"/>) and the VRF input alpha
+            and converts it to H, an EC point in G.
             This algorithm is the only place the VRF input alpha is used
             for proving and verifying. See
             <xref target="prehash" format="default"/> for further discussion.
           </t>
           <t>This section specifies a number of such algorithms, which are not compatible with each other and are intended to use with various ciphersuites specified in <xref target="ecvrfSuites" format="default"/>.</t>
+              
+          <t>
+                Input:
+          </t>
+          <ul empty="true" spacing="normal">
+            <li>encode_to_curve_salt - public salt value, an octet string</li>
+            <li>alpha_string - value to be hashed, an octet string</li>
+          </ul>
+          <t>
+               Output:
+          </t>
+          <ul empty="true" spacing="normal">
+              <li>H - hashed value, a point in G </li>
+          </ul>
+
           <section anchor="ecvrfH2C1" numbered="true" toc="default">
             <name>ECVRF_encode_to_curve_try_and_increment</name>
             <t>
-            The following ECVRF_encode_to_curve_try_and_increment(PK_string, alpha_string) algorithm
+            The following ECVRF_encode_to_curve_try_and_increment(encode_to_curve_salt, alpha_string) algorithm
             implements ECVRF_encode_to_curve in a simple and
             generic way that works for any elliptic curve. To use this algorithm,
             hLen MUST be at least fLen.
@@ -788,21 +828,8 @@
             the VRF input alpha remain secret. 
             </t>
             <t>
-                ECVRF_encode_to_curve_try_and_increment(PK_string, alpha_string)
+                ECVRF_encode_to_curve_try_and_increment(encode_to_curve_salt, alpha_string)
             </t>
-            <t>
-                Input:
-            </t>
-            <ul empty="true" spacing="normal">
-              <li>PK_string - public key, an octet string</li>
-              <li>alpha_string - value to be hashed, an octet string</li>
-            </ul>
-            <t>
-                Output:
-            </t>
-            <ul empty="true" spacing="normal">
-              <li>H - hashed value, a point in G </li>
-            </ul>
             <t>
                 Fixed option  (specified in <xref target="ecvrfSuites" format="default"/>):
             </t>
@@ -820,7 +847,7 @@
                 <t>While H is "INVALID" or H is the identity element of the elliptic curve group:
                 </t>
                 <ol spacing="normal" type="a"><li>ctr_string = int_to_string(ctr, 1)</li>
-                  <li>hash_string = Hash(suite_string || encode_to_curve_domain_separator_front || PK_string || alpha_string || ctr_string || encode_to_curve_domain_separator_back)</li>
+                  <li>hash_string = Hash(suite_string || encode_to_curve_domain_separator_front || encode_to_curve_salt || alpha_string || ctr_string || encode_to_curve_domain_separator_back)</li>
                   <li>H = interpret_hash_value_as_a_point(hash_string)</li>
                   <li>If H is not "INVALID" and cofactor &gt; 1, set H = cofactor * H</li>
                   <li>ctr = ctr + 1</li>
@@ -836,7 +863,7 @@
           </section>
           <section anchor="h2csuite" numbered="true" toc="default">
             <name>ECVRF_encode_to_curve_h2c_suite</name>
-            <t>The ECVRF_encode_to_curve_h2c_suite(PK_string, alpha_string) algorithm
+            <t>The ECVRF_encode_to_curve_h2c_suite(encode_to_curve_salt, alpha_string) algorithm
                 implements ECVRF_encode_to_curve using one of the several
                 hash-to-curve options defined in
                 <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/>.
@@ -845,22 +872,8 @@
                 is given by the h2c_suite_ID_string parameter.
             </t>
             <t>
-                ECVRF_encode_to_curve_h2c_suite(PK_string, alpha_string)
+                ECVRF_encode_to_curve_h2c_suite(encode_to_curve_salt, alpha_string)
             </t>
-            <t>
-                Input:
-            </t>
-            <ul empty="true" spacing="normal">
-                <li>PK_string - public key, an octet string</li>
-              <li>alpha_string - value to be hashed, an octet string</li>
-            </ul>
-            <t>
-                Output:
-            </t>
-            <ul empty="true" spacing="normal">
-              <li>H - hashed value, a point in G
-                    </li>
-            </ul>
             <t>
                 Fixed option (specified in <xref target="ecvrfSuites" format="default"/>):
             </t>
@@ -868,10 +881,10 @@
               <li>h2c_suite_ID_string - a hash-to-curve suite ID, encoded in ASCII (see discussion below)</li>
             </ul>
             <t>
-                Steps
+                Steps:
             </t>
             <ol spacing="normal" type="1">
-              <li>string_to_be_hashed = PK_string || alpha_string</li>
+              <li>string_to_be_hashed = encode_to_curve_salt || alpha_string</li>
               <li>
                 <t>H = encode(string_to_be_hashed)
                 </t>
@@ -898,7 +911,7 @@
           <t>The following algorithms generate the
         nonce value k in a deterministic pseudorandom fashion.
             This section specifies a number of such algorithms, which are not compatible with each other.
-            The choice of a particular algorithm from the options specified in this section is made in Section 5.5.</t>
+            The choice of a particular algorithm from the options specified in this section depends on the ciphersuite, as specified in <xref target="ecvrfSuites" format="default"/>.</t>
           <section anchor="nonceP256" numbered="true" toc="default">
             <name>ECVRF Nonce Generation from RFC 6979</name>
             <t>
@@ -965,13 +978,13 @@
         <section anchor="ecvrfChallengeGeneration" numbered="true" toc="default">
           <name>ECVRF Challenge Generation</name>
           <t>
-                ECVRF_challenge_generation(P1, P2, P3, P4)
+                ECVRF_challenge_generation(P1, P2, P3, P4, P5)
           </t>
           <t>
                 Input:
           </t>
           <ul empty="true" spacing="normal">
-            <li>P1, P2, P3, P4 - EC points</li>
+            <li>P1, P2, P3, P4, P5 - EC points</li>
           </ul>
           <t>
                 Output:
@@ -985,7 +998,7 @@
           <ol spacing="normal" type="1"><li>challenge_generation_domain_separator_front = 0x02</li>
             <li>Initialize str = suite_string || challenge_generation_domain_separator_front </li>
             <li>
-              <t>for PJ in [P1, P2, P3, P4]:
+              <t>for PJ in [P1, P2, P3, P4, P5]:
               </t>
               <t>str = str || point_to_string(PJ)
               </t>
@@ -1125,6 +1138,7 @@
             correspond to n, G, d, and Q in Section 3.2.1 of <xref target="SECG1" format="default"/>).
             In this ciphersuite, the secret scalar x is equal to the private key SK.
           </li>
+          <li> encode_to_curve_salt = PK_string</li>
           <li> The ECVRF_nonce_generation function is as specified in <xref target="nonceP256" format="default"/>.</li>
           <li>The int_to_string function is the I2OSP function specified in Section 
         4.1 of <xref target="RFC8017" format="default"/>. (This is big-endian representation.)</li>
@@ -1177,6 +1191,7 @@
           </li>
           <li> The private key and generation of the secret scalar and the public 
         key are specified in Section 5.1.5 of <xref target="RFC8032" format="default"/>.</li>
+          <li> encode_to_curve_salt = PK_string</li>
           <li> The ECVRF_nonce_generation function is as specified in <xref target="nonce25519" format="default"/>.</li>
           <li>The int_to_string function as specified in the first paragraph of
         Section 5.1.2 of <xref target="RFC8032" format="default"/>. (This is little-endian representation.)</li>
@@ -1448,18 +1463,6 @@
         ECVRF_encode_to_curve. The curve point H becomes the representative
         of alpha thereafter.</t>
       </section>
-
-        <section anchor="challengeGen" numbered="true" toc="default">
-            <name>Challenge Generation</name>
-            <t>Note that the suite_string octet and the public key
-            are hashed together with alpha in ECVRF_encode_to_curve, which ensures
-            that the curve, including the generator B, and the public
-            key are included indirectly into subsequent hashes
-            (in particular, the hash that generates the challenge value c) via the point H.
-            Including the curve and the public key into the hash that generates the challenge is necessary for the
-            security of the VRF, as explained in <xref target="PWHVNRG17" format="default"/>.
-            </t>
-        </section>
         
       <section anchor="domainsep" numbered="true" toc="default">
         <name>Hash function domain separation</name>
@@ -1493,11 +1496,11 @@
         <section anchor="salt" numbered="true" toc="default">
           <name>Hash function salting</name>
         <t>
-        The analysis of <xref target="GNPRVZ15" format="default"/> and <xref target="PWHVNRG17" format="default"/> studies an adversary who attacks only a single public key. In order to prevent the adversary from attacking multiple public keys more efficiently, the MGF1 function for the RSA-FDH-VRF and ECVRF_encode_to_curve function for the ECVRF are given the public key as part of the input (as a so-called "salt"), effectively ensuring that the hash function applied to alpha is different for each public key. In ECVRF, since all the other hashing depends on H output by ECVRF_encode_to_curve, this salt makes all the remaining hashing different for each public key as long as ECVRF_encode_to_curve is collision resistant.
+        In case a hash collision is found, in order to make it more difficult for the adversary to exploit such a collision, the MGF1 function for the RSA-FDH-VRF and ECVRF_encode_to_curve function for the ECVRF use a public value in addition to alpha (as a so-called salt). This value is determined by the ciphersuite. For the ciphersuites defined in this document, it is set equal to the string representation of the RSA modulus and EC public key, respectively. Implementations that do not use one of the ciphersuites (see <xref target="futureproofing" format="default" />) MAY use a different salt. For example, if a group of public keys to share the same salt, then the hash of the VRF input alpha will be the same for the entire group of public keys, which may aid in some protocol that uses the VRF.
         </t>
     </section>
         
-        <section numbered="true" toc="default">
+        <section anchor="futureproofing" numbered="true" toc="default">
         <name>Futureproofing</name>
         <t>if future designs need to specify variants (e.g., additional ciphersuites) of the RSA-FDH-VRF or the ECVRF in this document,
             then, to avoid the possibility
