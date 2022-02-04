@@ -386,7 +386,7 @@
       <ul empty="true" spacing="normal">
         <li>Hash - cryptographic hash function</li>
         <li>hLen - output length in octets of hash function Hash</li>
-        <li>suite_string - a single octet specifying the RSA-FDH-VRF
+        <li>suite_string - an octet string specifying the RSA-FDH-VRF
                 ciphersuite, which determines the above options</li>
       </ul>
       <t>
@@ -601,7 +601,7 @@
         <li>ECVRF_encode_to_curve - a function that hashes strings to points on E.</li>
         <li>ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.</li>
-        <li>suite_string - a single octet specifying the ECVRF
+        <li>suite_string - an octet string specifying the ECVRF
                 ciphersuite, which determines the above options as well as type conversions and parameter generation </li>
       </ul>
       <t>
@@ -1123,7 +1123,7 @@
         </t>
         <ul spacing="normal">
           <li>
-        suite_string = 0x01</li>
+        suite_string = 0x01.</li>
           <li>
             The EC group G is the NIST P-256 elliptic curve, with curve parameters
             as specified in <xref target="FIPS-186-4" format="default"/> (Section D.1.2.3)
@@ -1170,7 +1170,7 @@
         <t>This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:
         </t>
         <ul spacing="normal">
-          <li> suite_string = 0x02</li>
+          <li> suite_string = 0x02.</li>
           <li>the ECVRF_encode_to_curve function is as specified in <xref target="h2csuite" format="default"/>
                         with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_
                         (the suite is defined in <xref target="I-D.irtf-cfrg-hash-to-curve" format="default"/> Section 8.2)</li>
@@ -1224,7 +1224,7 @@
         </t>
         <ul spacing="normal">
           <li>
-            suite_string = 0x04;
+            suite_string = 0x04.
         </li>
           <li>the ECVRF_encode_to_curve function is as specified in <xref target="h2csuite" format="default"/> with
             h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_
@@ -1506,7 +1506,7 @@
             then, to avoid the possibility
             that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
             another variant,
-           they should specify a different suite_string constant. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
+           they should specify a different suite_string constant. The suite_string constants in this document are all single octets; if a future suite_string constant is longer than one octet, then it should start with a different octet than the suite_string constants in this document. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
         For the ECVRF, the inputs
         ECVRF_encode_to_curve hash function used in producing H are then guaranteed to be different from other
         ciphersuites; since all the other hashing done by the prover

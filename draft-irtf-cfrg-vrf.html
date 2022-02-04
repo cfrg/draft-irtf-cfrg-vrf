@@ -1198,11 +1198,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">VRF</td>
-<td class="right">January 2022</td>
+<td class="right">February 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goldberg, et al.</td>
-<td class="center">Expires 2 August 2022</td>
+<td class="center">Expires 8 August 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1215,12 +1215,12 @@ li > p:last-of-type {
 <dd class="internet-draft">draft-irtf-cfrg-vrf-10</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-01-29" class="published">29 January 2022</time>
+<time datetime="2022-02-04" class="published">4 February 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-08-02">2 August 2022</time></dd>
+<dd class="expires"><time datetime="2022-08-08">8 August 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1273,7 +1273,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 2 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1781,7 +1781,7 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-4-8.2">hLen - output length in octets of hash function Hash<a href="#section-4-8.2" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-4-8.3">suite_string - a single octet specifying the RSA-FDH-VRF
+        <li class="normal ulEmpty" id="section-4-8.3">suite_string - an octet string specifying the RSA-FDH-VRF
                 ciphersuite, which determines the above options<a href="#section-4-8.3" class="pilcrow">¶</a>
 </li>
       </ul>
@@ -2040,7 +2040,7 @@ li > p:last-of-type {
         <li class="normal ulEmpty" id="section-5-5.14">ECVRF_nonce_generation - a function that derives a pseudorandom nonce
                     from SK and the input as part of ECVRF proving.<a href="#section-5-5.14" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-5-5.15">suite_string - a single octet specifying the ECVRF
+        <li class="normal ulEmpty" id="section-5-5.15">suite_string - an octet string specifying the ECVRF
                 ciphersuite, which determines the above options as well as type conversions and parameter generation<a href="#section-5-5.15" class="pilcrow">¶</a>
 </li>
       </ul>
@@ -2654,7 +2654,7 @@ li > p:last-of-type {
 <p id="section-5.5-1">This document defines ECVRF-P256-SHA256-TAI as follows:<a href="#section-5.5-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.5-2.1">
-        suite_string = 0x01<a href="#section-5.5-2.1" class="pilcrow">¶</a>
+        suite_string = 0x01.<a href="#section-5.5-2.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.2">
             The EC group G is the NIST P-256 elliptic curve, with curve parameters
@@ -2705,7 +2705,7 @@ li > p:last-of-type {
         </ul>
 <p id="section-5.5-3">This document defines ECVRF-P256-SHA256-SSWU as identical to ECVRF-P256-SHA256-TAI, except that:<a href="#section-5.5-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-5.5-4.1"> suite_string = 0x02<a href="#section-5.5-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-5.5-4.1"> suite_string = 0x02.<a href="#section-5.5-4.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-4.2">the ECVRF_encode_to_curve function is as specified in <a href="#h2csuite" class="xref">Section 5.4.1.2</a>
                         with h2c_suite_ID_string = P256_XMD:SHA-256_SSWU_NU_
@@ -2764,7 +2764,7 @@ li > p:last-of-type {
 <p id="section-5.5-7">This document defines ECVRF-EDWARDS25519-SHA512-ELL2 as identical to ECVRF-EDWARDS25519-SHA512-TAI, except:<a href="#section-5.5-7" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-5.5-8.1">
-            suite_string = 0x04;<a href="#section-5.5-8.1" class="pilcrow">¶</a>
+            suite_string = 0x04.<a href="#section-5.5-8.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-8.2">the ECVRF_encode_to_curve function is as specified in <a href="#h2csuite" class="xref">Section 5.4.1.2</a> with
             h2c_suite_ID_string = edwards25519_XMD:SHA-512_ELL2_NU_
@@ -3054,7 +3054,7 @@ li > p:last-of-type {
             then, to avoid the possibility
             that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
             another variant,
-           they should specify a different suite_string constant. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
+           they should specify a different suite_string constant. The suite_string constants in this document are all single octets; if a future suite_string constant is longer than one octet, then it should start with a different octet than the suite_string constants in this document. Then, for the RSA-FDH-VRF, the inputs to the hash function used in MGF1 and proof_to_hash will be different from other ciphersuites.
         For the ECVRF, the inputs
         ECVRF_encode_to_curve hash function used in producing H are then guaranteed to be different from other
         ciphersuites; since all the other hashing done by the prover
