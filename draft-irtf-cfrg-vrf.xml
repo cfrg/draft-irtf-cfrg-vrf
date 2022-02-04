@@ -13,11 +13,11 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-irtf-cfrg-vrf-10" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-irtf-cfrg-vrf-11" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.11.1 -->
   <front>
     <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
-    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-10"/>
+    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-11"/>
     <author fullname="Sharon Goldberg" initials="S." surname="Goldberg">
       <organization>Boston University</organization>
       <address>
@@ -1572,19 +1572,20 @@
         <li> 08 - Incorporated suggestions from crypto panel review by Chloe Martindale. Changed Reyzin's affiliation. Updated references.</li>
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
-        <li> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.</li>
+        <li> 11 - Processed last call comments. Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
       <name>Contributors</name>
       <t>
             This document also would not be possible without the work of
-            Moni Naor (Weizmann Institute),
-            Sachin Vasant (Cisco Systems), and
-            Asaf Ziv (Facebook). Chloe Martindale provided a thorough cryptographer's review.
-            Shumon Huque, David C. Lawerence, Trevor Perrin, Annie Yousar, Stanislav Smyshlyaev, Liliya Akhmetzyanova,
-            Tony Arcieri, Sergey Gorbunov, Sam Scott, Nick Sullivan, Christopher Wood, Marek Jankowski, Derek Ting-Haye Leung, Adam Suhl, Gary Belvin, Piotr Nojszewski, Gorka Irazoqui Apecechea, Mario Cao Cueto, Burt Kaliski, Chris Peikert, Jiayu Xu, Antonio Marcedone, and Brian Chen provided
-            valuable input to this draft. Riad Wahby was very helpful with the integration of the hash-to-curve draft.
+            Moni Naor,
+            Sachin Vasant, and
+            Asaf Ziv. Chloe Martindale provided a thorough cryptographer's review.
+            Liliya Akhmetzyanova, Tony Arcieri, Gary Belvin, Mario Cao Cueto, Brian Chen, Sergey Gorbunov, Shumon Huque, Gorka Irazoqui Apecechea, Marek Jankowski,
+            Burt Kaliski, David C. Lawerence, Derek Ting-Haye Leung, Antonio Marcedone, Piotr Nojszewski, Chris Peikert, Trevor Perrin, Sam Scott,
+            Stanislav Smyshlyaev, Adam Suhl, Nick Sullivan, Christopher Wood,  Jiayu Xu, and Annie Yousar provided
+            valuable input to this draft. Riad Wahby helped this document align with draft-irtf-cfrg-hash-to-curve.
       </t>
     </section>
   </middle>

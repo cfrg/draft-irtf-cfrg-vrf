@@ -24,7 +24,7 @@
 <meta content="public key cryptography" name="keyword">
 <meta content="hashing" name="keyword">
 <meta content="authenticated denial" name="keyword">
-<meta content="draft-irtf-cfrg-vrf-10" name="ietf.draft">
+<meta content="draft-irtf-cfrg-vrf-11" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.11.1
     Python 3.9.2
@@ -1212,7 +1212,7 @@ li > p:last-of-type {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">CFRG</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-irtf-cfrg-vrf-10</dd>
+<dd class="internet-draft">draft-irtf-cfrg-vrf-11</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
 <time datetime="2022-02-04" class="published">4 February 2022</time>
@@ -3111,7 +3111,7 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-8-2.11"> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references.<a href="#section-8-2.11" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.<a href="#section-8-2.12" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-8-2.12"> 11 - Processed last call comments. Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.<a href="#section-8-2.12" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
@@ -3121,12 +3121,13 @@ li > p:last-of-type {
       </h2>
 <p id="section-9-1">
             This document also would not be possible without the work of
-            Moni Naor (Weizmann Institute),
-            Sachin Vasant (Cisco Systems), and
-            Asaf Ziv (Facebook). Chloe Martindale provided a thorough cryptographer's review.
-            Shumon Huque, David C. Lawerence, Trevor Perrin, Annie Yousar, Stanislav Smyshlyaev, Liliya Akhmetzyanova,
-            Tony Arcieri, Sergey Gorbunov, Sam Scott, Nick Sullivan, Christopher Wood, Marek Jankowski, Derek Ting-Haye Leung, Adam Suhl, Gary Belvin, Piotr Nojszewski, Gorka Irazoqui Apecechea, Mario Cao Cueto, Burt Kaliski, Chris Peikert, Jiayu Xu, Antonio Marcedone, and Brian Chen provided
-            valuable input to this draft. Riad Wahby was very helpful with the integration of the hash-to-curve draft.<a href="#section-9-1" class="pilcrow">¶</a></p>
+            Moni Naor,
+            Sachin Vasant, and
+            Asaf Ziv. Chloe Martindale provided a thorough cryptographer's review.
+            Liliya Akhmetzyanova, Tony Arcieri, Gary Belvin, Mario Cao Cueto, Brian Chen, Sergey Gorbunov, Shumon Huque, Gorka Irazoqui Apecechea, Marek Jankowski,
+            Burt Kaliski, David C. Lawerence, Derek Ting-Haye Leung, Antonio Marcedone, Piotr Nojszewski, Chris Peikert, Trevor Perrin, Sam Scott,
+            Stanislav Smyshlyaev, Adam Suhl, Nick Sullivan, Christopher Wood,  Jiayu Xu, and Annie Yousar provided
+            valuable input to this draft. Riad Wahby helped this document align with draft-irtf-cfrg-hash-to-curve.<a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
 <section id="section-10">
       <h2 id="name-references">
