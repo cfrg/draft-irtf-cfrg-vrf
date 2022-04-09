@@ -1887,8 +1887,9 @@
     
     <section numbered="true" toc="default">
         <name>ECVRF-EDWARDS25519-SHA512-TAI</name>
+
         <t>The example secret keys and messages in Examples 7, 8, and 9 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
-        
+
         <t>Example 7:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60</li>
@@ -1896,14 +1897,15 @@
             <li>alpha =  (the empty string)</li>
             <li>x = 307c83864f2833cb427a2ef1c00a013cfdff2768d980c0a3a520f006904de94f</li>
             <li>try_and_increment succeeded on ctr = 0</li>
-            <li> H = 91bbed02a99461df1ad4c6564a5f5d829d0b90cfc7903e7a5797bd658abf3318</li>
-            <li>k = 7100f3d9eadb6dc4743b029736ff283f5be494128df128df2817106f345b8594b6d6da2d6fb0b4c0257eb337675d96eab49cf39e66cc2c9547c2bf8b2a6afae4</li>
+            <li>H = 91bbed02a99461df1ad4c6564a5f5d829d0b90cfc7903e7a5797bd658abf3318</li>
+            <li>k_string = 7100f3d9eadb6dc4743b029736ff283f5be494128df128df2817106f345b8594b6d6da2d6fb0b4c0257eb337675d96eab49cf39e66cc2c9547c2bf8b2a6afae4</li>
+            <li>k = 8a49edbd1492a8ee09766befe50a7d563051bf3406cbffc20a88def030730f0f</li>
             <li>U = k*B = aef27c725be964c6a9bf4c45ca8e35df258c1878b838f37d9975523f09034071</li>
             <li>V = k*H = 5016572f71466c646c119443455d6cb9b952f07d060ec8286d678615d55f954f</li>
             <li>pi = 8657106690b5526245a92b003bb079ccd1a92130477671f6fc01ad16f26f723f26f8a57ccaed74ee1b190bed1f479d9727d2d0f9b005a6e456a35d4fb0daab1268a1b0db10836d9826a528ca76567805</li>
             <li>beta = 90cf1df3b703cce59e2a35b925d411164068269d7b2d29f3301c03dd757876ff66b71dda49d2de59d03450451af026798e8f81cd2e333de5cdf4f3e140fdd8ae</li>
         </ul>
-    
+
         <t>Example 8:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb</li>
@@ -1912,13 +1914,14 @@
             <li>x = 68bd9ed75882d52815a97585caf4790a7f6c6b3b7f821c5e259a24b02e502e51</li>
             <li>try_and_increment succeeded on ctr = 1</li>
             <li>H = 5b659fc3d4e9263fd9a4ed1d022d75eaacc20df5e09f9ea937502396598dc551</li>
-            <li>k = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c167cab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce</li>
+            <li>k_string = 42589bbf0c485c3c91c1621bb4bfe04aed7be76ee48f9b00793b2342acb9c167cab856f9f9d4febc311330c20b0a8afd3743d05433e8be8d32522ecdc16cc5ce</li>
+            <li>k = d8c3a66921444cb3427d5d989f9b315aa8ca3375e9ec4d52207711a1fdb44107</li>
             <li>U = k*B = 1dcb0a4821a2c48bf53548228b7f170962988f6d12f5439f31987ef41f034ab3</li>
             <li>V = k*H = fd03c0bf498c752161bae4719105a074630a2aa5f200ff7b3995f7bfb1513423</li>
             <li>pi = f3141cd382dc42909d19ec5110469e4feae18300e94f304590abdced48aed5933bf0864a62558b3ed7f2fea45c92a465301b3bbf5e3e54ddf2d935be3b67926da3ef39226bbc355bdc9850112c8f4b02</li>
             <li>beta = eb4440665d3891d668e7e0fcaf587f1b4bd7fbfe99d0eb2211ccec90496310eb5e33821bc613efb94db5e5b54c70a848a0bef4553a41befc57663b56373a5031</li>
         </ul>
-        
+
         <t>Example 9:</t>
         <ul empty="true" spacing="compact">
             <li>SK = c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7</li>
@@ -1927,7 +1930,8 @@
             <li>x = 909a8b755ed902849023a55b15c23d11ba4d7f4ec5c2f51b1325a181991ea95c</li>
             <li>try_and_increment succeeded on ctr = 0</li>
             <li>H = bf4339376f5542811de615e3313d2b36f6f53c0acfebb482159711201192576a</li>
-            <li>k = 38b868c335ccda94a088428cbf3ec8bc7955bfaffe1f3bd2aa2c59fc31a0febc59d0e1af3715773ce11b3bbdd7aba8e3505d4b9de6f7e4a96e67e0d6bb6d6c3a</li>
+            <li>k_string = 38b868c335ccda94a088428cbf3ec8bc7955bfaffe1f3bd2aa2c59fc31a0febc59d0e1af3715773ce11b3bbdd7aba8e3505d4b9de6f7e4a96e67e0d6bb6d6c3a</li>
+            <li>k = 5ffdbc72135d936014e8ab708585fda379405542b07e3bd2c0bd48437fbac60a</li>
             <li>U = k*B = 2bae73e15a64042fcebf062abe7e432b2eca6744f3e8265bc38e009cd577ecd5</li>
             <li>V = k*H = 88cba1cb0d4f9b649d9a86026b69de076724a93a65c349c988954f0961c5d506</li>
             <li>pi = 9bc0f79119cc5604bf02d23b4caede71393cedfbb191434dd016d30177ccbf8096bb474e53895c362d8628ee9f9ea3c0e52c7a5c691b6c18c9979866568add7a2d41b00b05081ed0f58ee5e31b3a970e</li>
@@ -1937,8 +1941,9 @@
 
       <section numbered="true" toc="default">
         <name>ECVRF-EDWARDS25519-SHA512-ELL2</name>
+
         <t>The example secret keys and messages in Examples 10, 11, and 12 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
-        
+
         <t>Example 10:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60</li>
@@ -1950,13 +1955,14 @@
             <li>In Elligator2: gx1 = 8cb66318fb2cea01672d6c27a5ab662ae33220961607f69276080a56477b4a08</li>
             <li>In Elligator2: gx1 is a square</li>
             <li>H = b8066ebbb706c72b64390324e4a3276f129569eab100c26b9f05011200c1bad9</li>
-            <li>k = b5682049fee54fe2d519c9afff73bbfad724e69a82d5051496a42458f817bed7a386f96b1a78e5736756192aeb1818a20efb336a205ffede351cfe88dab8d41c</li>
+            <li>k_string = b5682049fee54fe2d519c9afff73bbfad724e69a82d5051496a42458f817bed7a386f96b1a78e5736756192aeb1818a20efb336a205ffede351cfe88dab8d41c</li>
+            <li>k = 55cbb247af9b8372259a97b2cfec656d78868deb33b203d51b9961c364522400</li>
             <li>U = k*B = 762f5c178b68f0cddcc1157918edf45ec334ac8e8286601a3256c3bbf858edd9</li>
             <li>V = k*H = 4652eba1c4612e6fce762977a59420b451e12964adbe4fbecd58a7aeff5860af</li>
             <li>pi = 7d9c633ffeee27349264cf5c667579fc583b4bda63ab71d001f89c10003ab46f14adf9a3cd8b8412d9038531e865c341cafa73589b023d14311c331a9ad15ff2fb37831e00f0acaa6d73bc9997b06501</li>
             <li>beta = 9d574bf9b8302ec0fc1e21c3ec5368269527b87b462ce36dab2d14ccf80c53cccf6758f058c5b1c856b116388152bbe509ee3b9ecfe63d93c3b4346c1fbc6c54</li>
         </ul>
-        
+
         <t>Example 11:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb</li>
@@ -1968,13 +1974,14 @@
             <li>In Elligator2: gx1 = 25d7fe7f82456e7078e99fdb24ef2582b4608357cdba9c39a8d535a3fd98464d</li>
             <li>In Elligator2: gx1 is a nonsquare</li>
             <li>H = 76ac3ccb86158a9104dff819b1ca293426d305fd76b39b13c9356d9b58c08e57</li>
-            <li>k = 88bf479281fd29a6cbdffd67e2c5ec0024d92f14eaed58f43f22f37c4c37f1d41e65c036fbf01f9fba11d554c07494d0c02e7e5c9d64be88ef78cab7544e444d</li>
+            <li>k_string = 88bf479281fd29a6cbdffd67e2c5ec0024d92f14eaed58f43f22f37c4c37f1d41e65c036fbf01f9fba11d554c07494d0c02e7e5c9d64be88ef78cab7544e444d</li>
+            <li>k = 9565956daeedf376cad61b829b2a4d21ba1b52e9b3e2457477a64630a9711003</li>
             <li>U = k*B = 8ec26e77b8cb3114dd2265fe1564a4efb40d109aa3312536d93dfe3d8d80a061</li>
             <li>V = k*H = fe799eb5770b4e3a5a27d22518bb631db183c8316bb552155f442c62a47d1c8b</li>
             <li>pi = 47b327393ff2dd81336f8a2ef10339112401253b3c714eeda879f12c509072ef055b48372bb82efbdce8e10c8cb9a2f9d60e93908f93df1623ad78a86a028d6bc064dbfc75a6a57379ef855dc6733801</li>
             <li>beta = 38561d6b77b71d30eb97a062168ae12b667ce5c28caccdf76bc88e093e4635987cd96814ce55b4689b3dd2947f80e59aac7b7675f8083865b46c89b2ce9cc735</li>
         </ul>
-      
+
         <t>Example 12:</t>
         <ul empty="true" spacing="compact">
             <li>SK = c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7</li>
@@ -1986,7 +1993,8 @@
             <li>In Elligator2: gx1 = a63d48e3247c903e22fdfb88fd9295e396712a5fe576af335dbe16f99f0af26c</li>
             <li>In Elligator2: gx1 is a square</li>
             <li>H = 13d2a8b5ca32db7e98094a61f656a08c6c964344e058879a386a947a4e189ed1</li>
-            <li>k = a7ddd74a3a7d165d511b02fa268710ddbb3b939282d276fa2efcfa5aaf79cf576087299ca9234aacd7cd674d912deba00f4e291733ef189a51e36c861b3d683b</li>
+            <li>k_string = a7ddd74a3a7d165d511b02fa268710ddbb3b939282d276fa2efcfa5aaf79cf576087299ca9234aacd7cd674d912deba00f4e291733ef189a51e36c861b3d683b</li>
+            <li>k = 1fda4077f737098b3f361c33a36cccafd7e9e9b720e1f84011254e25f37eed02</li>
             <li>U = k*B = a012f35433df219a88ab0f9481f4e0065d00422c3285f3d34a8b0202f20bac60</li>
             <li>V = k*H = fb613986d171b3e98319c7ca4dc44c5dd8314a6e5616c1a4f16ce72bd7a0c25a</li>
             <li>pi = 926e895d308f5e328e7aa159c06eddbe56d06846abf5d98c2512235eaa57fdce35b46edfc655bc828d44ad09d1150f31374e7ef73027e14760d42e77341fe05467bb286cc2c9d7fde29120a0b2320d04</li>
