@@ -13,11 +13,11 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-irtf-cfrg-vrf-11" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-irtf-cfrg-vrf-12" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.11.1 -->
   <front>
     <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
-    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-11"/>
+    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-12"/>
     <author fullname="Sharon Goldberg" initials="S." surname="Goldberg">
       <organization>Boston University</organization>
       <address>
@@ -1573,6 +1573,7 @@
         <li> 09 - Added a note to remove the implementation page before publication.</li>
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
         <li> 11 - Processed last call comments. Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.</li>
+        <li> 12 - Added k_string to edwards25519 test vectors</li>
       </ul>
     </section>
     <section numbered="true" toc="default">

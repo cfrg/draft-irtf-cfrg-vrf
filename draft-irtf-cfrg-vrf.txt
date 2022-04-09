@@ -14,7 +14,7 @@ Expires: 11 October 2022                  Boston University and Algorand
 
 
                    Verifiable Random Functions (VRFs)
-                         draft-irtf-cfrg-vrf-11
+                         draft-irtf-cfrg-vrf-12
 
 Abstract
 
@@ -1878,6 +1878,8 @@ Internet-Draft                     VRF                        April 2022
       the public key as input to ECVRF_challenge_generation, and added
       an explanation about the salt.
 
+      12 - Added k_string to edwards25519 test vectors
+
 9.  Contributors
 
    This document also would not be possible without the work of Moni
@@ -1894,8 +1896,6 @@ Internet-Draft                     VRF                        April 2022
 10.  References
 
 10.1.  Normative References
-
-
 
 
 
