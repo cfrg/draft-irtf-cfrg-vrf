@@ -13,7 +13,7 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="std" docName="draft-irtf-cfrg-vrf-12" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-irtf-cfrg-vrf-12" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.11.1 -->
   <front>
     <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
@@ -82,11 +82,17 @@
         This document specifies several VRF constructions based on RSA and Elliptic Curves that are secure in
         the cryptographic random oracle model.
       </t>
+      <t>
+          This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF.
+      </t>
     </abstract>
   </front>
   <middle>
     <section anchor="intro" numbered="true" toc="default">
       <name>Introduction</name>
+      <t>
+          This document represents the consensus of the Crypto Forum Research Group (CFRG).
+      </t>
       <section numbered="true" toc="default">
         <name>Rationale</name>
         <t>
