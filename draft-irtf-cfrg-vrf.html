@@ -27,7 +27,7 @@
 <meta content="public key cryptography" name="keyword">
 <meta content="hashing" name="keyword">
 <meta content="authenticated denial" name="keyword">
-<meta content="draft-irtf-cfrg-vrf-12" name="ietf.draft">
+<meta content="draft-irtf-cfrg-vrf-13" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.11.1
     Python 3.9.2
@@ -1201,11 +1201,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">VRF</td>
-<td class="right">May 2022</td>
+<td class="right">June 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goldberg, et al.</td>
-<td class="center">Expires 19 November 2022</td>
+<td class="center">Expires 17 December 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1215,15 +1215,15 @@ li > p:last-of-type {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">CFRG</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-irtf-cfrg-vrf-12</dd>
+<dd class="internet-draft">draft-irtf-cfrg-vrf-13</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-05-18" class="published">18 May 2022</time>
+<time datetime="2022-06-15" class="published">15 June 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-11-19">19 November 2022</time></dd>
+<dd class="expires"><time datetime="2022-12-17">17 December 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1278,7 +1278,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 November 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 17 December 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1308,16 +1308,13 @@ li > p:last-of-type {
         </h2>
 <nav class="toc"><ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1">
-            <p id="section-toc.1-1.1.1"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.1">
-                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-rationale" class="xref">Rationale</a></p>
+                <p id="section-toc.1-1.1.2.1.1" class="keepWithNext"><a href="#section-1.1" class="xref">1.1</a>.  <a href="#name-requirements" class="xref">Requirements</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.2">
-                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-requirements" class="xref">Requirements</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.1.2.3">
-                <p id="section-toc.1-1.1.2.3.1" class="keepWithNext"><a href="#section-1.3" class="xref">1.3</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
+                <p id="section-toc.1-1.1.2.2.1" class="keepWithNext"><a href="#section-1.2" class="xref">1.2</a>.  <a href="#name-terminology" class="xref">Terminology</a></p>
 </li>
             </ul>
 </li>
@@ -1488,18 +1485,12 @@ li > p:last-of-type {
 <a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
       </h2>
 <p id="section-1-1">
-          This document represents the consensus of the Crypto Forum Research Group (CFRG).<a href="#section-1-1" class="pilcrow">¶</a></p>
-<section id="section-1.1">
-        <h3 id="name-rationale">
-<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-rationale" class="section-name selfRef">Rationale</a>
-        </h3>
-<p id="section-1.1-1">
    A Verifiable Random Function
    (VRF) <span>[<a href="#MRV99" class="xref">MRV99</a>]</span> is the public-key version of a
    keyed cryptographic hash. Only the holder of the private VRF key
    can compute the hash, but anyone with the corresponding public key
-   can verify the correctness of the hash.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
-<p id="section-1.1-2">
+   can verify the correctness of the hash.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">
    A key application of the VRF is to provide privacy against 
    offline dictionary attacks (also known as enumeration attacks) on data stored in a
    hash-based data structure. 
@@ -1510,58 +1501,60 @@ li > p:last-of-type {
    about whether or not some data is stored in the data structure.  Anyone who
    knows the public VRF key can verify that the Prover has answered the queries
    correctly. However, no offline inferences (i.e. inferences without querying
-   the Prover) can be made about the data stored in the data structure.<a href="#section-1.1-2" class="pilcrow">¶</a></p>
-</section>
-<section id="section-1.2">
+   the Prover) can be made about the data stored in the data structure.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">This document defines a number of different VRFs based on RSA and elliptic curves. The particular choice of the VRF depends on the desired security properties, the availability of cryptographically strong implementations, efficiency constraints, and the trust one places in RSA and elliptic curve Diffie-Hellman assumptions (and the trust in a particular choice of curve in case of elliptic curves). Differences in the security properties provided by the different options are discussed in <a href="#secdef" class="xref">Section 3</a> and <a href="#securitycons" class="xref">Section 7</a>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">
+            This document represents the consensus of the Crypto Forum Research Group (CFRG).<a href="#section-1-4" class="pilcrow">¶</a></p>
+<section id="section-1.1">
         <h3 id="name-requirements">
-<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-requirements" class="section-name selfRef">Requirements</a>
+<a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements" class="section-name selfRef">Requirements</a>
         </h3>
-<p id="section-1.2-1">
+<p id="section-1.1-1">
                 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
                 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
                 document are to be interpreted as described in
-                <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span>.<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+                <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span>.<a href="#section-1.1-1" class="pilcrow">¶</a></p>
 </section>
-<section id="section-1.3">
+<section id="section-1.2">
         <h3 id="name-terminology">
-<a href="#section-1.3" class="section-number selfRef">1.3. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
+<a href="#section-1.2" class="section-number selfRef">1.2. </a><a href="#name-terminology" class="section-name selfRef">Terminology</a>
         </h3>
-<p id="section-1.3-1">
-                The following terminology is used through this document:<a href="#section-1.3-1" class="pilcrow">¶</a></p>
-<span class="break"></span><dl class="dlParallel" id="section-1.3-2">
-          <dt id="section-1.3-2.1">SK:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.2">
-                        The private key for the VRF.<a href="#section-1.3-2.2" class="pilcrow">¶</a>
+<p id="section-1.2-1">
+                The following terminology is used through this document:<a href="#section-1.2-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-1.2-2">
+          <dt id="section-1.2-2.1">SK:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.2">
+                        The private key for the VRF.<a href="#section-1.2-2.2" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.3">PK:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.4">
-                        The public key for the VRF.<a href="#section-1.3-2.4" class="pilcrow">¶</a>
+<dt id="section-1.2-2.3">PK:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.4">
+                        The public key for the VRF.<a href="#section-1.2-2.4" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.5">alpha or alpha_string:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.6">
-                        The input to be hashed by the VRF.<a href="#section-1.3-2.6" class="pilcrow">¶</a>
+<dt id="section-1.2-2.5">alpha or alpha_string:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.6">
+                        The input to be hashed by the VRF.<a href="#section-1.2-2.6" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.7">beta or beta_string:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.8">
-                        The VRF hash output.<a href="#section-1.3-2.8" class="pilcrow">¶</a>
+<dt id="section-1.2-2.7">beta or beta_string:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.8">
+                        The VRF hash output.<a href="#section-1.2-2.8" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.9">pi or pi_string:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.10">
-                        The VRF proof.<a href="#section-1.3-2.10" class="pilcrow">¶</a>
+<dt id="section-1.2-2.9">pi or pi_string:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.10">
+                        The VRF proof.<a href="#section-1.2-2.10" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.11">Prover:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.12">
-                        The Prover holds the private VRF key SK and public VRF key PK.<a href="#section-1.3-2.12" class="pilcrow">¶</a>
+<dt id="section-1.2-2.11">Prover:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.12">
+                        The Prover holds the private VRF key SK and public VRF key PK.<a href="#section-1.2-2.12" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
-<dt id="section-1.3-2.13">Verifier:</dt>
-          <dd style="margin-left: 1.5em" id="section-1.3-2.14">
-                        The Verifier holds the public VRF key PK.<a href="#section-1.3-2.14" class="pilcrow">¶</a>
+<dt id="section-1.2-2.13">Verifier:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.14">
+                        The Verifier holds the public VRF key PK.<a href="#section-1.2-2.14" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1732,6 +1725,7 @@ li > p:last-of-type {
     generated with bad randomness.)<a href="#section-3.3-8" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="unpred">
 <section id="section-3.4">
         <h3 id="name-some-vrfs-unpredictability-">
 <a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-some-vrfs-unpredictability-" class="section-name selfRef">Some VRFs: Unpredictability Under Malicious Key Generation</a>
@@ -1746,6 +1740,7 @@ li > p:last-of-type {
 <p id="section-3.4-3">
        A formal definition of this property appears in Section 3.2 of <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>.  The RSA-FDH-VRF presented in this document does not satisfy this property. The ECVRF presented in this document satisfies this property if validate_key parameter given to the ECVRF_verify is TRUE.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 </section>
+</div>
 </section>
 </div>
 <div id="fdh">
@@ -2615,9 +2610,9 @@ li > p:last-of-type {
           </ol>
 <p id="section-5.4.5-9">Note that if the cofactor = 1, then Step 1 simply sets Y'=Y. In particular, for the P-256 curve, ECVRF_validate_key simply ensures that Y is not the point at infinity.<a href="#section-5.4.5-9" class="pilcrow">¶</a></p>
 <p id="section-5.4.5-10">
-                Also note that if the cofactor is small, the total number
-                  of Y values that could cause Step 2 to output "INVALID" may be small, and it may be more efficient to simply
-                  check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:<a href="#section-5.4.5-10" class="pilcrow">¶</a></p>
+                Any algorithm with identical input-output behavior MAY be used in place of the above steps. For example, if the total number
+                  of Y values that could cause Step 2 to output "INVALID" is small, it may be more efficient to simply
+                  check Y against a fixed list of such values. For example, the following algorithm MAY be used for the edwards25519 curve:<a href="#section-5.4.5-10" class="pilcrow">¶</a></p>
 <ol start="1" type="1" class="normal type-1" id="section-5.4.5-11">
               <li id="section-5.4.5-11.1">PK_string = point_to_string(Y)<a href="#section-5.4.5-11.1" class="pilcrow">¶</a>
 </li>
@@ -2645,11 +2640,11 @@ li > p:last-of-type {
 </li>
             <li id="section-5.4.5-11.12">If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop<a href="#section-5.4.5-11.12" class="pilcrow">¶</a>
 </li>
-            <li id="section-5.4.5-11.13">Output Y<a href="#section-5.4.5-11.13" class="pilcrow">¶</a>
+            <li id="section-5.4.5-11.13">Output "VALID"<a href="#section-5.4.5-11.13" class="pilcrow">¶</a>
 </li>
           </ol>
 <p id="section-5.4.5-12">
-                  (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <span>[<a href="#X25519" class="xref">X25519</a>]</span> to Edwards coordinates.)<a href="#section-5.4.5-12" class="pilcrow">¶</a></p>
+                  (This algorithm works for the following reason. Note that there are 8 bad points -- namely, the points whose order is 1, 2, 4, or 8 -- on the edwards25519 curve. Their y coordinates happen to be 0 (two points of order 4), 1 (one point of order 1), bad_y2 (two points of order 8), p-bad_y2 (two points of order 8), and p-1 (one point of order 2). They can obtained by converting the points specified in <span>[<a href="#X25519" class="xref">X25519</a>]</span> to Edwards coordinates. Thus, bad_pk[0] (of order 4), bad_pk[2] (of order 8), and bad_pk[3] (of order 8) each match two bad points, depending on the sign of the x-coordinate, which was cleared in step 3, in order to make sure that it does not affect the comparison. bad_pk[1] (of order 1) and bad_pk[4] (of order 2) each match one bad point, because x-coordinate is 0 for these two points. Note that the first 5 list elements cover the 8 bad points. However, in case the y-coordinate of the public key Y had not been modular reduced by p, the list also includes bad_pk[5] and bad_pk[6], which are simply bad_pk[0] and bad_pk[1] shifted by p. There is no need to shift the other bad_pk values by p (or any bad_pk values by a larger multiple of p), because their y coordinate would exceed 2^255; and we ensure that y_string corresponds to an integer less than 2^255 in step 3.)<a href="#section-5.4.5-12" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -3122,6 +3117,8 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-8-2.13"> 12 - Added k_string to edwards25519 test vectors<a href="#section-8-2.13" class="pilcrow">¶</a>
 </li>
+        <li class="normal ulEmpty" id="section-8-2.14"> 13 - Clarified key validation for edwards25519 and adddressed IRTF Chair comments<a href="#section-8-2.14" class="pilcrow">¶</a>
+</li>
       </ul>
 </section>
 <section id="section-9">
@@ -3147,9 +3144,9 @@ li > p:last-of-type {
 <a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
-<dt id="RFC2119">[RFC2119]</dt>
+<dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8017">[RFC8017]</dt>
         <dd>
@@ -3173,7 +3170,7 @@ li > p:last-of-type {
 <dd class="break"></dd>
 <dt id="I-D.irtf-cfrg-hash-to-curve">[I-D.irtf-cfrg-hash-to-curve]</dt>
         <dd>
-<span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Scott, S.</span>, <span class="refAuthor">Sullivan, N.</span>, <span class="refAuthor">Wahby, R. S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Hashing to Elliptic Curves"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-hash-to-curve-14</span>, <time datetime="2022-02-18" class="refDate">18 February 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-14">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-14</a>&gt;</span>. </dd>
+<span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Scott, S.</span>, <span class="refAuthor">Sullivan, N.</span>, <span class="refAuthor">Wahby, R. S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Hashing to Elliptic Curves"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-irtf-cfrg-hash-to-curve-16</span>, <time datetime="2022-06-15" class="refDate">15 June 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-16">https://datatracker.ietf.org/doc/html/draft-irtf-cfrg-hash-to-curve-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="FIPS-186-4">[FIPS-186-4]</dt>
         <dd>

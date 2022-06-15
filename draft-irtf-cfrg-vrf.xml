@@ -13,11 +13,11 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-irtf-cfrg-vrf-12" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-irtf-cfrg-vrf-13" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.11.1 -->
   <front>
     <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
-    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-12"/>
+    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-13"/>
     <author fullname="Sharon Goldberg" initials="S." surname="Goldberg">
       <organization>Boston University</organization>
       <address>
@@ -90,11 +90,6 @@
   <middle>
     <section anchor="intro" numbered="true" toc="default">
       <name>Introduction</name>
-      <t>
-          This document represents the consensus of the Crypto Forum Research Group (CFRG).
-      </t>
-      <section numbered="true" toc="default">
-        <name>Rationale</name>
         <t>
    A Verifiable Random Function
    (VRF) <xref target="MRV99" format="default"/> is the public-key version of a
@@ -115,6 +110,10 @@
    correctly. However, no offline inferences (i.e. inferences without querying
    the Prover) can be made about the data stored in the data structure.
         </t>
+    <t>This document defines a number of different VRFs based on RSA and elliptic curves. The particular choice of the VRF depends on the desired security properties, the availability of cryptographically strong implementations, efficiency constraints, and the trust one places in RSA and elliptic curve Diffie-Hellman assumptions (and the trust in a particular choice of curve in case of elliptic curves). Differences in the security properties provided by the different options are discussed in <xref target="secdef" format="default"/> and <xref target="securitycons" format="default"/>.</t>
+         <t>
+            This document represents the consensus of the Crypto Forum Research Group (CFRG).
+        </t>
         <!--
    <t>
        VRFs are used for this purpose to prevent zone content enumeration in
@@ -122,15 +121,13 @@
        Denial of Existence <xref target="I-D.vcelak-nsec5"/>.
    </t>
    -->
-
-   </section>
       <section numbered="true" toc="default">
         <name>Requirements</name>
         <t>
                 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
                 "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
                 document are to be interpreted as described in
-                <xref target="RFC2119" format="default"/>.
+                <xref target="RFC8174" format="default"/>.
         </t>
       </section>
       <section numbered="true" toc="default">
@@ -337,7 +334,7 @@
     generated with bad randomness.)
         </t>
       </section>
-      <section numbered="true" toc="default">
+      <section anchor="unpred" numbered="true" toc="default">
         <name>Some VRFs: Unpredictability Under Malicious Key Generation</name>
         <t>As explained in <xref target="pseudodef" format="default"/>, pseudorandomness is guaranteed only
        if the VRF keys were generated in a trustworthy fashion.
@@ -1091,9 +1088,9 @@
                 
                 <t>Note that if the cofactor = 1, then Step 1 simply sets Y'=Y. In particular, for the P-256 curve, ECVRF_validate_key simply ensures that Y is not the point at infinity.</t>
                 <t>
-                Also note that if the cofactor is small, the total number
-                  of Y values that could cause Step 2 to output "INVALID" may be small, and it may be more efficient to simply
-                  check Y against a fixed list of such points. For example, the following algorithm can be used for the edwards25519 curve:
+                Any algorithm with identical input-output behavior MAY be used in place of the above steps. For example, if the total number
+                  of Y values that could cause Step 2 to output "INVALID" is small, it may be more efficient to simply
+                  check Y against a fixed list of such values. For example, the following algorithm MAY be used for the edwards25519 curve:
             </t>
             <ol spacing="normal" type="1">
               <li>PK_string = point_to_string(Y)</li>
@@ -1112,10 +1109,10 @@
               <li>bad_pk[5] = int_to_string(p, 32)</li>
               <li>bad_pk[6] = int_to_string(p+1, 32)</li>
               <li>If y_string is in the list [bad_pk[0],...,bad_pk[6]], output "INVALID" and stop</li>
-              <li>Output Y</li>
+              <li>Output "VALID"</li>
             </ol>
             <t>
-                  (bad_pk[0], bad_pk[2], bad_pk[3] each match two bad public keys, depending on the sign of the x-coordinate, which was cleared in step 5, in order to make sure that it does not affect the comparison. bad_pk[1] and bad_pk[4] each match one bad public key, because x-coordinate is 0 for these two public keys. bad_pk[5] and bad_pk[6] are simply bad_pk[0] and bad_pk[1] shifted by p, in case the y-coordinate had not been modular reduced by p. There is no need to shift the other bad_pk values by p, because they will exceed 2^255. These bad keys, which represent all points of order 1, 2, 4, and 8, have been obtained by converting the points specified in <xref target="X25519" format="default"/> to Edwards coordinates.)
+                  (This algorithm works for the following reason. Note that there are 8 bad points -- namely, the points whose order is 1, 2, 4, or 8 -- on the edwards25519 curve. Their y coordinates happen to be 0 (two points of order 4), 1 (one point of order 1), bad_y2 (two points of order 8), p-bad_y2 (two points of order 8), and p-1 (one point of order 2). They can obtained by converting the points specified in <xref target="X25519" format="default"/> to Edwards coordinates. Thus, bad_pk[0] (of order 4), bad_pk[2] (of order 8), and bad_pk[3] (of order 8) each match two bad points, depending on the sign of the x-coordinate, which was cleared in step 3, in order to make sure that it does not affect the comparison. bad_pk[1] (of order 1) and bad_pk[4] (of order 2) each match one bad point, because x-coordinate is 0 for these two points. Note that the first 5 list elements cover the 8 bad points. However, in case the y-coordinate of the public key Y had not been modular reduced by p, the list also includes bad_pk[5] and bad_pk[6], which are simply bad_pk[0] and bad_pk[1] shifted by p. There is no need to shift the other bad_pk values by p (or any bad_pk values by a larger multiple of p), because their y coordinate would exceed 2^255; and we ensure that y_string corresponds to an integer less than 2^255 in step 3.)
             </t>
         </section>
         <!-- Untrusted keys -->
@@ -1580,6 +1577,7 @@
         <li> 10 - Added a check in ECVRF_decode_proof to ensure that s is reduced mod q. Connected security properties (Section 3) and security considerations (Section 7) with more cross-references. </li>
         <li> 11 - Processed last call comments. Clarified various notation, including lengths of various parameters for ECVRF; added error handling to RSA-FDH-VRF; added security levels section; clarified full vs trusted uniqueness and full vs selective pseudorandomness; added RSA ciphersuites; made key validation clearer; renamed hash_to_curve to encode_to_curve to be consistent with the hash_to_curve draft; allowed a more general salt in hashing, added the public key as input to ECVRF_challenge_generation, and added an explanation about the salt.</li>
         <li> 12 - Added k_string to edwards25519 test vectors</li>
+        <li> 13 - Clarified key validation for edwards25519 and adddressed IRTF Chair comments</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
@@ -1613,7 +1611,7 @@
       <name>References</name>
       <references>
         <name>Normative References</name>
-        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.2119.xml"/>
+        <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8174.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8017.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.5114.xml"/>
         <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.6234.xml"/>
