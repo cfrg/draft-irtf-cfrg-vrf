@@ -12,11 +12,11 @@
 <meta content="
        
         A Verifiable Random Function (VRF) is the public-key version of a
-        keyed cryptographic hash. Only the holder of the private key
+        keyed cryptographic hash. Only the holder of the secret key
         can compute the hash, but anyone with the public key
         can verify the correctness of the hash.    
         VRFs are useful for preventing enumeration of hash-based data structures.
-        This document specifies several VRF constructions based on RSA and Elliptic Curves that are secure in
+        This document specifies VRF constructions based on RSA and elliptic curves that are secure in
         the cryptographic random oracle model.
        
        
@@ -27,7 +27,7 @@
 <meta content="public key cryptography" name="keyword">
 <meta content="hashing" name="keyword">
 <meta content="authenticated denial" name="keyword">
-<meta content="draft-irtf-cfrg-vrf-13" name="ietf.draft">
+<meta content="draft-irtf-cfrg-vrf-14" name="ietf.draft">
 <!-- Generator version information:
   xml2rfc 3.11.1
     Python 3.9.2
@@ -1201,11 +1201,11 @@ li > p:last-of-type {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">VRF</td>
-<td class="right">June 2022</td>
+<td class="right">July 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Goldberg, et al.</td>
-<td class="center">Expires 17 December 2022</td>
+<td class="center">Expires 29 January 2023</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1215,15 +1215,15 @@ li > p:last-of-type {
 <dt class="label-workgroup">Workgroup:</dt>
 <dd class="workgroup">CFRG</dd>
 <dt class="label-internet-draft">Internet-Draft:</dt>
-<dd class="internet-draft">draft-irtf-cfrg-vrf-13</dd>
+<dd class="internet-draft">draft-irtf-cfrg-vrf-14</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-06-15" class="published">15 June 2022</time>
+<time datetime="2022-07-28" class="published">28 July 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-12-17">17 December 2022</time></dd>
+<dd class="expires"><time datetime="2023-01-29">29 January 2023</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1250,11 +1250,11 @@ li > p:last-of-type {
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
 <p id="section-abstract-1">
         A Verifiable Random Function (VRF) is the public-key version of a
-        keyed cryptographic hash. Only the holder of the private key
+        keyed cryptographic hash. Only the holder of the secret key
         can compute the hash, but anyone with the public key
         can verify the correctness of the hash.    
         VRFs are useful for preventing enumeration of hash-based data structures.
-        This document specifies several VRF constructions based on RSA and Elliptic Curves that are secure in
+        This document specifies VRF constructions based on RSA and elliptic curves that are secure in
         the cryptographic random oracle model.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 <p id="section-abstract-2">
           This document is a product of the Crypto Forum Research Group (CFRG) in the IRTF.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
@@ -1278,7 +1278,7 @@ li > p:last-of-type {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 17 December 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 29 January 2023.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1325,16 +1325,19 @@ li > p:last-of-type {
             <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-vrf-security-properties" class="xref">VRF Security Properties</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-full-uniqueness-or-trusted-" class="xref">Full Uniqueness or Trusted Uniqueness</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-full-uniqueness" class="xref">Full Uniqueness</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-full-collison-resistance-or" class="xref">Full Collison Resistance or Trusted Collision Resistance</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-full-collison-resistance" class="xref">Full Collison Resistance</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-full-pseudorandomness-or-se" class="xref">Full Pseudorandomness or Selective Pseudorandomness</a></p>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-trusted-uniqueness-and-trus" class="xref">Trusted Uniqueness and Trusted Collision Resistance</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-some-vrfs-unpredictability-" class="xref">Some VRFs: Unpredictability Under Malicious Key Generation</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="xref">3.4</a>.  <a href="#name-full-pseudorandomness-or-se" class="xref">Full Pseudorandomness or Selective Pseudorandomness</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="xref">3.5</a>.  <a href="#name-unpredictability-under-mali" class="xref">Unpredictability Under Malicious Key Generation</a></p>
 </li>
             </ul>
 </li>
@@ -1402,10 +1405,13 @@ li > p:last-of-type {
                 <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="xref">7.1</a>.  <a href="#name-key-generation" class="xref">Key Generation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.1">
-                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="xref">7.1.1</a>.  <a href="#name-uniqueness-and-collision-re" class="xref">Uniqueness and collision resistance with untrusted keys</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.1.1"><a href="#section-7.1.1" class="xref">7.1.1</a>.  <a href="#name-uniqueness-and-collision-re" class="xref">Uniqueness and collision resistance under malicious key generation</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.2">
-                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="xref">7.1.2</a>.  <a href="#name-pseudorandomness-with-untru" class="xref">Pseudorandomness with untrusted keys</a></p>
+                    <p id="section-toc.1-1.7.2.1.2.2.1"><a href="#section-7.1.2" class="xref">7.1.2</a>.  <a href="#name-pseudorandomness-under-mali" class="xref">Pseudorandomness under malicious key generation</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1.2.3">
+                    <p id="section-toc.1-1.7.2.1.2.3.1"><a href="#section-7.1.3" class="xref">7.1.3</a>.  <a href="#name-unpredictability-under-malic" class="xref">Unpredictability under malicious key generation</a></p>
 </li>
                 </ul>
 </li>
@@ -1487,24 +1493,28 @@ li > p:last-of-type {
 <p id="section-1-1">
    A Verifiable Random Function
    (VRF) <span>[<a href="#MRV99" class="xref">MRV99</a>]</span> is the public-key version of a
-   keyed cryptographic hash. Only the holder of the private VRF key
+   keyed cryptographic hash. Only the holder of the VRF secret key
    can compute the hash, but anyone with the corresponding public key
    can verify the correctness of the hash.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">
    A key application of the VRF is to provide privacy against 
    offline dictionary attacks (also known as enumeration attacks) on data stored in a
    hash-based data structure. 
-   In this application, a Prover holds the VRF private key and uses the VRF hashing to
-   construct a hash-based data structure on the input data.
-
+   In this application, a Prover holds the VRF secret key and uses the VRF hashing to
+   construct a hash-based data structure on the input data.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">
    Due to the nature of the VRF, only the Prover can answer queries
    about whether or not some data is stored in the data structure.  Anyone who
-   knows the public VRF key can verify that the Prover has answered the queries
+   knows the VRF public key can verify that the Prover has answered the queries
    correctly. However, no offline inferences (i.e. inferences without querying
-   the Prover) can be made about the data stored in the data structure.<a href="#section-1-2" class="pilcrow">¶</a></p>
-<p id="section-1-3">This document defines a number of different VRFs based on RSA and elliptic curves. The particular choice of the VRF depends on the desired security properties, the availability of cryptographically strong implementations, efficiency constraints, and the trust one places in RSA and elliptic curve Diffie-Hellman assumptions (and the trust in a particular choice of curve in case of elliptic curves). Differences in the security properties provided by the different options are discussed in <a href="#secdef" class="xref">Section 3</a> and <a href="#securitycons" class="xref">Section 7</a>.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">
-            This document represents the consensus of the Crypto Forum Research Group (CFRG).<a href="#section-1-4" class="pilcrow">¶</a></p>
+   the Prover) can be made about the data stored in the data structure.<a href="#section-1-3" class="pilcrow">¶</a></p>
+<p id="section-1-4">This document defines VRFs based on RSA and elliptic curves.
+        The choices of VRFs for inclusion into this document were based, in part, on synergy with existing RFCs and
+        commonly available implementations of individual components that are used within the VRFs.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-5">
+        The particular choice of the VRF for a given application depends on the desired security properties, the availability of cryptographically strong implementations, efficiency constraints, and the trust one places in RSA and elliptic curve Diffie-Hellman assumptions (and the trust in a particular choice of curve in case of elliptic curves). Differences in the security properties provided by the different options are discussed in <a href="#secdef" class="xref">Section 3</a> and <a href="#securitycons" class="xref">Section 7</a>.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">
+            This document represents the consensus of the Crypto Forum Research Group (CFRG).<a href="#section-1-6" class="pilcrow">¶</a></p>
 <section id="section-1.1">
         <h3 id="name-requirements">
 <a href="#section-1.1" class="section-number selfRef">1.1. </a><a href="#name-requirements" class="section-name selfRef">Requirements</a>
@@ -1524,7 +1534,7 @@ li > p:last-of-type {
 <span class="break"></span><dl class="dlParallel" id="section-1.2-2">
           <dt id="section-1.2-2.1">SK:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.2">
-                        The private key for the VRF.<a href="#section-1.2-2.2" class="pilcrow">¶</a>
+                        The secret key for the VRF. (Note: the secret key is also sometimes called "private key".)<a href="#section-1.2-2.2" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.3">PK:</dt>
@@ -1549,12 +1559,22 @@ li > p:last-of-type {
           <dd class="break"></dd>
 <dt id="section-1.2-2.11">Prover:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.12">
-                        The Prover holds the private VRF key SK and public VRF key PK.<a href="#section-1.2-2.12" class="pilcrow">¶</a>
+                        The Prover holds the VRF secret key SK and public key PK.<a href="#section-1.2-2.12" class="pilcrow">¶</a>
 </dd>
           <dd class="break"></dd>
 <dt id="section-1.2-2.13">Verifier:</dt>
           <dd style="margin-left: 1.5em" id="section-1.2-2.14">
-                        The Verifier holds the public VRF key PK.<a href="#section-1.2-2.14" class="pilcrow">¶</a>
+                        The Verifier holds the VRF public key PK.<a href="#section-1.2-2.14" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-2.15">Adversary:</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.16">
+                        Potential attacker; often used to define a security property.<a href="#section-1.2-2.16" class="pilcrow">¶</a>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-1.2-2.17">Malicious (or adversarial):</dt>
+          <dd style="margin-left: 1.5em" id="section-1.2-2.18">
+                        Performed by an adversary.<a href="#section-1.2-2.18" class="pilcrow">¶</a>
 </dd>
         <dd class="break"></dd>
 </dl>
@@ -1566,10 +1586,10 @@ li > p:last-of-type {
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-vrf-algorithms" class="section-name selfRef">VRF Algorithms</a>
       </h2>
 <p id="section-2-1">
-   A VRF comes with a key generation algorithm that generates a public VRF 
-   key PK and private VRF key SK.<a href="#section-2-1" class="pilcrow">¶</a></p>
+   A VRF comes with a key generation algorithm that generates a VRF
+   public key PK and secret key SK.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">
-   The prover hashes an input alpha using the private VRF key SK to obtain a VRF
+   The prover hashes an input alpha using the VRF secret key SK to obtain a VRF
    hash output beta<a href="#section-2-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-2-3.1"> beta = VRF_hash(SK, alpha)<a href="#section-2-3.1" class="pilcrow">¶</a>
@@ -1578,167 +1598,195 @@ li > p:last-of-type {
 <p id="section-2-4">
    The VRF_hash algorithm is deterministic, in 
    the sense that it always produces the same output beta given the same
-   pair of inputs (SK, alpha).
-      
-   The prover also uses the private key SK to construct a
-   proof pi that beta is the correct hash output<a href="#section-2-4" class="pilcrow">¶</a></p>
+   pair of inputs (SK, alpha).<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">
+   The prover also uses the secret key SK to construct a
+   proof pi that beta is the correct hash output<a href="#section-2-5" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-5.1">pi = VRF_prove(SK, alpha)<a href="#section-2-5.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-2-6.1">pi = VRF_prove(SK, alpha)<a href="#section-2-6.1" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-2-6">
+<p id="section-2-7">
    The VRFs defined in this document allow anyone to deterministically
    obtain the VRF hash output beta directly from the proof value pi by using
-   the function VRF_proof_to_hash:<a href="#section-2-6" class="pilcrow">¶</a></p>
+   the function VRF_proof_to_hash:<a href="#section-2-7" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-7.1"> beta = VRF_proof_to_hash(pi)<a href="#section-2-7.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-2-8.1"> beta = VRF_proof_to_hash(pi)<a href="#section-2-8.1" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-2-8">
-   Thus, for VRFs defined in this document, VRF_hash is defined as<a href="#section-2-8" class="pilcrow">¶</a></p>
+<p id="section-2-9">
+   Thus, for VRFs defined in this document, VRF_hash is defined as<a href="#section-2-9" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-9.1"> VRF_hash(SK, alpha) = VRF_proof_to_hash(VRF_prove(SK, alpha)),<a href="#section-2-9.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-2-10.1"> VRF_hash(SK, alpha) = VRF_proof_to_hash(VRF_prove(SK, alpha)),<a href="#section-2-10.1" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-2-10">
-   and therefore this document will specify VRF_prove and VRF_proof_to_hash
-   rather than VRF_hash.<a href="#section-2-10" class="pilcrow">¶</a></p>
 <p id="section-2-11">
+   and therefore this document will specify VRF_prove and VRF_proof_to_hash
+   rather than VRF_hash.<a href="#section-2-11" class="pilcrow">¶</a></p>
+<p id="section-2-12">
    The proof pi allows a Verifier holding the public key PK
    to verify that beta is the correct VRF hash of input alpha
-   under key PK. Thus, the VRFs defined in this document also come with an algorithm<a href="#section-2-11" class="pilcrow">¶</a></p>
+   under key PK. Thus, the VRFs defined in this document also come with an algorithm<a href="#section-2-12" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-2-12.1">   VRF_verify(PK, alpha, pi)<a href="#section-2-12.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-2-13.1">   VRF_verify(PK, alpha, pi)<a href="#section-2-13.1" class="pilcrow">¶</a>
 </li>
       </ul>
-<p id="section-2-13">
+<p id="section-2-14">
    that outputs (VALID, beta = VRF_proof_to_hash(pi)) if pi is valid,
-   and INVALID otherwise.<a href="#section-2-13" class="pilcrow">¶</a></p>
+   and INVALID otherwise.<a href="#section-2-14" class="pilcrow">¶</a></p>
 </section>
 <div id="secdef">
 <section id="section-3">
       <h2 id="name-vrf-security-properties">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-vrf-security-properties" class="section-name selfRef">VRF Security Properties</a>
       </h2>
-<p id="section-3-1"> VRFs are designed to ensure the following security properties.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-1"> VRFs are designed to ensure the following security properties: uniqueness (full or trusted), collision resistance (full or trusted),
+          and pseudorandomness (full or selective). Some are designed to also ensure unpredictability under malicious key generation. We now
+          describe these properties.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <div id="uniqueness">
 <section id="section-3.1">
-        <h3 id="name-full-uniqueness-or-trusted-">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-full-uniqueness-or-trusted-" class="section-name selfRef">Full Uniqueness or Trusted Uniqueness</a>
+        <h3 id="name-full-uniqueness">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-full-uniqueness" class="section-name selfRef">Full Uniqueness</a>
         </h3>
-<p id="section-3.1-1"> Uniqueness means that, for any fixed public
- VRF key and for any input alpha, there is a unique VRF
- output beta that can be proved to be valid.  Uniqueness must hold
-    even for an adversarial Prover that knows the VRF private key SK.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.1-1"> Uniqueness means that, for any fixed VRF public
+ key and for any input alpha, it is infeasible to find proofs for more than one VRF output beta.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
 <p id="section-3.1-2">
-    More precisely, "full uniqueness" states that a computationally-bounded adversary cannot
- choose 
-    a VRF public key PK, 
-    a VRF input alpha, 
-    and two proofs pi1 and pi2 such that
-    VRF_verify(PK, alpha, pi1) outputs (VALID, beta1),
-    VRF_verify(PK, alpha, pi2) outputs (VALID, beta2),
-    and beta1 is not equal to beta2.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
-<p id="section-3.1-3">
-     For many applications, a slightly weaker security
-     property called "trusted uniqueness" suffices.
-     Trusted uniqueness is the same as full uniqueness, but it is guaranteed to hold
-     only if the VRF keys PK and SK were generated in a trustworthy 
-     manner.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
-<p id="section-3.1-4">
-        As further discussed in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>,
-        some VRFs specified in this document satisfy only trusted uniqueness, while others satisfy full uniqueness.
-        VRFs in this document that satisfy only trusted uniqueness but not full uniqueness MUST NOT be used if the key generation
-        process cannot be trusted.<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+    More precisely, "full uniqueness" means that an adversary cannot
+ find<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-3.1">a VRF public key PK,<a href="#section-3.1-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.1-3.2">a VRF input alpha,<a href="#section-3.1-3.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.1-3.3">and two proofs pi1 and pi2<a href="#section-3.1-3.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.1-4">such that<a href="#section-3.1-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.1-5.1">VRF_verify(PK, alpha, pi1) outputs (VALID, beta1),<a href="#section-3.1-5.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.1-5.2">VRF_verify(PK, alpha, pi2) outputs (VALID, beta2),<a href="#section-3.1-5.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.1-5.3">and beta1 is not equal to beta2.<a href="#section-3.1-5.3" class="pilcrow">¶</a>
+</li>
+        </ul>
 </section>
 </div>
 <div id="collisionresistance">
 <section id="section-3.2">
-        <h3 id="name-full-collison-resistance-or">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-full-collison-resistance-or" class="section-name selfRef">Full Collison Resistance or Trusted Collision Resistance</a>
+        <h3 id="name-full-collison-resistance">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-full-collison-resistance" class="section-name selfRef">Full Collison Resistance</a>
         </h3>
-<p id="section-3.2-1">Like any cryptographic hash function, VRFs need to be
-        collision resistant.  Collison resistance must hold
-    even for an adversarial Prover that knows the VRF private key SK.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2"> More precisely, "full collision resistance" states that
-        it should be computationally 
-        infeasible for an adversary to find two distinct VRF
-     inputs alpha1 and alpha2 that have the same VRF hash beta, 
-        even if that adversary knows the private VRF key SK.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
-<p id="section-3.2-3">
-     For many applications, a slightly weaker security property
-        called "trusted collision resistance" suffices. 
-        Trusted collision resistance is the same as collision resistance, 
-        but it is guaranteed to hold only if the VRF keys PK and SK were generated in a trustworthy manner.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<p id="section-3.2-4">
-        As further discussed in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>,
-        some VRFs specified in this document satisfy only trusted collision resistance, while others satisfy full collision resistance.
-        VRFs in this document that satisfy only trusted collision resistance but not full collision resistance MUST NOT be used if the key generation
-        process cannot be trusted.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<p id="section-3.2-1">Like cryptographic hash functions, VRFs are collision resistant.  Collison resistance means
+            that it is infeasible to find two different inputs alpha1 and alpha2 with the same
+            output beta.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.2-2">
+        More precisely, "full collision resistance" means that an adversary cannot
+        find<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-3.1">a VRF public key PK,<a href="#section-3.2-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-3.2">two VRF inputs alpha1 and alpha2 that are not equal to each other,<a href="#section-3.2-3.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-3.3">and two proofs pi1 and pi2<a href="#section-3.2-3.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.2-4">such that<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-5.1">VRF_verify(PK, alpha1, pi1) outputs (VALID, beta1),<a href="#section-3.2-5.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-5.2">VRF_verify(PK, alpha2, pi2) outputs (VALID, beta2),<a href="#section-3.2-5.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-5.3">and beta1 is equal to beta2.<a href="#section-3.2-5.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+<div id="trustedversions">
+<section id="section-3.3">
+        <h3 id="name-trusted-uniqueness-and-trus">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-trusted-uniqueness-and-trus" class="section-name selfRef">Trusted Uniqueness and Trusted Collision Resistance</a>
+        </h3>
+<p id="section-3.3-1">
+           Full uniqueness and full collision resistance hold even if the VRF keys are generated maliciously.
+           For some applications, it is sufficient for a VRF to possess weaker security
+           properties than full uniqueness and full collision resistance, called "trusted uniqueness"
+           and "trusted collision resistance".
+           These properties are the same as full uniqueness and full collision resistance, respectively, but
+           are not guaranteed to hold if the adversary gets to choose the VRF public key PK.
+           Instead, they are guaranteed to hold
+           only if the VRF keys PK and SK are generated as specified
+           by the VRF key generation algorithm and then given to the adversary. In other words,
+           they are guaranteed to hold even if the adversary
+           has the knowledge of SK and PK, but not guaranteed to hold if the adversary has the ability to choose SK and PK.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">
+          As further discussed in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>,
+          some VRFs specified in this document satisfy only trusted uniqueness and trusted collision resistance.
+          VRFs in this document that satisfy only trusted uniqueness and trusted collision resistance MUST NOT be used in applications
+          that need protection against adversarial VRF key generation.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="pseudodef">
-<section id="section-3.3">
+<section id="section-3.4">
         <h3 id="name-full-pseudorandomness-or-se">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-full-pseudorandomness-or-se" class="section-name selfRef">Full Pseudorandomness or Selective Pseudorandomness</a>
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-full-pseudorandomness-or-se" class="section-name selfRef">Full Pseudorandomness or Selective Pseudorandomness</a>
         </h3>
-<p id="section-3.3-1"> Pseudorandomness ensures that when an adversarial Verifier sees 
+<p id="section-3.4-1"> Pseudorandomness ensures that when someone who does not know SK sees
         a VRF hash output beta without its corresponding VRF proof pi, 
-        then beta is indistinguishable from a random value.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">  More precisely, suppose the public and private VRF keys (PK, SK) were generated
-      in a trustworthy manner.
+        then beta is indistinguishable from a random value.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-2">  More precisely, suppose the public and secret VRF keys (PK, SK) were generated
+      correctly.
       Pseudorandomness ensures that the VRF hash output beta
          (without its corresponding VRF proof pi) on
-      any adversarially-chosen "target" VRF input alpha
+      any adversarially chosen "target" VRF input alpha
       looks indistinguishable from random
-      for any computationally bounded adversary who does not know the private
-         VRF key SK.  This holds even if the adversary also gets to 
-         choose other VRF inputs alpha' and observe their corresponding 
-         VRF hash outputs beta' and proofs pi'.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<p id="section-3.3-3">   
-         With "full pseudorandomness", the adversary is allowed to choose the 
+      for any adversary who does not know the VRF secret
+         key SK.  This holds even if the adversary sees VRF hash outputs beta' and proofs
+         pi' for multiple other inputs alpha' (and even if those other inputs alpha' are chosen by the adversary).<a href="#section-3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.4-3">   
+         "Full pseudorandomness" security property holds even against an adversary who is allowed to choose the
          "target" VRF input  alpha at any time, even after it observes VRF outputs beta'
-         and proofs pi' on a variety of chosen inputs alpha'.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
-<p id="section-3.3-4">
+         and proofs pi' on a variety of chosen inputs alpha'.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.4-4">
          "Selective pseudorandomness" is a weaker security property
-         which suffices in many applications. Here, the adversary must choose
-         the target VRF input alpha independently of the public VRF key PK,
-         and before it  observes VRF outputs beta'
-         and proofs pi' on inputs alpha' of its choice.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
-<p id="section-3.3-5">
+         that suffices in many applications.  This security property holds
+         against an adversary who chooses
+         the target VRF input alpha first, before it learns the VRF public key PK
+         and obtains VRF outputs beta'
+         and proofs pi' on other inputs alpha' of its choice.<a href="#section-3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.4-5">
              As further discussed in <a href="#prsecurity" class="xref">Section 7.3</a>,
              VRFs specified in this document satisfy both full pseudorandomness and selective pseudorandomness,
-             but their quantitative security against the selective pseudorandomness attack is stronger.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
-<p id="section-3.3-6"> 
-    It is important to remember that the VRF output beta does not 
-    look random to the Prover, or to any other party that knows the private 
-       VRF key SK!  Such a party can easily distinguish beta from 
-       a random value by comparing beta to the result of VRF_hash(SK, alpha).<a href="#section-3.3-6" class="pilcrow">¶</a></p>
-<p id="section-3.3-7"> Also, the VRF output beta does not look random to any party that
+             but their quantitative security against the selective pseudorandomness attack is stronger.<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.4-6"> 
+    It is important to remember that the VRF output beta is always distinguishable from
+    random by the Prover, or by any other party that knows the VRF
+       secret key SK.  Such a party can easily distinguish beta from
+       a random value by comparing beta to the result of VRF_hash(SK, alpha).<a href="#section-3.4-6" class="pilcrow">¶</a></p>
+<p id="section-3.4-7"> Similarly, the VRF output beta is always distinguishable from random by any party that
  knows a valid VRF proof pi corresponding to the VRF input alpha, even
- if this party does not know the private VRF key SK.
+ if this party does not know the VRF secret key SK.
  Such a party can easily distinguish beta from a random value by
-    checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).<a href="#section-3.3-7" class="pilcrow">¶</a></p>
-<p id="section-3.3-8">
-    Also, the VRF output beta may not look random if VRF key generation
-    was not done in a trustworthy fashion. (For example, if VRF keys were 
-    generated with bad randomness.)<a href="#section-3.3-8" class="pilcrow">¶</a></p>
+    checking whether VRF_verify(PK, alpha, pi) returns (VALID, beta).<a href="#section-3.4-7" class="pilcrow">¶</a></p>
+<p id="section-3.4-8">
+    Additionally, the VRF output beta may be distinguishable from random if VRF key generation
+    was not done correctly. (For example, if VRF keys were
+    generated with bad randomness.)<a href="#section-3.4-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="unpred">
-<section id="section-3.4">
-        <h3 id="name-some-vrfs-unpredictability-">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-some-vrfs-unpredictability-" class="section-name selfRef">Some VRFs: Unpredictability Under Malicious Key Generation</a>
+<div id="unpreddef">
+<section id="section-3.5">
+        <h3 id="name-unpredictability-under-mali">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-unpredictability-under-mali" class="section-name selfRef">Unpredictability Under Malicious Key Generation</a>
         </h3>
-<p id="section-3.4-1">As explained in <a href="#pseudodef" class="xref">Section 3.3</a>, pseudorandomness is guaranteed only
-       if the VRF keys were generated in a trustworthy fashion.
-       For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone and are therefore not pseudorandom.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.4-2">There is, however, a different type of unpredictability that is desirable in certain VRF applications (such as leader selection in the consensus protocols of <span>[<a href="#GHMVZ17" class="xref">GHMVZ17</a>]</span> and <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>), called "unpredictability under malicious key generation". This property is similar
+<p id="section-3.5-1">As explained in <a href="#pseudodef" class="xref">Section 3.4</a>, pseudorandomness cannot hold against malicious key generation.
+       For instance, if an adversary outputs VRF keys that are deterministically generated (or hard-coded and publicly known), then the outputs are easily derived by anyone and are therefore not pseudorandom.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.5-2">There is, however, a different type of unpredictability that is desirable in certain VRF applications (such as leader selection in the consensus protocols of <span>[<a href="#GHMVZ17" class="xref">GHMVZ17</a>]</span> and <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>), called "unpredictability under malicious key generation". This property is similar
        to the unpredictability achieved by an (ordinary, unkeyed)
        cryptographic hash function: if the input has enough entropy (i.e., cannot be predicted), then the correct output is indistinguishable
-       from uniform, no matter how the VRF keys are generated.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3">
-       A formal definition of this property appears in Section 3.2 of <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>.  The RSA-FDH-VRF presented in this document does not satisfy this property. The ECVRF presented in this document satisfies this property if validate_key parameter given to the ECVRF_verify is TRUE.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
+       from uniformly random, no matter how the VRF keys are generated.<a href="#section-3.5-2" class="pilcrow">¶</a></p>
+<p id="section-3.5-3">
+       A formal definition of this property appears in Section 3.2 of <span>[<a href="#DGKR18" class="xref">DGKR18</a>]</span>.  As further discussed in <a href="#unpredres" class="xref">Section 7.1.3</a>, only some VRFs specified in this document satisfy this property.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -2075,7 +2123,7 @@ li > p:last-of-type {
 <p id="section-5-8">
             Parameters used (the generation of these parameters is specified in <a href="#ecvrfSuites" class="xref">Section 5.5</a>):<a href="#section-5-8" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5-9.1">SK - VRF private key<a href="#section-5-9.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5-9.1">SK - VRF secret key<a href="#section-5-9.1" class="pilcrow">¶</a>
 </li>
         <li class="normal ulEmpty" id="section-5-9.2">x - VRF secret scalar, an integer.
                         Note: depending on the ciphersuite used, the VRF secret scalar may be equal
@@ -2098,7 +2146,7 @@ li > p:last-of-type {
 <p id="section-5.1-2">
                 Input:<a href="#section-5.1-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-5.1-3.1">SK - VRF private key<a href="#section-5.1-3.1" class="pilcrow">¶</a>
+<li class="normal ulEmpty" id="section-5.1-3.1">SK - VRF secret key<a href="#section-5.1-3.1" class="pilcrow">¶</a>
 </li>
           <li class="normal ulEmpty" id="section-5.1-3.2">alpha_string - input alpha, an octet string<a href="#section-5.1-3.2" class="pilcrow">¶</a>
 </li>
@@ -2670,7 +2718,7 @@ li > p:last-of-type {
           <li class="normal" id="section-5.5-2.4"> The key pair generation primitive is specified in
             Section 3.2.1 of <span>[<a href="#SECG1" class="xref">SECG1</a>]</span> (q, B, SK, and Y in this document
             correspond to n, G, d, and Q in Section 3.2.1 of <span>[<a href="#SECG1" class="xref">SECG1</a>]</span>).
-            In this ciphersuite, the secret scalar x is equal to the private key SK.<a href="#section-5.5-2.4" class="pilcrow">¶</a>
+            In this ciphersuite, the secret scalar x is equal to the secret key SK.<a href="#section-5.5-2.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-2.5"> encode_to_curve_salt = PK_string<a href="#section-5.5-2.5" class="pilcrow">¶</a>
 </li>
@@ -2728,7 +2776,7 @@ li > p:last-of-type {
           <li class="normal" id="section-5.5-6.3">
               cLen = 16.<a href="#section-5.5-6.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-5.5-6.4"> The private key and generation of the secret scalar and the public 
+          <li class="normal" id="section-5.5-6.4"> The secret key and generation of the secret scalar and the public
         key are specified in Section 5.1.5 of <span>[<a href="#RFC8032" class="xref">RFC8032</a>]</span>.<a href="#section-5.5-6.4" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-5.5-6.5"> encode_to_curve_salt = PK_string<a href="#section-5.5-6.5" class="pilcrow">¶</a>
@@ -2833,40 +2881,53 @@ li > p:last-of-type {
         <h3 id="name-key-generation">
 <a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-key-generation" class="section-name selfRef">Key Generation</a>
         </h3>
-<p id="section-7.1-1">Applications that use the VRFs defined in this
-    document MUST ensure that the VRF key is generated correctly,
-    using good randomness.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1-1">Implementations of VRFs defined in this
+    document MUST ensure that they generate VRF keys correctly and
+    using good randomness. However, in some applications keys may be generated by an adversary who
+    does not necessarily implement this document. We now discuss the implications of this possibility.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 <div id="untrustedkeys">
 <section id="section-7.1.1">
           <h4 id="name-uniqueness-and-collision-re">
-<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-uniqueness-and-collision-re" class="section-name selfRef">Uniqueness and collision resistance with untrusted keys</a>
+<a href="#section-7.1.1" class="section-number selfRef">7.1.1. </a><a href="#name-uniqueness-and-collision-re" class="section-name selfRef">Uniqueness and collision resistance under malicious key generation</a>
           </h4>
-<p id="section-7.1.1-1">The RSA-FDH-VRF satisfies the "trusted uniqueness" (see <a href="#uniqueness" class="xref">Section 3.1</a>)
-              and "trusted collision resistance"
-              (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties
-    as long as the VRF keys are generated correctly.
-    Uniqueness and collision resistance may not hold if the keys are generated adversarially
-    (specifically, if the RSA function specified in the public key is not bijective because the modulus n or the exponent e are chosen not in compliance with the stadnard); thus,
+<p id="section-7.1.1-1">See <a href="#secdef" class="xref">Section 3</a> for definitions of uniqueness and collision resistance properties.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-2">The RSA-FDH-VRF satisfies only the "trusted" variants of uniqueness
+              and collision resistance.
+    Thus, for RSA-FDH-VRF, uniqueness and collision resistance may not hold if the keys are generated adversarially
+    (specifically, if the RSA function specified in the public key is not bijective because the modulus n or the exponent e are chosen not in compliance with <span>[<a href="#RFC8017" class="xref">RFC8017</a>]</span>); thus,
     RSA-FDH-VRF defined in this document does not have "full uniqueness" and "full collision resistance".
-    Therefore, if adversarial key generation is a concern, the
-    RSA-FDH-VRF has to be enhanced by additional cryptographic checks
-    that its public key has the right form.  These enhacements are left for future specification.<a href="#section-7.1.1-1" class="pilcrow">¶</a></p>
-<p id="section-7.1.1-2">For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
+    Therefore, if malicious key generation is a concern, the
+    RSA-FDH-VRF has to be enhanced by additional cryptographic checks (such as zero-knowledge proofs)
+    that its public key has the right form.  These enhancements are left for future specification.<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-7.1.1-3">For the ECVRF, the Verifier MUST obtain E and B from a trusted source, such as a ciphersuite specification, rather than from the prover. If the verifier does so, then the
               ECVRF
-    satisfies the "full uniqueness" (see <a href="#uniqueness" class="xref">Section 3.1</a>)
-    and "trusted collision resistance" (see <a href="#collisionresistance" class="xref">Section 3.2</a>) properties. It additonally satisfies "full collision resistance" if validate_key parameter given to the ECVRF_verify is TRUE.<a href="#section-7.1.1-2" class="pilcrow">¶</a></p>
+    satisfies the "full uniqueness", ensuring uniqueness even under malicious key generation. The ECVRF also satisfies "trusted collision resistance".
+    It additionally satisfies "full collision resistance" if validate_key parameter given to the ECVRF_verify is TRUE. This setting of ECVRF_verify ensures collision resistance under malicious key generation.<a href="#section-7.1.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <section id="section-7.1.2">
-          <h4 id="name-pseudorandomness-with-untru">
-<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-pseudorandomness-with-untru" class="section-name selfRef">Pseudorandomness with untrusted keys</a>
+          <h4 id="name-pseudorandomness-under-mali">
+<a href="#section-7.1.2" class="section-number selfRef">7.1.2. </a><a href="#name-pseudorandomness-under-mali" class="section-name selfRef">Pseudorandomness under malicious key generation</a>
           </h4>
 <p id="section-7.1.2-1"> Without good randomness, the "pseudorandomness"
-    properties of the VRF may not hold. Note that it is not possible to guarantee 
+    properties of the VRF (defined in <a href="#pseudodef" class="xref">Section 3.4</a>) may not hold. Note that it is not possible to guarantee
     pseudorandomness in the face of adversarially generated VRF keys.  This is
     because an adversary can always use bad randomness to generate the VRF keys, 
     and thus, the VRF output may not be pseudorandom.<a href="#section-7.1.2-1" class="pilcrow">¶</a></p>
 </section>
+<div id="unpredres">
+<section id="section-7.1.3">
+          <h4 id="name-unpredictability-under-malic">
+<a href="#section-7.1.3" class="section-number selfRef">7.1.3. </a><a href="#name-unpredictability-under-malic" class="section-name selfRef">Unpredictability under malicious key generation</a>
+          </h4>
+<p id="section-7.1.3-1">
+              Unpredictability under malicious key generation (defined in <a href="#unpreddef" class="xref">Section 3.5</a>) does not hold for the RSA-FDH-VRF. (Specifically, the VRF output may be predictable if the RSA function specified in the public key is far from bijective because the modulus n or the exponent e are chosen not in compliance with <span>[<a href="#RFC8017" class="xref">RFC8017</a>]</span>.)  If unpredictability under malicious key generation is desired, the
+              RSA-FDH-VRF has to be enhanced by additional cryptographic checks (such as zero-knowledge proofs)
+              that its public key has the right form.  These enhancements are left for future specification.<a href="#section-7.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-7.1.3-2">
+              Unpredictability under malicious key generation holds for the ECVRF if validate_key parameter given to the ECVRF_verify is TRUE.<a href="#section-7.1.3-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 <div id="seclevel">
 <section id="section-7.2">
@@ -2874,7 +2935,7 @@ li > p:last-of-type {
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-security-levels" class="section-name selfRef">Security Levels</a>
         </h3>
 <p id="section-7.2-1">
-            As shown in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>, RSA-FDH-VRF satifies the trusted uniqueness property unconditionally. The security level of the RSA-FDH-VRF, measured in bits, for the other two properties is as follows (in the random oracle model for the functions MGF1 and Hash):<a href="#section-7.2-1" class="pilcrow">¶</a></p>
+            As shown in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>, RSA-FDH-VRF satisfies the trusted uniqueness property unconditionally. The security level of the RSA-FDH-VRF, measured in bits, for the other two properties is as follows (in the random oracle model for the functions MGF1 and Hash):<a href="#section-7.2-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-7.2-2.1">For trusted collision resistance: approximately 8*min(k/2, hLen/2) (as shown in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>).<a href="#section-7.2-2.1" class="pilcrow">¶</a>
 </li>
@@ -2884,7 +2945,7 @@ li > p:last-of-type {
 <p id="section-7.2-3">
             As shown in <span>[<a href="#PWHVNRG17" class="xref">PWHVNRG17</a>]</span>, the security level of the ECVRF, measured in bits, is as follows (in the random oracle model for the functions Hash and ECVRF_encode_to_curve):<a href="#section-7.2-3" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.2-4.1">For trusted uniqueness: approximately 8*min(qLen, cLen).<a href="#section-7.2-4.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.2-4.1">For uniqueness (both trusted and full): approximately 8*min(qLen, cLen).<a href="#section-7.2-4.1" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-7.2-4.2">For collision resistance (trusted or full, depending on whether validation is performed as explained in <a href="#untrustedkeys" class="xref">Section 7.1.1</a>): approximately 8*min(qLen/2, hLen/2).<a href="#section-7.2-4.2" class="pilcrow">¶</a>
 </li>
@@ -2905,25 +2966,27 @@ li > p:last-of-type {
     to prove that the VRFs specified in this
     document possess not only selective pseudorandomness, but also
     full pseudorandomness
-    (see <a href="#pseudodef" class="xref">Section 3.3</a> for an explanation of these notions).
+    (see <a href="#pseudodef" class="xref">Section 3.4</a> for an explanation of these notions).
     However, the cryptographic reductions are tighter for selective
     pseudorandomness than for full pseudorandomness. Specifically, the approximate provable security level, measured in bits,
     for full pseudorandomness may be obtained from the provable security level for selective pseudorandomness (given in <a href="#seclevel" class="xref">Section 7.2</a>) by subtracting the binary logarithm
     of the number of proofs produced for a given secret key. This holds for both the RSA-FDH-VRF and the ECVRF.<a href="#section-7.3-1" class="pilcrow">¶</a></p>
 <p id="section-7.3-2">While no known attacks against full pseudorandomness are stronger than similar attacks against selective pseudorandomness, some applications may be concerned about tightness of cryptographic
-    reductions. Such applications may consider the following two options:<a href="#section-7.3-2" class="pilcrow">¶</a></p>
+    reductions to ensure specific levels of provable security. Such applications may consider the following three options:<a href="#section-7.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7.3-3.1"> They may choose to ensure that selective pseudorandomness is sufficient for
-    the application. That is, that
- pseudorandomness of outputs matters only for inputs that are chosen
-    independently of the VRF key.<a href="#section-7.3-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-7.3-3.1">They may limit the number of proofs produced for a given secret key, to reduce the loss in the provable security level.<a href="#section-7.3-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-7.3-3.2">They
+          <li class="normal" id="section-7.3-3.2">They may work to ensure that selective pseudorandomness is sufficient for
+    the application. That is, they may design the application in such a way that
+ pseudorandomness of outputs matters only for inputs that are chosen
+    independently of the VRF key.<a href="#section-7.3-3.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-7.3-3.3">They
     may increase
     security parameters to make up for the loose security reduction. 
     For RSA-FDH-VRF, this means increasing the RSA key length. For 
     ECVRF, this means increasing the cryptographic strength of the EC group
-    G by specifying a new ciphersuite.<a href="#section-7.3-3.2" class="pilcrow">¶</a>
+    G by specifying a new ciphersuite.<a href="#section-7.3-3.3" class="pilcrow">¶</a>
 </li>
         </ul>
 </section>
@@ -2937,8 +3000,9 @@ li > p:last-of-type {
     fact that the nonce k used in the ECVRF_prove algorithm is
     chosen uniformly and pseudorandomly modulo q, and is unknown to the adversary.
     Otherwise, an adversary may be able to recover
-    the private VRF key x (and thus break pseudorandomness of the VRF)
-    after observing several valid VRF proofs pi. The nonce generation methods
+    the VRF secret scalar x (and thus break pseudorandomness of the VRF)
+    after observing several valid VRF proofs pi, using, for example, techniques described in
+    <span>[<a href="#BreHen19" class="xref">BreHen19</a>]</span>. The nonce generation methods
     specified in the ECVRF ciphersuites of <a href="#ecvrfSuites" class="xref">Section 5.5</a>
     are designed with this requirement in mind.<a href="#section-7.4-1" class="pilcrow">¶</a></p>
 </section>
@@ -2949,7 +3013,7 @@ li > p:last-of-type {
 <p id="section-7.5-1">Side channel attacks on cryptographic primitives are an important issue.
         Implementers should
        take care to avoid side-channel attacks that leak information about
-       the VRF private key SK (and the nonce k used in the ECVRF), which is
+       the VRF secret key SK (and the nonce k used in the ECVRF), which is
        used in VRF_prove.
        In most applications, VRF_proof_to_hash and VRF_verify
        algorithms take only inputs that are public, and thus side channel
@@ -3011,11 +3075,11 @@ li > p:last-of-type {
 <a href="#section-7.8" class="section-number selfRef">7.8. </a><a href="#name-hash-function-domain-separa" class="section-name selfRef">Hash function domain separation</a>
         </h3>
 <p id="section-7.8-1">
-         Hashing is used for different purposes in the two VRFs (namely, in the RSA-FDH-VRF, in MGF1 and in proof_to_hash; in the ECVRF, in encode_to_curve, nonce_generation, challenge_generation, and proof_to_hash). The
+         Hashing is used for different purposes in the two VRFs. Specifically, in the RSA-FDH-VRF, hashing is used in MGF1 and in proof_to_hash; in the ECVRF, hashing is used in encode_to_curve, nonce_generation, challenge_generation, and proof_to_hash. The
          theoretical analysis treats each of these functions as a separate hash function, modeled as a random oracle.
          This analysis still holds even if the same hash function is used, as long as the four 
-         queries made to the hash function for a given SK and alpha are overwhelmingly unlikely 
-         to equal each other or to any queries made to the hash function for the same SK and 
+         inputs given to the hash function for a given SK and alpha are overwhelmingly unlikely
+         to equal each other or to any inputs given to the hash function for the same SK and
          different alpha. This is indeed the case for the RSA-FDH-VRF defined in this document, because the second octets
          of the input to the hash function used in MGF1 and in proof_to_hash are different.<a href="#section-7.8-1" class="pilcrow">¶</a></p>
 <p id="section-7.8-2">
@@ -3052,7 +3116,7 @@ li > p:last-of-type {
         <h3 id="name-futureproofing">
 <a href="#section-7.10" class="section-number selfRef">7.10. </a><a href="#name-futureproofing" class="section-name selfRef">Futureproofing</a>
         </h3>
-<p id="section-7.10-1">if future designs need to specify variants (e.g., additional ciphersuites) of the RSA-FDH-VRF or the ECVRF in this document,
+<p id="section-7.10-1">If future designs need to specify variants (e.g., additional ciphersuites) of the RSA-FDH-VRF or the ECVRF in this document,
             then, to avoid the possibility
             that an adversary can obtain a VRF output under one variant, and then claim it was obtained under
             another variant,
@@ -3117,7 +3181,9 @@ li > p:last-of-type {
 </li>
         <li class="normal ulEmpty" id="section-8-2.13"> 12 - Added k_string to edwards25519 test vectors<a href="#section-8-2.13" class="pilcrow">¶</a>
 </li>
-        <li class="normal ulEmpty" id="section-8-2.14"> 13 - Clarified key validation for edwards25519 and adddressed IRTF Chair comments<a href="#section-8-2.14" class="pilcrow">¶</a>
+        <li class="normal ulEmpty" id="section-8-2.14"> 13 - Clarified key validation for edwards25519 and addressed IRTF Chair comments<a href="#section-8-2.14" class="pilcrow">¶</a>
+</li>
+        <li class="normal ulEmpty" id="section-8-2.15"> 14 - Addressed IRSG review comments, which resulted in a substantial reworking of section 3.<a href="#section-8-2.15" class="pilcrow">¶</a>
 </li>
       </ul>
 </section>
@@ -3126,12 +3192,12 @@ li > p:last-of-type {
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-contributors" class="section-name selfRef">Contributors</a>
       </h2>
 <p id="section-9-1">
-            This document also would not be possible without the work of
+            This document would not be possible without the work of
             Moni Naor,
             Sachin Vasant, and
             Asaf Ziv. Chloe Martindale provided a thorough cryptographer's review.
             Liliya Akhmetzyanova, Tony Arcieri, Gary Belvin, Mario Cao Cueto, Brian Chen, Sergey Gorbunov, Shumon Huque, Gorka Irazoqui Apecechea, Marek Jankowski,
-            Burt Kaliski, David C. Lawerence, Derek Ting-Haye Leung, Antonio Marcedone, Piotr Nojszewski, Chris Peikert, Trevor Perrin, Sam Scott,
+            Burt Kaliski, Mallory Knodel, David C. Lawerence, Derek Ting-Haye Leung, Antonio Marcedone, Piotr Nojszewski, Chris Peikert, Colin Perkins, Trevor Perrin, Sam Scott,
             Stanislav Smyshlyaev, Adam Suhl, Nick Sullivan, Christopher Wood,  Jiayu Xu, and Annie Yousar provided
             valuable input to this draft. Riad Wahby helped this document align with draft-irtf-cfrg-hash-to-curve.<a href="#section-9-1" class="pilcrow">¶</a></p>
 </section>
@@ -3190,6 +3256,10 @@ li > p:last-of-type {
 <dt id="ANSI.X9-62-2005">[ANSI.X9-62-2005]</dt>
         <dd>
 <span class="refTitle">"Public Key Cryptography for the Financial Services Industry: The Elliptic Curve Digital Signature Algorithm (ECDSA)"</span>, <span class="seriesInfo"> ANSI X9.62</span>, <time datetime="2005" class="refDate">2005</time>. </dd>
+<dd class="break"></dd>
+<dt id="BreHen19">[BreHen19]</dt>
+        <dd>
+<span class="refAuthor">Breitner, J.</span> and <span class="refAuthor">N. Heninger</span>, <span class="refTitle">"Biased Nonce Sense: Lattice Attacks against Weak ECDSA Signatures in Cryptocurrencies"</span>, <span class="seriesInfo">in Financial Cryptography</span>, <time datetime="2019" class="refDate">2019</time>, <span>&lt;<a href="https://eprint.iacr.org/2019/023">https://eprint.iacr.org/2019/023</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DGKR18">[DGKR18]</dt>
         <dd>
