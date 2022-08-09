@@ -13,11 +13,11 @@
 <?rfc rfcedstyle="yes"?>
 <?rfc comments="yes"?>
 <?rfc inline="yes"?>
-<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-irtf-cfrg-vrf-14" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" category="info" docName="draft-irtf-cfrg-vrf-15" ipr="trust200902" obsoletes="" updates="" submissionType="IETF" xml:lang="en" tocInclude="true" symRefs="true" version="3">
   <!-- xml2rfc v2v3 conversion 3.11.1 -->
   <front>
     <title abbrev="VRF">Verifiable Random Functions (VRFs)</title>
-    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-14"/>
+    <seriesInfo name="Internet-Draft" value="draft-irtf-cfrg-vrf-15"/>
     <author fullname="Sharon Goldberg" initials="S." surname="Goldberg">
       <organization>Boston University</organization>
       <address>

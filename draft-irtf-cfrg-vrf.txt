@@ -5,16 +5,16 @@
 CFRG                                                         S. Goldberg
 Internet-Draft                                         Boston University
 Intended status: Informational                                 L. Reyzin
-Expires: 9 February 2023                  Boston University and Algorand
+Expires: 10 February 2023                 Boston University and Algorand
                                                          D. Papadopoulos
                           Hong Kong University of Science and Technology
                                                                J. Vcelak
                                                                      NS1
-                                                           8 August 2022
+                                                           9 August 2022
 
 
                    Verifiable Random Functions (VRFs)
-                         draft-irtf-cfrg-vrf-14
+                         draft-irtf-cfrg-vrf-15
 
 Abstract
 
@@ -44,7 +44,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 February 2023.
+   This Internet-Draft will expire on 10 February 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 1]
+Goldberg, et al.        Expires 10 February 2023                [Page 1]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 2]
+Goldberg, et al.        Expires 10 February 2023                [Page 2]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -165,7 +165,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 3]
+Goldberg, et al.        Expires 10 February 2023                [Page 3]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -221,7 +221,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 4]
+Goldberg, et al.        Expires 10 February 2023                [Page 4]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -277,7 +277,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 5]
+Goldberg, et al.        Expires 10 February 2023                [Page 5]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -333,7 +333,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 6]
+Goldberg, et al.        Expires 10 February 2023                [Page 6]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -389,7 +389,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 7]
+Goldberg, et al.        Expires 10 February 2023                [Page 7]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -445,7 +445,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 8]
+Goldberg, et al.        Expires 10 February 2023                [Page 8]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -501,7 +501,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023                [Page 9]
+Goldberg, et al.        Expires 10 February 2023                [Page 9]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -557,7 +557,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 10]
+Goldberg, et al.        Expires 10 February 2023               [Page 10]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -613,7 +613,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 11]
+Goldberg, et al.        Expires 10 February 2023               [Page 11]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -669,7 +669,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 12]
+Goldberg, et al.        Expires 10 February 2023               [Page 12]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -725,7 +725,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 13]
+Goldberg, et al.        Expires 10 February 2023               [Page 13]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -781,7 +781,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 14]
+Goldberg, et al.        Expires 10 February 2023               [Page 14]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -837,7 +837,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 15]
+Goldberg, et al.        Expires 10 February 2023               [Page 15]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -893,7 +893,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 16]
+Goldberg, et al.        Expires 10 February 2023               [Page 16]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -949,7 +949,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 17]
+Goldberg, et al.        Expires 10 February 2023               [Page 17]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1005,7 +1005,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 18]
+Goldberg, et al.        Expires 10 February 2023               [Page 18]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1061,7 +1061,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 19]
+Goldberg, et al.        Expires 10 February 2023               [Page 19]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1117,7 +1117,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 20]
+Goldberg, et al.        Expires 10 February 2023               [Page 20]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1173,7 +1173,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 21]
+Goldberg, et al.        Expires 10 February 2023               [Page 21]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1229,7 +1229,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 22]
+Goldberg, et al.        Expires 10 February 2023               [Page 22]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1285,7 +1285,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 23]
+Goldberg, et al.        Expires 10 February 2023               [Page 23]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1341,7 +1341,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 24]
+Goldberg, et al.        Expires 10 February 2023               [Page 24]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1397,7 +1397,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 25]
+Goldberg, et al.        Expires 10 February 2023               [Page 25]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1453,7 +1453,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 26]
+Goldberg, et al.        Expires 10 February 2023               [Page 26]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1509,7 +1509,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 27]
+Goldberg, et al.        Expires 10 February 2023               [Page 27]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1565,7 +1565,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 28]
+Goldberg, et al.        Expires 10 February 2023               [Page 28]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1621,7 +1621,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 29]
+Goldberg, et al.        Expires 10 February 2023               [Page 29]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1677,7 +1677,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 30]
+Goldberg, et al.        Expires 10 February 2023               [Page 30]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1733,7 +1733,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 31]
+Goldberg, et al.        Expires 10 February 2023               [Page 31]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1789,7 +1789,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 32]
+Goldberg, et al.        Expires 10 February 2023               [Page 32]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1845,7 +1845,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 33]
+Goldberg, et al.        Expires 10 February 2023               [Page 33]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1901,7 +1901,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 34]
+Goldberg, et al.        Expires 10 February 2023               [Page 34]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -1957,7 +1957,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 35]
+Goldberg, et al.        Expires 10 February 2023               [Page 35]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2013,7 +2013,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 36]
+Goldberg, et al.        Expires 10 February 2023               [Page 36]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2069,7 +2069,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 37]
+Goldberg, et al.        Expires 10 February 2023               [Page 37]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2125,7 +2125,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 38]
+Goldberg, et al.        Expires 10 February 2023               [Page 38]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2181,7 +2181,7 @@ Appendix A.  Test Vectors for the RSA-FDH-VRF ciphersuites
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 39]
+Goldberg, et al.        Expires 10 February 2023               [Page 39]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2237,7 +2237,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 40]
+Goldberg, et al.        Expires 10 February 2023               [Page 40]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2293,7 +2293,7 @@ A.1.  RSA-FDH-VRF-SHA256
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 41]
+Goldberg, et al.        Expires 10 February 2023               [Page 41]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2349,7 +2349,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 42]
+Goldberg, et al.        Expires 10 February 2023               [Page 42]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2405,7 +2405,7 @@ A.2.  RSA-FDH-VRF-SHA384
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 43]
+Goldberg, et al.        Expires 10 February 2023               [Page 43]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2461,7 +2461,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 44]
+Goldberg, et al.        Expires 10 February 2023               [Page 44]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2517,7 +2517,7 @@ A.3.  RSA-FDH-VRF-SHA512
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 45]
+Goldberg, et al.        Expires 10 February 2023               [Page 45]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2573,7 +2573,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 46]
+Goldberg, et al.        Expires 10 February 2023               [Page 46]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2629,7 +2629,7 @@ B.1.  ECVRF-P256-SHA256-TAI
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 47]
+Goldberg, et al.        Expires 10 February 2023               [Page 47]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2685,7 +2685,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 48]
+Goldberg, et al.        Expires 10 February 2023               [Page 48]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2741,7 +2741,7 @@ B.2.  ECVRF-P256-SHA256-SSWU
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 49]
+Goldberg, et al.        Expires 10 February 2023               [Page 49]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2797,7 +2797,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 50]
+Goldberg, et al.        Expires 10 February 2023               [Page 50]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2853,7 +2853,7 @@ B.3.  ECVRF-EDWARDS25519-SHA512-TAI
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 51]
+Goldberg, et al.        Expires 10 February 2023               [Page 51]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2909,7 +2909,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 52]
+Goldberg, et al.        Expires 10 February 2023               [Page 52]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -2965,7 +2965,7 @@ B.4.  ECVRF-EDWARDS25519-SHA512-ELL2
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 53]
+Goldberg, et al.        Expires 10 February 2023               [Page 53]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -3021,7 +3021,7 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 54]
+Goldberg, et al.        Expires 10 February 2023               [Page 54]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -3077,7 +3077,7 @@ Authors' Addresses
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 55]
+Goldberg, et al.        Expires 10 February 2023               [Page 55]
 
 Internet-Draft                     VRF                       August 2022
 
@@ -3133,4 +3133,4 @@ Internet-Draft                     VRF                       August 2022
 
 
 
-Goldberg, et al.         Expires 9 February 2023               [Page 56]
+Goldberg, et al.        Expires 10 February 2023               [Page 56]
