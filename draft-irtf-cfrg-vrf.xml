@@ -1623,6 +1623,7 @@
         <li> 12 - Added k_string to edwards25519 test vectors</li>
         <li> 13 - Clarified key validation for edwards25519 and addressed IRTF Chair comments</li>
         <li> 14 - Addressed IRSG review comments, which resulted in a substantial reworking of section 3.</li>
+        <li> 15 - Added RSA-FDH-VRF test vectors.</li>
       </ul>
     </section>
     <section numbered="true" toc="default">
@@ -1635,7 +1636,7 @@
             Liliya Akhmetzyanova, Tony Arcieri, Gary Belvin, Mario Cao Cueto, Brian Chen, Sergey Gorbunov, Shumon Huque, Gorka Irazoqui Apecechea, Marek Jankowski,
             Burt Kaliski, Mallory Knodel, David C. Lawerence, Derek Ting-Haye Leung, Antonio Marcedone, Piotr Nojszewski, Chris Peikert, Colin Perkins, Trevor Perrin, Sam Scott,
             Stanislav Smyshlyaev, Adam Suhl, Nick Sullivan, Christopher Wood,  Jiayu Xu, and Annie Yousar provided
-            valuable input to this draft. Riad Wahby helped this document align with draft-irtf-cfrg-hash-to-curve.
+            valuable input to this draft. Christopher Wood, Malte Thomsen, Marcus Rasmussen, and Tobias Vestergaard provided independent verification of the test vectors. Riad Wahby helped this document align with draft-irtf-cfrg-hash-to-curve.
       </t>
     </section>
   </middle>
@@ -1842,17 +1843,140 @@
 
       </references>
     </references>
+    
     <section numbered="true" toc="default">
-      <name>Test Vectors for the ECVRFs</name>
-      <t>The test vectors in this section were generated using the reference implementation at <eref target="https://github.com/reyzin/ecvrf"/>.</t>
+      <name>Test Vectors for the RSA-FDH-VRF ciphersuites</name>
+      <t>The test vectors in this section were generated using code at <eref target="https://github.com/reyzin/rsa-fdh-vrf"/>.</t>
+      <t>There are three keys used in the nine examples below. First, we provide the keys. They are shown in hexadecimal big-endian notation.</t>
+       <t>2048-bit key:</t>
+       <ul empty="true" spacing="compact">
+         <li> p = efb52a568fa3038fffb853e2183791c6bc81ceee86d20e8f9b6401dc79a8f1f6248d3a25fdb3f99245fce41667da038f59745b87cc1aed8b4a9c1d74e7d5c16cf7343f2b12f1b5055337369bf018fa07adc0d16f2164a516e80d2b4734f0c6563d6ee6d4a9e1a54e300cfe9ee679afc3d14a152dfb49b6cfb208bbf921f764af</li>
+         <li> q = ecbca5ee88bbc635d8263aaba84f6502fdb2b4998a40f7c149133d840b6b1bd9a972fe2a981c770272b78fda213f76a062dd865dd116d4c8980975ee9347fe0f500567e51d78dbee4a34e626051cf018d7feb72f19189525d4f70b6467d0cef514633ab08a9e7a9ec632064b7b5e3e82128fe563757a614092fc5cf624d10e1b</li>
+         <li> n = ddaba77202bafb796b85bcec98958aa58ae2d117cbc66a6e75c4c2af983985a3064eaef93e2b03393256d94d75d6a6656b2956524ed8711898a0c3abae84371da0283bc5f433fc384d810a3c118ed302c0b03da16bee70b80ba3480e7acc1eb358b3f20fbe90cc4c8a7e2ba9e28b2a3800a5efbaa3c264f79b231f7cdc9577818df1bac60ef7a3f78a44f046fd29b0689556da7a7f61eefe67427f3f691aee0a4b1efe2ee2e0e6091143ebb7d69254c9d8ab01ff5e0ad7329f566082f9251e64f436c547e68de75351ea3a09746ceb7efed2d234121088aaed01696583c172ec88bc173a0d4d8ec43f4dcc18ff8379317e83ef9685536283368c9c6deb783075</li>
+         <li> e = 010001</li>
+         <li> d = d5c5ceab929a841e2a654536de4788f7f0a2a086d44bbb245f8aab3df00db924e8d644c3b502820f4cce98adacf09e73bc0e9762b50ae2b697aaa24914fa08b51758f59c07cf827341bb2a0597e126f9c69db031d60692c9cadf62842444696f08223154a1b0be752a325725748644e6d12935b1c66f983379773bcc8c65d06262e93b5bb774dd2784265c23e9a7fc5e8871eb6bcc9968a6bc360a98874b623ec59f41af0a9ecec6af095cb7e5aca11472363950dcbbfcf678fe003358b4ff0060a391daa45a1bd81c166b6221fb07e4f5da75e27d8d5fdbbf87ecbd7f5a4d804597070faaed22f197511b218788816689375245ddf7fa12337f3e7e898fb9d9</li>
+       </ul>
+
+       <t>3072-bit key:</t>
+       <ul empty="true" spacing="compact">
+         <li> p = ee5adea28491084e6635bd73fd95649915a11da410d3f361c8eccc90a4b83425146da7b9e9d3994fd37d5fad7fb759ae451eb99b1102d4671ead23a2925133d19df49cf9d7e9dcb69fd7555ca095338d0d2a84abb6825050eaf5fffaeff17ccb0833c6079081dfcbd98ced36a593557d29d64b0e0253ce2ee4e07fe2a06269dfe5ca230fad221a593a69d9534b2521c1b41d116cafdee02106228ff41433605453e237777626953e79b46a84f50069e25b4f50496a928708abce30559eb183cf</li>
+         <li> q = fb585bbc12f5695951f70a25e27682dc568acf56115ad749709b2a6e915cdd66dfa06db09b390c00b7c7ebeea00845f73c999d8ea9352b1128bdf10113c7500b76a03f6b38d0920b5589961549be3d841ccc306f3edd600a53b4b9d4fa1249af87af58dfb3ed694289477e853f7d062f58911f7bdb98033b001ee90f11b78f031cffac2b5a07e11b01a2a6c1cda059a728f8253a5ff87267623253fc022d3993b27e2f344b99eb6072ff7c7ee160724f8fbca562be49247ffae42b55ea79dad5</li>
+         <li> n = ea055cef495dec2d8fb3aef519ca87bd1575fa0ae15dd433f4a5f6c40d34ed6ba2388172ab7d2183ed970a669d427dc2774ced66a3f082b8e23e94e7de7532f4f30bb4a5bbf2e1db2cba0752858a7c7a9bb892c5d6af7e90a7cee8f0097d14498c8b482f86348640af61b66640538e834f23ba8f906048db0e57b6fdc162ba2a8a0eaedd5423f23d8f89413223d89f473029cba11a211eb59e41fb8f0b8ddc651d115d9f07ac30296485a9adbd71cc5d9e4a448bd6d70785e838a978b2e66513eb897c962e85f00a36cc0a3a613183d8bd1572f895901eb8155af9797dbd4aa14726f415712bf0eb29fa0a9e938cf5325def05d3af7e686227456d903233e316c8cc50341615e59b665f0a4a2c32cfccbf9469bdf89564481fb7afc27a7127741f79424e0a35cdc466dd33ef5a2067f75c86e06af9c03c68c6e78be5f1a4f49ea03569cd9f74c3a0ff290ca4ce2c2fa5b770ef8032b26a517c257b7b1c424622c5c04cf20f2290a268939e0cc79dfbac71842f94727b07bfafaded7db6c7f13b</li>
+         <li> e = 010001</li>
+         <li> d = 6e68e957dbfd7c1862dc1b87780b9dcf0ff9016770bc9c09873b66194941d76218bf2013c1e4df9326dd4402f5df110656d2ec8ea87a28b2a1cb74e590872aeb765fe772ea21c57d6ab4ba0fad019189273f05c061719afd14af02277dd28d67c5ef50b75b521ca51819b9bcb44cb7c82be66776a45f490050dc0171e77374f1ed00d06f8beb09b711a9682107d8840d4a23edf6ac25441fdbf2b584dfa6a67cee21eb51c484f09416e11914e774713f1a17600fb9e4e99fbbd83fdcba4b09145dd9809449a1713777161c912d5d595362314b0ea9d1199e97780e8b3293a39af4019fcc746aaf78dbb7db06852c3358a9ed02ab1d15831a148b27b932c117445a4a6f5114edfa3ccc9a9862df714b78a5362aab5e30501b4a729af73e3cdcabe19aac4928b668969780ad33d9df206d904b978a055f4abbc64987744526856e16ef55962453e3ed7a8055b0d79d051c50c94584ec7501dbd4856d7a21e43f25d8749e683cca2f53f575af1d80f39d8e6932ffdf201d179cbf98314c4048c6c1</li>
+       </ul>
+
+       <t>4096-bit key:</t>
+       <ul empty="true" spacing="compact">
+         <li> p = ac803464c8b2082153e15d5a0698d0a2990397fa01c1edd6171a5315e743c99feb7acd31c37529d4f83405e657c390488d19f7da9ef9d9f9cff4b460d2a26eb10f90cf4aaf55a19e21dc3bb697723a673e12bbc6580adc7bb72adaddf4682d656ff5b992e62379bc7b0ac977f2bfbcfac634e04ed597ef302684be72c6bf7db10b80f452d412d09e63e017acba378ccc6ea58e683e5641d1e72248f3201a5632f4af7525e91f9e0733731d264fe36802f416cb3e182b21e67a12e3bfba9a9cf40a45ff32addfae78063933120238ac61fbb995300a8602aa84f993bed375d6ccba86ad0c8efa5f0950aa2c92779febce9d05fa7a1f0d6e5c0d785de93c108297</li>
+         <li> q = feb39bb6ee78adfa524e9c0821f60c20d3cff74f8b49731d67ea27d218bcb20c87498d30dfd398bc23daff7b33dc330db93e6c0e5e6196e035446c6db7cfdb9868b9518d94670b31f9c4d2109cf32c9cc8ac2fc4a6c2e1078510522c81610a81a707997933ee24030b572a76ee51aa683312ecaa51d8558b3b19cccf65fc867354ae193fd5c4f5d5a7180c5ca1e90fcc42f6915dff69a3d1e49046f6c3ef841b262ba89ddcfde2ed3caeb5bd594181a76f6f1ce01fc65c6f925f6d5b77037c2cbf7b6047e19f7b9c846c80238f1c8284c33bfd90c79de91381bb883b0de568aaf4b4a3c3f9c98f92e9f6a51f010bcc1dacfd72bfdfda29f527d7f4913153bef7</li>
+         <li> n = aba03a8d8527bfc0cbea1cb9a100f4ee7870aedd74a6406f108f7a07f374336025357e256d655b342d73369102d03c7dcf3c14ed70aac7ebb62498c570068f71f1f165e14527f96d946ba839412252eacea604e7d6fd47a0bb9de776679fa9ad6485a076fda04a2015322626dcd2eb91d6b6248802e6d453eb4cbf5e1bfebed02d6ab36cfe3dd1e8b9749d4853a029940a0bed3aa3128fd8e2e6cd1115db15405bb3837012f56bdc5a6895ec5cc6bca52f7952cfe3c7d5d81d4d3d1c9a29a429eeedfbf58da0a5b17480875b8071f49eb568fc8d8c023c83b3ed870c3775aaf0578485d757b4ab18d8e5fdb30c2b5586047e6203ab1636e376f1c7031f171e2807a2058ece890cc8fae29ba819df76b45ddb514caee63db1c5e7a3af7468febff82bfe2eb79e3c5d1383b7ebee86f02e9cc1853f0f4486f7eb8fee23a2f794317ffd1c39471086dfbfc0e3c0f412f917225f5c551557f38c11f172eca257e4b5908a571e4daa7c7434903701f21937df87d10de9b50ada97e65855d5e786db8f3f86248b55d999ec31538bd1a409f3e13de46dccc05325774e89016708f8a96240ae1c16641e8b12ab07257e88aa50d3546e7a91073d85ed601775a3c08e9b7c242d20664dfd4e70a05218d9f2c7d760fab3cd772d9362527917cf5b51817e8c2aef51cb3b0dd8cb838097e513537f1d9c3c4708f44ed270db963c7d72cf11b1</li>
+         <li> e = 010001</li>
+         <li> d = 1efd8dd524282b4deb04592f83cd226d353e53b5156d37d15652321ce16f281fc258487105b1f9a81054ef937bc89243bd7a01e56624d078d5a9021514c77a7b7eceb230dd45fc9a36e4c1b9a4f347b9b29af3e3d14466fcb5242c398b389f70f9e7cf33ed54564e38c597720909e513ae8bb149060d1c6612e506e13d78e087c2cbb39e88c22cf73315c598dbd0ddf1276743ed04a943644c84949ef32d5e4702c80581e54a7fb18879be28b21008dc63182b45f2c190f1b748cd322efc39f2807c64b4d06023cb49583418e7b6ac0f447eb2abf48e2ad335583cbc8dff2760c2cce1462346326708336f7e374253ed213e990044927c52d29591f414571e509afc2396a6af9843303a19673bcdec1e3fc7c0d6c3f43b4bf88ce83e2bdcfb5e39069fe32800cf3f6f6d9917b8083a66ce23a9ab5b0c95bbcc6dfc21d38dadecc20725b13ce2954ba1bd45ec151a8877fed317cac60b2afaa96c826df6d1c48e7c10649dccc75bdf905c362c6934da06c3ce30f5befc1cf776d7fda673625147b1108ecb5473f7f588279533eb184d748230443694b9761b01532ba707563ffa4962321e44fdb710025e8a6e00d29bf01ea040618ee111b5d79ac860083f91aa614777cc99d739458f7c53d63cea7155b118068e0b30b35ed6d0cfc75672f18d075157a3ed31bfa1ce2cea234357ec76117cc687c274636077abc437cb70a029</li>
+       </ul>
+
+
+       <section numbered="true" toc="default">
+         <name>RSA-FDH-VRF-SHA256</name>
+
+         <t>Example 1, using the 2048-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha =  (the empty string)</li>
+           <li>EM = 092ea69ca4f5630d4bd1012805ad23528a5f44c040829b4a0208491913ee39711889bce5347765072efb0b7f8ad9798c830085d9babe10c29f1a649dbb9a64c93a8cdaa325d37814faa15a1071ba81c39275f3cd66ce70fd21ee3acc7ac127c5de8f2a816b05aff19e4e63451cfe51fef059b2547302387449b4df1ab8eaa5bfc84dbbc5edf3b07eb8fe3fe2a93858bd0d55d6f0686f2eb449ed4c609b3083de04b49d409a425509d89d282de806a6ce66892edc30337f780b15c7695b26383516f1fc18f7eab52557c654467600e2e272ef41e7e4a060b42f7533bae603a7fa50f497a64a1508b93826d99643a2001d1c958a7a06da0370668634d678a5de</li>
+           <li>pi = 14234ff8a9487e1b36a23086e258135b8a8a7ff2e23f19c0dfeca0c0a943f119ebd336fdc292ef67b56e32ba06f9941893754a8b97c82f68974b2b34c17f6d43bfd55eb110cd7ea3452d59a24e4ddb8d4cdf040c814e22e3537ca09c2e2dc5dd8ea281e6492ad335378f9f437eed30c51eeeee66ef14efb4000c75c802e9c5a6bb8039c0258d4347981159d0ef6990b5e9c8ac2fb03915d7ff1ffa0626e2e11714a63342e59124c1fcea8e2816c1d9a7751feaaa66cf6c82cd3c58ffde66460d98246ab358cc33baefae4dfb0d191e9b6d6c0e3f92c35200408925dc8bef39b78d1259f8163a5003a693555f05290ef2e68345f27c6e2a8847c5c919d92e7505</li>
+           <li>beta = 79f0615d4677fb72571889453644013f1a31b08d222e3cee349d64ce1c41045a</li>
+         </ul>
+
+         <t>Example 2, using the 3072-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 74657374 (4 bytes; ASCII "test")</li>
+           <li>EM = 20a059b7f7034d0d7696c63328cbbd4b40f7c656a632b4129915018fe6c5dee8b5bde68ec2a5a78b1ca8483386e3a1a0fa07b4d329ea55facc3145c663ca90df5ae46c903211a21bf908dc9a33bd09410cc09c7b4de5fbc79de3413bc80bccf2d3aca2fc9c60c776619849ed3e704057ac3d5deacff845d5bc8084ac730c19a14668e53b5b8b90446b2272eaf59cdf985a7804c7b91cea1ce2582099b7b0f20163b11d23110939dd62081b5aa46c62db76b2ac28473d2488970d480bdd8bef8cae9e81274fe3f9925b012c1b55cba8c4291ec7433223cb872e422bb9e0d3775670d587e403660ff440a9c11a18a488abc716ae36840b2ef5b0db4a90d88f91d79536cef378bf8e76d173288e26241df522a3cf6bece49c960e43a2d93e7bed10b90580c5b3aff056507b4ef27368579832cb4aeecc99c2d8ba402117457df5ae0ed28068ef8b2e0d4582f8edacfcad02c83bfab778460b979e9e984827bbefe2b544c0f3ed715dde6dc1d7fc7c0f1f87d78aed8e148004b9f62e0321214c7c</li>
+           <li>pi = 69f6042d400dfad4bdb9974fb73d12ec7823c6632df6b0a97ebc14d8a443f74e1eb1a99b37204ba5c7e53bdaf7e3e3fae9efe47cc01d0b061585c8d757ecf00663b3e1bd447d55b6ebd066b814a8d9c4434b224e9cb053a1fd038a58f3bf6b0c75b6f48f3c8d1ca398a730c133f86f244655f24c445324fdacd291d6d907f93efb24b59e509f2f370392f5e262fc106292792352d93800f0a1e3a389786619a622f6005cab78ea5f0b5b7ca91ad2a9c6c34fc4a3f9b0332b99e907ffa7f750cdc8342e12da78f13ad49953bae1751c983ce3cd3335288ac856f85057a7f05acba6465a1c6901ba30bc65b79fb7a847c42a5b4942d600ef316030f2ccafbc6f2e1ff0b46fb5c8517cd98c93f81acf370cfdab559bb4270d07db5466e2342d56c476089f473840434cbcdbd1853b487a6df346208d12c17a48fe50b73b96f640a9761f570a516f6157432b83dd18a1d05cc27b6f283a02fcfda147cf1471772e469961004bde7fa15857e7bf97b5a83c33fddbd9f4b2e2488f4ed5f7463c93f30b</li>
+           <li>beta = bfe966f3fabde6f38a2792ad59bc836bbca39de6eff64f15a42886deff6dfcc5</li>
+         </ul>
+
+         <t>Example 3, using the 4096-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 73616d706c65 (6 bytes; ASCII "sample")</li>
+           <li>EM = 17524fa1710b2f8a04e55da403b9b287b99a47afe9b81d3421482e3959b73b4d4d4f4b52243ff2bfd2d29b1f030b521d0699065faa2b8903cca2b24cff429561234fcbd7bcccdac61b7dcb7bc61cd857287b4b42357adbd2fc83ecfc0d5bc199e1f6e298b5e470bfc540bc85e933b02035792d65d861096dc03f048cae51c9adc6c1ec09e7f5e595681b3d3976d94ba1a65c83c7e82503db5478d3d91b2e00a0f24e7ffee1faed68aa62ad7ba4b2912ceb636064766f0535d3ca1369760d8edebc3c8d7f5b4de784b644b59e44e24e436298cc33a3cd0f676d6fa0b76ca3b9b11aa68e0789e83bd27b3af08518b9a5eb5f34f4953a79dc25c1285b20fa73e558dd99638eb51bf89c80d7989f6e925d8ca5ed1d3f29cc1e1065400e4abbdbcf898791be12c5ae25661bf7de58a4cb6608c9a4dcc18150638068bb6452b25589ae0a943a67f024dd4b5d9e7940c01886f798316156e5771c19457f9104618e271ae7863b65fd07f87fcd7862690115ce2d963eeac60f78b47c037d6ed3000b43d8149cee08df10a97158ee1daaf0a3963d23fb6ab0615891734e3039417d8ce03bfc18920c832a40385de95d99b546b4bd24ecbfb2e75e9158ae1769bcff444990f54aa40e6a14e0aca52df00062afbf81f6ce8193c53f8d26ac71324fc1db878379178abd695cf04a0fae3432d1efffa73bba15b4e81fbaf598146a0c3edafc</li>
+           <li>pi = 745cc4b6cb75b925194374cdf91b498e8d687c5d9cae1eb5352446c554c2c43ac4aa3e2db5cf5e366df635ce156a277ebdbe78c5598588c98257069253127e57c9735b498f2939f14e1d019795cbd74cee2693acda2666624f174e8f666494aa12641bce0677acd20e5552d2690117bddb38678a18acdc380bd9d93f3b10960f9be0c141fc14f5f30da324ff14020cb5b8aed9fbca3fc44b4973d8e5527bd81f5ae5da67e5cc995abd1f7f9cdd3fa89b243fd4d5d5086ddb4eed77a2851fda1d4463f5ee037a4015aa40c420c2e609d5d0da4ef4a1622131022bdd9c9dc26d177b392663ea42050ef485fe9d53a8d28d84b82a21101bed5b213c82b578ce7c9c6f7c1bf9eca3c248ace9f8835f3850158749111ce1a3bdf5766add72a95a47c8866a4817c42c5cbd85d7bef52afab567e564f6625be9e04be6f7da012af68e6623ce4f29c692ba0b5f7665bb435a2168bd3b88aae0c6168bb87ea6977f35bb5ad833d96dd14d340f2a67b241b01fd8caf415842fd0a9dd5f4ccf4e70f15efdb85332e1df2bb186be15f7195176435e01bfd00592710023c3a88ac0eea7189b32296f865a310375111a5f11b74d0c74b98dfe4c41ccbe695ea801ba47f37b878c1ed0fff8302705b63c891209ea63defa892969e015a86d97945189444524e5fb660f2b9d1dce337a12e0d003ea6262ca3194515cc3aa10b1a03ac9dd6995b54d</li>
+           <li>beta = b663c5f90da1c12cd5d0e6d049679459e6f79f9fe16bc8b8e7e4d64d66500bd9</li>
+         </ul>
+       </section>
+
+       <section numbered="true" toc="default">
+         <name>RSA-FDH-VRF-SHA384</name>
+
+         <t>Example 4, using the 2048-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha =  (the empty string)</li>
+           <li>EM = 1fa5c0079423d46edb63a833abb2e6ecfd5f39d1f2bd68fc666274d9e8ed8ea8a13411126861167a4ba1d014d5ae213372de6bb4227b12e68e16e13ce108536acb25f7219c49388f757219716fcb74eb0245b826c7e47ca793864885684b7673e2f8579f26e78d63a940eacb23bf7619290cb5cd20859482c410fbd6d83a61f8940866f512be7ac041fc23c3ee71d918ec994f3efa62f4f1f44eaa29f5b37a1e93e2473d8677fcbec312838379a3e05899ce44227c0c428fbd7d4f2d0b46cfde7254e3967b220f8661f5dfbce7a3bf19364f522914478cead3eff0f0e02d166c251319bcf86701af1c48436f49ceac990f52940f7da6ac6f5fdafa5c55dc77</li>
+           <li>pi = cffe6067bd9a1285dc1e8e543e8582c1250407cbfbcb2d01c4ddbc0d4ecb5edeb721fb33147cf95f3084f7ce611f9877814770b14b8a671abc7ff085cf5cbe91e72d17f076d62db478d4758412a4e4b77a5591dc32b764a501d27e34e56189ba7347a96f141ed1290f8ef7c4ce4009a9aba0715cbd0148721ea72bce00a22e59460421a21e4d121fc0b4eda62479d93724afae7556abe66326487be38cfb795ac1968c33a3890f2d8c0f7dfbe88bc76f16cbfd2b0f7ee8663abfd7b789caa5f6c77dd1ca991c9a9cc532f7550ad6184c8ece12ca4bea7e67f32405416a1f83245b09d06e7b4214157fb444be12a2eddc4381678f2b862fb240fcedd2da7ffcb3</li>
+           <li>beta = dc37e83f8de0e990abada5096a05ca74754cfe7fe8e46b831e24100919415415dcd5a305f5fb8195713cebc78649c8d1</li>
+         </ul>
+
+         <t>Example 5, using the 3072-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 74657374 (4 bytes; ASCII "test")</li>
+           <li>EM = fa2fd7c735c961b43b01c005faefc4e39505ede3914076d4dee40d52acf727de1782386ad6e9e07faf7666c8f45fde93b024d97c40651b957cfcccc42b8596a68a5495c02313ed9ecbb705ab0689c38b9e57af035189e377ad50b4704004c2a973d9f7554204b03e8b925a973d41a9c3432246eb2eab2f729f03d3a63c9c38c0cc2baa440ed5e2d61644405e4b5c1acaac85d8de75a4de00419a478e6c44a97b3e89875c318400ce8d75b84c416ffd501ba78dd3203f21c6610fcaa4d8fc94f45e80dc65b7e48967199e7acdb18d82413b7018192a6fa2da5d6838adb8e6139f8d12abcce7d5fd20cfa031c4971e563d4863d498591dc652a937db5e0bfd68535e3c9db96118874287c2291a5d3b29aa142795e60f1ade2c8c4d627ee678b652f5fded61f9a60d2fa9cf5fb5e6a7fd63d81c91ea2269388f0a96fae77da0957695779385c75748956972ab1cb5e19ad3cc6a357b9ffd368ca985dd9c0e53dd42aff5985f7a234af96ad9e34e459a958b808e858f6d7be2e964c33cefad9660</li>
+           <li>pi = 22c9278e7171183cf6a3ce108f0400e308a9177c39a171f77777c106c966eb041824ce43fa56c5c77576646dd110e0b5d7f838bd5b1d1bf2c1feb1520397dd52d3cea6dbb49d786aa3bf3f5235e7692e583d290c7192102a6e0cb64f5229a326d4d00267fd75aae9687167ea0d3d450b2d63519ad605e64c77438728a190a129b1163939a5b7b0721b8d81efbf99a96944f63bf80ecc932fe40402d67c3e099a317cd1d13ac6947096308050ea6dad18fdb0958ae565d07d29e619673798f52b8d1dfdbf29b4641324ea6db5b9f35870acde7bf68e0829534d1c1f43ca9a16861efd82fb883e35d581f613d2dfbc89d01a84fdf081a3a850f2e865188cd995857222160c54780dc310a6ec100b9bac30f3af92e641360cad8dc255b56fa28e88ffcbef8ebe6ba8557e4ec44a7d0ebef882ade36db0d89be71ecaa2b35026c9d328d2384b54ae68de2ea70160ddde9aced5a8d896590fc185b408732cc04a249eff27501594902bf3af4a3743c4da50c5d62a74746007dedb8358ecfef78c75ab</li>
+           <li>beta = 5bdf742667ad10080f4ca573ec66f751e82e4077d0db1b281df421af68d39412e70362dc5101b4b46e1e453eea7e0989</li>
+         </ul>
+
+         <t>Example 6, using the 4096-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 73616d706c65 (6 bytes; ASCII "sample")</li>
+           <li>EM = 1b1d2f330ee20b9b1754f5e6ee4126cf03ea2c7f4e8c52d96111da7f99509042428ec2f2eafdf41716c04a9976a26df77b3d4cea8b10b216e7786fb49e923d984a2ee13ad82b95783b68fcf3444b65d1353619602ae06e392dc030be105d4cebc6ff8a647b79115357833bd5312b9d3f0df1a307e782ff4db8de0eb16259d6bff2f57b3dd60a57693d607c42013cbcfc140a77d4a651492854afbacca377ed6729d1cbe72999a62a96190fb630e5abc54d5cbe93254426df4e2315dbc777360ffb2401b3dedbed1acacf4b3a63b5ff8e5ab6c0f8ffd9e2a34fffd68a8a593c64de2660dcedaaab13cd42ebf5720d49f3120b01f45f29d1f465e995b148c9266aa97793a9da2f38831d00f95f9688b1c50b52a4cbcc14f8287db822381cdddf609c9c178286b1bc2f94d7ef4d5ceb1293dd7b0fac16d1b3a8b2a7fcc454e52efd2de5a799397fd55a909641fa775463f4808b520c3ebe0f94e2765f8538d91a4f53bb746e7d5eaf55b3876503760f5c015f9e52bc54bdfc9632028db5e88b7dc0b1e9f1661d0a9b3574e46311de8ef6278c4c14f68375763e5df0d4cf221a4c3e84493ed0c36984c172d87b513857af4b6c10174dea9db6464e2bab210aa492987f0255d2c5588b1c79769da03b62f691d5c4e5fac65505c317bf96b4f70e97c002aa0a032b02e48ee3aead5703bde3186ce138f29ba36219fd3558af417945</li>
+           <li>pi = 89d801e364fd48c3b8672e7d7abd8a2a1e5bd36bb1e38af5aaefa2f01cde686fa2e33f88fdcc8eb3babcf1c66cbbf7dcddb614041813990787be5feabe86bbec373d2cbf7c080caa0e37a339d5de1d1455de28f9bef76cd72500c669e9cab4599b55dc155d9dd5810174c170f646d3b0b459347c17347c0281eecf5055cf887d6bd0a2c962c77d5ff9355a53cea64c34ea0888110ec4eb32da69022e293a8843d4c06c9d6e020c594335720467a8337c6a939fb2c5d710f7bdab48a52f4e7483dae062c1b9f66f7c9038ba9ceef3d61cb4cc004319c94a267a2425b5f042cd7f1a17922d6596a88a6fefaef41fc87742f2badee7d7613179589b4d02611ac8fd7895d926f484f79542cdf7f034dd536c9596da2f588ac9840f6bb05875bd17107e7458cc5ea368a7699fd60c35b54253a718c26cf518712be9d86213b2c6bddd0b7dd169f9240e77bfc44223675454f9c5596ad2e6e607ea65011a721ecbfa993172ae372ae8743779b33278d25e11ced77b14bc481fce60e4fc10a8a211d8b359906509d6830c653d91c1a86865219db43f62c70ac6780644d2bd73c5c256527a3eaefaebaf1f220732417e17dbf598636616f70f2088969ac796a853dc8a5f270a1c505797e83d1675e4f40b59c150ca06c49bb0967a2e0c7e74eff9e182d0f7bb6f54f68fe788b89d2191c87bbf7f3927978449c2174baa581dc64a9c58ed</li>
+           <li>beta = 8ec4d150788513c85eea3490d1a1ee1b7a397602d3f9c8b467527f09fab5252e539f82e8002825608295ebbba19644dd</li>
+         </ul>
+       </section>
+
+       <section numbered="true" toc="default">
+         <name>RSA-FDH-VRF-SHA512</name>
+
+         <t>Example 7, using the 2048-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha =  (the empty string)</li>
+           <li>EM = 7b08a7fff4e5d8fd4978ac5a0ddf48537a2bb3f952dcdc00affb25d747b4085c29c68dddaa87378db32396219ce784acebe70699286318f42794927f546de5d85bbefd80a02c3aa714fc17090baa0d0f7fb504e1af0b79ea02d41dc0bf576b8f21472dd4c55f96bd64772d3ebd0347abe74b9fdf35b754d0405e42ceb0e290fdd91ef766a3e27ff59cd86572d15274f6fd49400ec4d126145f3cae200d67d5d10899961658ece7dcbf41f1cca63f8b50399955416a1f55e0af116fac2a9fd1f2dc0085e6ad6c1c4bc12d9308d9a030c3e2ea7f037d1c98beb23d43d67a97e5bf52382b8e890c5967ab42f2010cac985d3a52fe726045746d4ffef901127646</li>
+           <li>pi = a280db108df5ad6ac1bed67efbc5c6fc6da0d301b9c0b41d26e379cd223c613c59d52c987e4baaa6de4de2103284ddd56aa0b662dfe8faa8f6a503b83b7c81f481e23a08761d49a151ada1d9daa132138bbd6f80204c7fa87716b120df957224f92b32a3a0f96c3b209080c408618a92382ab5575f10a57c24ee0ffd01d6b822dc36b27600bf36aafadf0a01e65aa6a0f2fc1a9dcd207d9bf5181a9ca69120e15410800a26efd3ce619349592eeff7b1851737bd033a83f88744ddd3d3e782efb6d2438ffda22ddcaa32c821c6730a05d5bdab88c354809d615884744ff10276496bee70b62feb6ed07a3948823e9ee2a453dbcd4450192c9de0128adfc7e147</li>
+           <li>beta = 808ca1f8f66a48118aacb011394bd4e5f0011c89ca913943d467b81cc5c43086e588abdde061c3ee30f4c15b2a6b51ad0ada42c0737fd7b2206fb43d35c8ed22</li>
+         </ul>
+
+         <t>Example 8, using the 3072-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 74657374 (4 bytes; ASCII "test")</li>
+           <li>EM = 803b6618f0ad47da2db309b1f57807a286500020c9e2b1427ebd9fff1104e3aa8a69210441cd58344bd810c4900825c84b1e5e36825f1e397df54c4419f8525d9a09a49e7fedc18b8d906cbd9ea831c55f2aaa0461e19ddd6ec9d14dafa1fcf49b77458a65427b7f060bc7425538e5d3af1813752cb452d0b098514110399734d1f55870c65ea3e799e6d9024a9e2fb95883e580578811a8c7d34b18f8fabc6c05fb9697335fcf2cb1b7576ee7a39dcff129e1f142106c45f30a8ae62370f576d1d1d8c6307fccfe25cb431f348dea81b6b7e6307bbefda2a0b23036653a612226392a573b7d62e28f9fecc7f4be0bf0a3049ce8ed276b34130faa943aeeedf962b42a3fc6c881bbf9a62039e9c0850f1393a2a02c6848d06c3520e086541d8af99ea3ef9f9da2e3b2bd3172682a47e5965899bc576b66e29a0b8dcf06871202a1a4e7f2ff19bdd9eac2241129a73d7d01303b80372ac62a0d5b6bfd1d7119e561ace229cd53d2c9963d6127b9ade16dce4b07d1cd89247ffc438811dc8b3c</li>
+           <li>pi = 1aa828e0a751074fed2fa776fd29336a84987c064eeebcd3a8129fb688b47eb7109987d01db0c3624ba7cc75e2f1ad60f5e204a250a329048bc34df34d41bfeea6651774d249ff9fc29aeabdf524400527aa1c4100b1af86b2dcc2e7aecc77f386b80f29ccd807cb705b5057431832dafe56733a1e7bfcba1d052a26d1a8512f297b5abad5afd64fbcf21b57531a9b2c8217c0d9f1c875c196d998f61e8017f6b6ebe7317545ed390e18305bc96abb1514ec271963d02bed91ccf029d022189f84bac8cfa216da54e39919118348dfea6f4f6532b49da7820ee2a21f42b762e107722ad0abf62271e0640d6b1c4d1a39b94ebd74b4283de2d6550cbdb1f29cac51671e9c8fc0ea0fdbb082a14a221e0531615f2bcfba0d70e99e4997cb00f81fcab2b955663220234a5e90f29bd08e6fa50dd92770d9e514e0f9eb27aee634877bcea681ffd7da2b5be2f80c1dde1243b17ac726401cf961c5ce06640eb93352402c1ebc59c92188c511b375d63124846b46017fe36dc13fc2d34dbd80b312e0</li>
+           <li>beta = 9202b6715b7921c5eb35572ed9ebb85848d3345efadd665049ce889be46322586d4177864c9179468473518c6b6ac2e9c85ae5ee5fcd3c0d8e6d4d8f18be6238</li>
+         </ul>
+
+         <t>Example 9, using the 4096-bit key above:</t>
+         <ul empty="true" spacing="compact">
+           <li>alpha = 73616d706c65 (6 bytes; ASCII "sample")</li>
+           <li>EM = 289607894786ccf223b1e758232f3402aa50cd48bca3d2bd64b2ea9b4a69dc91756a42b2c1feaaa777763b9b7c91888c580433ac85f5fbb360f129ecee739f69b560657687d38f7d43c84f6605005c38f56c91310eff27bae49b14d8a36542d69b70efca8637b845be0f029c085a7b6aad6ca0eb65fffdf8d55d9538d3b54044ebbc26e092b2f3ddaece7aa5b4b234ec848bfdc72a4ecdc10c66fb845cfc5ad39756e7f26007cea0ebf1e878636f4e39308fe7a317a9b7e90051536ac028bc1a2ec200a5dad0e3b74717bd9e7ea620919e315799e0fea7b0895fcbc0b95686b2495dc23e3cd56a16652b0df0dbd3ca8a6c96b13973a0c31a5541e211229da8a56e588a616c721baab8e2d30313008c2374887f147598468b378bf8949ab1165b9348245d0a6a5f795918fce05f0d072f81f78c7224e7f1c4684877d714f231d5775c887590861212eae2d174761158ac7d653b18f0d4b71362c0eb8a67bed1a48a4e7dc739b2b44694514cae7f192d236afb1ab2409f24dfa94a2d705d0087860d844ba04564bb6733ca20089417d74eaed86d7e68ced681e9d88a9c3d7e6a33927592820cb9a38d4539332e509296489e54cd6b8495f100c36debe1f719578b15e8a99cc8febc3212e81478aeca616a5230ae84e7079f52aefb2ec2a97157fb5d60e1ddcf03b134be2c93ffba41d5d068750adc8df07e5a264640f7e586bd</li>
+           <li>pi = 17d7635cac33b0b72ea1c0afb1f681d1a96c5073ed9f88ed8bb54eb428d7b2db4ee3355eee512ddc7af50694b37fd389f990278e22095b2582c78c4ed6070b0c7382b0308b6d546141a9b0d6ebb3af97abd93c16a5d34a2d805d8aa444fed2297d017571a693d221fda094d40500ab9b203d397a7543e72b26b06e561d49696e01deebfed58b46611dd5a346e227d7519f8ffd1dc76a172c9f7f355c3e7e5ee7773edab00a22af5c39367f3779da68ce6da9f8a594f5f6149012501181653572fe5549a9c2bf36148b3bdc94feaedd600727fe5c11b7dcbfd73002ae08061cb4b84ba47f1bf8c5d46bc2acb7cb4964a6dca7eedc396e663a64121d93dade8b83cea09d76653cca1a8d20d6b7323a890651dc575025ba1be02d08c5946f50cde438339b06e8633198da0d467d2cac7d98ae62dd71353f6fb19aa9daac851d0ce237b21db93b91e518d5c1ac36cdf874975deb7aab3942acc3980f221f33ad1254eb8ac3138e087d045c4746e0b7eedcaf2a1a173559783eba8691555c1b0e468f8efe6501679b760038ed6fc9ce6aa5ae24b3f1178713793c8e5ee96035a2f0ee02e2d10ac098613358d3cff10f4dff3437f2a48252c5d6805288fbd7ee05356f80db12aaeabf6638677abf5b8eb2376fb76861cf1b817d5a0b878dae6beac44f078f37d982d941a77582a77784fabd632e28d664d9f705f31e24d1ca623dfac7</li>
+           <li>beta = 6026f6defaf534cc79ce7c1b0370fb53e4825d2d44f549f696e06d693c39e852e21a5e3b6ff093618dd277b40678957e1b90e8e6ca742efed30dc309b3b242b8</li>
+         </ul>
+       </section>
+
+
+
+    </section>
+      
+
+    
+    <section numbered="true" toc="default">
+      <name>Test Vectors for the ECVRF ciphersuites</name>
+      <t>The test vectors in this section were generated using code at <eref target="https://github.com/reyzin/ecvrf"/>.</t>
       <section numbered="true" toc="default">
         <name>ECVRF-P256-SHA256-TAI</name>
-        <t>The example secret keys and messages in Examples 1 and 2 are taken from Appendix A.2.5 of <xref target="RFC6979" format="default"/>.</t>
-        <t>Example 1:</t>
+        <t>The example secret keys and messages in Examples 10 and 11 are taken from Appendix A.2.5 of <xref target="RFC6979" format="default"/>.</t>
+        <t>Example 10:</t>
         <ul empty="true" spacing="compact">
           <li>SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721</li>
           <li>PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6</li>
-          <li>alpha = 73616d706c65 (ASCII "sample")</li>
+          <li>alpha = 73616d706c65 (6 bytes; ASCII "sample")</li>
           <li>try_and_increment succeeded on ctr = 1</li>
           <li>H = 0272a877532e9ac193aff4401234266f59900a4a9e3fc3cfc6a4b7e467a15d06d4</li>
           <li>k = 0d90591273453d2dc67312d39914e3a93e194ab47a58cd598886897076986f77</li>
@@ -1862,11 +1986,11 @@
           <li>beta = a3ad7b0ef73d8fc6655053ea22f9bede8c743f08bbed3d38821f0e16474b505e</li>
         </ul>
         
-        <t>Example 2:</t>
+        <t>Example 11:</t>
         <ul empty="true" spacing="compact">
             <li>SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721</li>
             <li>PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6</li>
-            <li>alpha = 74657374 (ASCII "test")</li>
+            <li>alpha = 74657374 (4 bytes; ASCII "test")</li>
             <li>try_and_increment succeeded on ctr = 3</li>
             <li>H = 02173119b4fff5e6f8afed4868a29fe8920f1b54c2cf89cc7b301d0d473de6b974</li>
             <li>k = 5852353a868bdce26938cde1826723e58bf8cb06dd2fed475213ea6f3b12e961</li>
@@ -1876,13 +2000,13 @@
             <li>beta = a284f94ceec2ff4b3794629da7cbafa49121972671b466cab4ce170aa365f26d</li>
         </ul>
         
-        <t>The example secret key in Example 3 is taken from Appendix L.4.2 of <xref target="ANSI.X9-62-2005" format="default"/>.</t>
+        <t>The example secret key in Example 12 is taken from Appendix L.4.2 of <xref target="ANSI.X9-62-2005" format="default"/>.</t>
         
-        <t>Example 3:</t>
+        <t>Example 12:</t>
         <ul empty="true" spacing="compact">
             <li>SK = x = 2ca1411a41b17b24cc8c3b089cfd033f1920202a6c0de8abb97df1498d50d2c8</li>
             <li>PK = 03596375e6ce57e0f20294fc46bdfcfd19a39f8161b58695b3ec5b3d16427c274d</li>
-            <li>alpha = 4578616d706c65207573696e67204543445341206b65792066726f6d20417070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035 (ASCII "Example using ECDSA key from Appendix L.4.2 of ANSI.X9-62-2005")</li>
+            <li>alpha = 4578616d706c65207573696e67204543445341206b65792066726f6d20417070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035 (62 bytes; ASCII "Example using ECDSA key from Appendix L.4.2 of ANSI.X9-62-2005")</li>
             <li>try_and_increment succeeded on ctr = 1</li>
             <li>H = 0258055c26c4b01d01c00fb57567955f7d39cd6f6e85fd37c58f696cc6b7aa761d</li>
             <li>k = 5689e2e08e1110b4dda293ac21667eac6db5de4a46a519c73d533f69be2f4da3</li>
@@ -1895,13 +2019,13 @@
       
       <section numbered="true" toc="default">
         <name>ECVRF-P256-SHA256-SSWU</name>
-        <t>The example secret keys and messages in Examples 4 and 5 are taken from Appendix A.2.5 of <xref target="RFC6979" format="default"/>.</t>
+        <t>The example secret keys and messages in Examples 13 and 14 are taken from Appendix A.2.5 of <xref target="RFC6979" format="default"/>.</t>
         
-        <t>Example 4:</t>
+        <t>Example 13:</t>
         <ul empty="true" spacing="compact">
             <li>SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721</li>
             <li>PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6</li>
-            <li>alpha = 73616d706c65 (ASCII "sample")</li>
+            <li>alpha = 73616d706c65 (6 bytes; ASCII "sample")</li>
             <li>In SSWU: uniform_bytes = 5024e98d6067dec313af09ff0cbe78218324a645c2a4b0aae2453f6fe91aa3bd9471f7b4a5fbf128e4b53f0c59603f7e</li>
             <li>In SSWU: u = df565615a2372e8b31b8771f7503bafc144e48b05688b97958cc27ce29a8d810</li>
             <li>In SSWU: x1 = e7e39eb8a4c982426fcff629e55a3e13516cfeb62c02c369b1e750316f5e94eb</li>
@@ -1914,11 +2038,11 @@
             <li>beta = 21e66dc9747430f17ed9efeda054cf4a264b097b9e8956a1787526ed00dc664b</li>
         </ul>
         
-        <t>Example 5:</t>
+        <t>Example 14:</t>
         <ul empty="true" spacing="compact">
             <li>SK = x = c9afa9d845ba75166b5c215767b1d6934e50c3db36e89b127b8a622b120f6721</li>
             <li>PK = 0360fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6</li>
-            <li>alpha = 74657374 (ASCII "test")</li>
+            <li>alpha = 74657374 (4 bytes; ASCII "test")</li>
             <li>In SSWU: uniform_bytes = 910cc66d84a57985a1d15843dad83fd9138a109afb243b7fa5d64d766ec9ca3894fdcf46ebeb21a3972eb452a4232fd3</li>
             <li>In SSWU: u = d8b0107f7e7aa36390240d834852f8703a6dc407019d6196bda5861b8fc00181</li>
             <li>In SSWU: x1 = ccc747fa7318b9486ce4044adbbecaa084c27be6eda88eb7b7f3d688fd0968c7</li>
@@ -1931,12 +2055,12 @@
             <li>beta = 8e7185d2b420e4f4681f44ce313a26d05613323837da09a69f00491a83ad25dd</li>
         </ul>
         
-        <t>The example secret key in Example 6 is taken from Appendix L.4.2 of <xref target="ANSI.X9-62-2005" format="default"/>.</t>
-        <t>Example 6:</t>
+        <t>The example secret key in Example 15 is taken from Appendix L.4.2 of <xref target="ANSI.X9-62-2005" format="default"/>.</t>
+        <t>Example 15:</t>
         <ul empty="true" spacing="compact">
             <li>SK = x = 2ca1411a41b17b24cc8c3b089cfd033f1920202a6c0de8abb97df1498d50d2c8</li>
             <li>PK = 03596375e6ce57e0f20294fc46bdfcfd19a39f8161b58695b3ec5b3d16427c274d</li>
-            <li>alpha = 4578616d706c65207573696e67204543445341206b65792066726f6d20417070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035 (ASCII "Example using ECDSA key from Appendix L.4.2 of ANSI.X9-62-2005")</li>
+            <li>alpha = 4578616d706c65207573696e67204543445341206b65792066726f6d20417070656e646978204c2e342e32206f6620414e53492e58392d36322d32303035 (62 bytes; ASCII "Example using ECDSA key from Appendix L.4.2 of ANSI.X9-62-2005")</li>
             <li>In SSWU: uniform_bytes = 9b81d55a242d3e8438d3bcfb1bee985a87fd144802c9268cf9adeee160e6e9ff765569797a0f701cb4316018de2e7dd4</li>
             <li>In SSWU: u = e43c98c2ae06d13839fedb0303e5ee815896beda39be83fb11325b97976efdce</li>
             <li>In SSWU: x1 = be9e195a50f175d3563aed8dc2d9f513a5536c1e9aee1757d86c08d32d582a86</li>
@@ -1953,9 +2077,9 @@
     <section numbered="true" toc="default">
         <name>ECVRF-EDWARDS25519-SHA512-TAI</name>
 
-        <t>The example secret keys and messages in Examples 7, 8, and 9 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
+        <t>The example secret keys and messages in Examples 16, 17, and 18 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
 
-        <t>Example 7:</t>
+        <t>Example 16:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60</li>
             <li>PK = d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a</li>
@@ -1971,7 +2095,7 @@
             <li>beta = 90cf1df3b703cce59e2a35b925d411164068269d7b2d29f3301c03dd757876ff66b71dda49d2de59d03450451af026798e8f81cd2e333de5cdf4f3e140fdd8ae</li>
         </ul>
 
-        <t>Example 8:</t>
+        <t>Example 17:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb</li>
             <li>PK = 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c</li>
@@ -1987,7 +2111,7 @@
             <li>beta = eb4440665d3891d668e7e0fcaf587f1b4bd7fbfe99d0eb2211ccec90496310eb5e33821bc613efb94db5e5b54c70a848a0bef4553a41befc57663b56373a5031</li>
         </ul>
 
-        <t>Example 9:</t>
+        <t>Example 18:</t>
         <ul empty="true" spacing="compact">
             <li>SK = c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7</li>
             <li>PK = fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025</li>
@@ -2007,9 +2131,9 @@
       <section numbered="true" toc="default">
         <name>ECVRF-EDWARDS25519-SHA512-ELL2</name>
 
-        <t>The example secret keys and messages in Examples 10, 11, and 12 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
+        <t>The example secret keys and messages in Examples 19, 20, and 21 are taken from Section 7.1 of <xref target="RFC8032" format="default"/>.</t>
 
-        <t>Example 10:</t>
+        <t>Example 19:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60</li>
             <li>PK = d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a</li>
@@ -2028,7 +2152,7 @@
             <li>beta = 9d574bf9b8302ec0fc1e21c3ec5368269527b87b462ce36dab2d14ccf80c53cccf6758f058c5b1c856b116388152bbe509ee3b9ecfe63d93c3b4346c1fbc6c54</li>
         </ul>
 
-        <t>Example 11:</t>
+        <t>Example 20:</t>
         <ul empty="true" spacing="compact">
             <li>SK = 4ccd089b28ff96da9db6c346ec114e0f5b8a319f35aba624da8cf6ed4fb8a6fb</li>
             <li>PK = 3d4017c3e843895a92b70aa74d1b7ebc9c982ccf2ec4968cc0cd55f12af4660c</li>
@@ -2047,7 +2171,7 @@
             <li>beta = 38561d6b77b71d30eb97a062168ae12b667ce5c28caccdf76bc88e093e4635987cd96814ce55b4689b3dd2947f80e59aac7b7675f8083865b46c89b2ce9cc735</li>
         </ul>
 
-        <t>Example 12:</t>
+        <t>Example 21:</t>
         <ul empty="true" spacing="compact">
             <li>SK = c5aa8df43f9f837bedb7442f31dcb7b166d38535076f094b85ce3a2e0b4458f7</li>
             <li>PK = fc51cd8e6218a1a38da47ed00230f0580816ed13ba3303ac5deb911548908025</li>
